@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block tittle%} student_registration {% endblock%}
+{% block content%}
+<body>
+    {% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul>
+               {% for message in messages %}
+               <li>{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+    
+    <h1>Please select the below option </h1>
+    <div>
+        <form action = /student_operation method="post">
+            <button type="submit" name="operation" value ="create registration" >create registration</button> 
+            <button type="submit" name="operation" value ="fetch registration">fetch registration</button> 
+            <button type="submit" name="operation" value ="edit registration">Edit registration</button>
+            <button type="submit" name="operation" value ="NEET predictor">Neet predictor</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block tittle%} Remove card {% endblock%}
+{% block content%}
+<body>
+    {% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul>
+               {% for message in messages %}
+               <li>{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+    <h1>Welcome to student registration form</h1>
+    <form action = /student_registration method="post">
+        <label for="name">Please enter  name </label>
+        <input type="text" name="name", required><br><br>
+        <label for="mark">Please enter  mark </label>
+        <input type="text" name="mark"><br><br>
+        <label for="zone">Please enter  zone </label>
+        <input type="text" name="zone"><br><br>
+        <label for="sex">Please enter  sex </label>
+        <input type="text" name="sex"><br><br>
+        <label for="ID">Please enter student ID </label>
+        <input type="text" name="ID"><br><br>
+        <button type="submit">create registration</button>      
+    </form>  
+{% endblock %}

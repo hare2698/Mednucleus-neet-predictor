@@ -1,0 +1,26 @@
+body
+{
+	background-color: #e6c45f;
+	text-align: justify;
+    font-family: sans-serif;
+    color:black;
+
+}
+
+.container
+{
+    display: flex;
+    align-items: center;
+}
+
+.document {
+    border: 1px solid #0b0b0b;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 45%; /* Adjust width as needed */
+    float: left; /* Float left to display two documents side by side */
+    margin-right: 5%; /* Add spacing between documents */
+    box-sizing: border-box; 
+}
+
+ 

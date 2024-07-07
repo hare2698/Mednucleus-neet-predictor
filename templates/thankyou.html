@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block tittle%} Thank you {% endblock%}
+{% block content%}
+{% if flag==True%}
+    <h1>{{message}} success !!!</h1>
+{%else%}
+    <h1>{{message}}!!!</h1>
+{%endif%}
+<button type="submit"><a href ="{{url_for('student_operation')}}">Welcome page</a></button>    
+{% endblock %}
