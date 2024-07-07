@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block tittle%} Welcome {% endblock%}
+{% block content%}
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    <h1>Welcome to Mecdnucleus Neet predictor Hub</h1>
+    <h2>Please enter your username and password</h2>
+    <div class="popup">
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="email" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required><br><br>
+            <div class="container">
+                <input type="submit" name = "operation" value="student_registration">
+                <br><br>
+                <input type="submit" name = "operation" value="Neet predictor">
+            </div>  
+        </form>
+    </div>
+      
+{% endblock %}
+

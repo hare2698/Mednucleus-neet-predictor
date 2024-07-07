@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block tittle%} Welcome {% endblock%}
+{% block content%}
+    <h1>Welcome to Neet predictor Hub</h1>
+    {% if data %}
+        {% if data_type == "list" %}
+            {% for item in data %}
+                <h2>Please find the data below</h2>
+                <p>Navigate to student operation page to explore more data <a href="{{ url_for('student_operation') }}">click here</a></p> 
+                <div class="document">
+                    <h3>Name: {{ item.name }}</h3>
+                    <h3>sex: {{ item.sex }}</h3>
+                    <h3>zone: {{ item.zone }}</h3>
+                    <h3>mark: {{ item.mark }}</h3> 
+                    <h3>unique_id: {{ item.unique_id }}</h3>                  
+                </div> 
+            {% endfor %}         
+        {% endif %}
+        {% if data_type == "dict" %}
+            <h2>Student registration created successfully</h2>
+            <p>To create a another student registration page <a href="{{ url_for('student_operation') }}">click here</a></p> 
+            <div class="document">
+                <h3>Name: {{ data.name }}</h3>
+                <h3>sex: {{ data.sex }}</h3>
+                <h3>zone: {{ data.zone }}</h3>
+                <h3>mark: {{ data.mark }}</h3>  
+                <h3>unique_id: {{ data.unique_id }}</h3>                 
+            </div>
+        {% endif %}        
+    {% endif %}
+    
+    {% if data == None %}       
+        <form action = "/Predictor_hub" method="post">
+            <label for="unique_id">Please enter student Unique ID </label>
+            <input type="text" name="unique_id", required><br><br>
+            <button type="submit">Fetch student data</button>  
+        </form>       
+        {% endif %}
+     
+{% endblock %}
+
