@@ -2,8 +2,9 @@ from config import mongoconn
 import uuid
 
 def validate(username,password):
-    query = {"email":username,"Password":password}
-    cross_check = mongoconn().users.find_one(query,{'_id':0})
+    query = {"email":username,"password":password}
+    cross_check = mongoconn().Users.find_one(query,{'_id':0})
+    print(cross_check)
     return True if bool(cross_check) else False
         
 def user_append(**kwargs):
@@ -52,6 +53,7 @@ def user_edit(**kwargs):
 
 def get_all_data():  
     fetch_data = mongoconn().student_data.find()
+    print({"l":fetch_data})
     if bool(fetch_data):
         return fetch_data
     else:

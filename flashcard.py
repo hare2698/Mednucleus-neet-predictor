@@ -1,13 +1,10 @@
 from flask import Flask,render_template,request,abort,jsonify,request,redirect,url_for,flash
-from models import db,save_db
 import json
 import pandas as pd
 from user_validate import validate,user_append,get_student_data,user_edit,get_all_data
 import pymongo
 
 app=Flask(__name__)
-
-app.secret_key ="wjbdvjkwb=kjvbwkvnlqkvj;lql;"
 
 @app.route("/")
 def introduction():  
@@ -48,6 +45,7 @@ def Predictor_hub():
 def student_operation():
    if request.method == "POST": 
       operation = request.form.get("operation")
+      print({"op":operation})
       if operation == "create registration":
          return render_template("student_registration.html")
       if operation == "edit registration":
@@ -55,7 +53,10 @@ def student_operation():
          data = list(user_data)
          return render_template("student_edit_registration_form.html",unique_id=None,data=data)
       if operation == "fetch registration":
-         return render_template("predictor_hub.html",data=None)
+         user_data = get_all_data().sort("created_at",pymongo.DESCENDING)
+         data = list(user_data)
+         print({"dh":data})
+         return render_template("predictor_hub.html",data=data,data_type="list")
       if operation == "NEET predictor":
          return render_template("predictor_hub.html",data=None)
    return render_template("student_operation.html")
