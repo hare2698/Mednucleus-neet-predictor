@@ -6,8 +6,6 @@ import pymongo
 
 app=Flask(__name__)
 
-app.secret_key ="wjbdvjkwb=kjvbwkvnlqkvj;lql;"
-
 @app.route("/")
 def introduction():  
    return render_template("welcome.html")
