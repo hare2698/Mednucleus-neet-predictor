@@ -4,9 +4,14 @@
     <h1>Welcome to Neet predictor Hub</h1>
     {% if data %}
         {% if data_type == "list" %}
-            {% for item in data %}
-                <h2>Please find the data below</h2>
-                <p>Navigate to student operation page to explore more data <a href="{{ url_for('student_operation') }}">click here</a></p> 
+        <form action = "/Predictor_hub" method="post">
+            <label for="unique_id">Please enter student Unique ID </label>
+            <input type="text" name="unique_id", required><br><br>
+            <button type="submit">Fetch student data</button>  
+        </form> 
+            <h2>Please find the data below</h2>
+            <p>Navigate to student operation page to explore more data <a href="{{ url_for('student_operation') }}">click here</a></p> 
+            {% for item in data %}    
                 <div class="document">
                     <h3>Name: {{ item.name }}</h3>
                     <h3>sex: {{ item.sex }}</h3>
@@ -28,14 +33,6 @@
             </div>
         {% endif %}        
     {% endif %}
-    
-    {% if data == None %}       
-        <form action = "/Predictor_hub" method="post">
-            <label for="unique_id">Please enter student Unique ID </label>
-            <input type="text" name="unique_id", required><br><br>
-            <button type="submit">Fetch student data</button>  
-        </form>       
-        {% endif %}
      
 {% endblock %}
 
