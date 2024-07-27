@@ -22,5 +22,33 @@ body
     margin-right: 5%; /* Add spacing between documents */
     box-sizing: border-box; 
 }
+.table-container {
+    margin-bottom: 20px; /* Space between tables */
+}
 
- 
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Reset and increment counters for each table */
+.table-container {
+    counter-reset: row-number; /* Initialize the counter for each table */
+}
+
+table tbody tr {
+    counter-increment: row-number; /* Increment counter for each row */
+}
+
+table tbody td:first-of-type::before {
+    content: counter(row-number) ". "; /* Display the counter value before cell content */
+    font-weight: bold; /* Optional: style the number */
+}
+
+
