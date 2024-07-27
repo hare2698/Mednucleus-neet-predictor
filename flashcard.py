@@ -121,7 +121,10 @@ def student_registration_update_display():
 
 @app.route("/prediction_algorithm", methods = ["GET","POST"])
 def prediction_algorithm():
-   if request.method == "POST":  
+   if request.method == "POST": 
+      print(request.form.get("bed")) 
+      print(request.form.get("size"))
+      print(request.form.get("rank"))
       predicted_data = prediction_logic(bed=request.form.get("bed"),rank=request.form.get("rank"),size=request.form.get("size"))
       return render_template("sorted_colleges_names.html",data=predicted_data)
    

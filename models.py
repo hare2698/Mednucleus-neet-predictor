@@ -1,10 +1,7 @@
 from config import mongoconn 
 
-bed_l=[]
-rank_l=[]
-size_l=[]
-predictor={}
 def ranking_field(total_rank):
+    predictor={}
     for rank in total_rank:
         for name,weight in rank.items():
             if name in predictor:
@@ -17,8 +14,13 @@ def ranking_field(total_rank):
     return college_names
 
 def prediction_logic(**kwargs):
+    bed_l=[]
+    rank_l=[]
+    size_l=[]
+    print(kwargs.items())
     for field,value in kwargs.items():
-        if field =="bed":            
+        print(field,value)
+        if field =="bed" and value =="on":          
             query =  { field: { "$exists": True }}
             fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
             fetch_data = list(fetch_data)
@@ -34,7 +36,7 @@ def prediction_logic(**kwargs):
                         bed[data["name"]] = 3                
                         bed_l.append(bed)
         print({"bed":bed_l})
-        if field =="rank":
+        if field =="rank" and value =="on":
             query =  { field: { "$exists": True }}
             fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
             fetch_data = list(fetch_data)
@@ -50,7 +52,7 @@ def prediction_logic(**kwargs):
                     rank[data["name"]] = 3              
                     rank_l.append(rank)
         print({"rank":rank_l})
-        if field =="size":
+        if field =="size" and value =="on":
             query =  { field: { "$exists": True }}
             fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
             fetch_data = list(fetch_data)
@@ -69,3 +71,5 @@ def prediction_logic(**kwargs):
     total_rank = bed_l+rank_l+size_l
     rank_prediction = ranking_field(total_rank)
     return rank_prediction
+
+prediction_logic
