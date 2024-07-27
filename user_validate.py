@@ -50,10 +50,18 @@ def user_edit(**kwargs):
     print(fetch_data)
     return True if bool(fetch_data) else False
 
-
 def get_all_data():  
     fetch_data = mongoconn().student_data.find()
     print({"l":fetch_data})
+    if bool(fetch_data):
+        return fetch_data
+    else:
+        return None
+    
+def get_college_data(name):
+    query = {"name":name}
+    fetch_data = mongoconn().sample_raw_data.find(query,{"_id":0})
+    print(fetch_data)
     if bool(fetch_data):
         return fetch_data
     else:

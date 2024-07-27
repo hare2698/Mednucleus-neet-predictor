@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block tittle%} student_registration {% endblock%}
+{% block content%}
+<body>
+    {% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul>
+               {% for message in messages %}
+               <li>{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+    
+    <h1>Below are the sorted colleges list please  </h1>
+    <p>Please select the button to get college details</p>
+    <div>
+        {% if data %}
+            {% for college_name in data %}
+                <tr>
+                    <form action="student_operation" method="post">
+                        <td><button type="submit" name="operation" value="{{college_name}}">{{college_name}}</button></td>
+                    </form>
+                </tr>
+            {%endfor%}
+        {%endif%}     
+    </div>
+{% endblock %}
