@@ -1,10 +1,12 @@
 from flask import Flask,render_template,request,abort,jsonify,request,redirect,url_for,flash
 import json
 import pandas as pd
-from user_validate import validate,user_append,get_student_data,user_edit,get_all_data
+from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data
 import pymongo
-
+from models import prediction_logic
 app=Flask(__name__)
+
+app.secret_key ="wjbdvjkwb=kjvbwkvnlqkvj;lql;"
 
 @app.route("/")
 def introduction():  
@@ -22,7 +24,9 @@ def login():
          if operation == "student_registration":
             return render_template("student_operation.html")
          else:
-            return render_template("predictor_hub.html",data=None)
+            user_data = get_all_data().sort("created_at",pymongo.DESCENDING)
+            data = list(user_data)
+            return render_template("predictor_hub.html",data=data,data_type="list",map="from operation")
       else: 
          flash("invalid creds please try agian", "error")
          return render_template("welcome.html")  
@@ -38,27 +42,33 @@ def Predictor_hub():
       if len(data) == 0:
          return render_template("thankyou.html",message = "Please enter a valid ID",flag=False)
       if  bool(fetch_student_data):
-         return render_template("predictor_hub.html",data=data,data_type="list")
+         return render_template("predictor_hub.html",data=data,data_type="list",map="from predictor hub")
    return render_template("welcome.html")
 
 @app.route("/student_operation", methods = ["GET","POST"])
 def student_operation():
    if request.method == "POST": 
       operation = request.form.get("operation")
-      print({"op":operation})
       if operation == "create registration":
          return render_template("student_registration.html")
-      if operation == "edit registration":
+      elif operation == "edit registration":
          user_data = get_all_data().sort("created_at",pymongo.DESCENDING)
          data = list(user_data)
          return render_template("student_edit_registration_form.html",unique_id=None,data=data)
-      if operation == "fetch registration":
+      elif operation == "fetch registration":
          user_data = get_all_data().sort("created_at",pymongo.DESCENDING)
          data = list(user_data)
          print({"dh":data})
          return render_template("predictor_hub.html",data=data,data_type="list")
-      if operation == "NEET predictor":
-         return render_template("predictor_hub.html",data=None)
+      elif operation == "NEET predictor":
+         user_data = get_all_data().sort("created_at",pymongo.DESCENDING)
+         data = list(user_data)
+         return render_template("predictor_hub.html",data=data,data_type="list",map="from operation")
+      else:
+         user_data = get_college_data(operation)
+         data = list(user_data)
+         print(user_data)
+         return render_template("predictor_hub.html",data=data,data_type="list",map="college_result")
    return render_template("student_operation.html")
 
 @app.route("/student_registration", methods = ["GET","POST"])
@@ -109,6 +119,12 @@ def student_registration_update_display():
          return render_template("student_edit_registration_form.html" ,message = "student registration" )
    return render_template("welcome.html")
 
+@app.route("/prediction_algorithm", methods = ["GET","POST"])
+def prediction_algorithm():
+   if request.method == "POST":  
+      predicted_data = prediction_logic(bed=request.form.get("bed"),rank=request.form.get("rank"),size=request.form.get("size"))
+      return render_template("sorted_colleges_names.html",data=predicted_data)
+   
 
 if __name__=="__main__":
    app.run(debug=True)
