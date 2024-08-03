@@ -58,6 +58,7 @@ def Predictor_hub():
 def student_operation():
    if request.method == "POST": 
       operation = request.form.get("operation")
+      print(operation)
       if operation == "create registration":
          return render_template("student_registration.html")
       elif operation == "edit registration":
@@ -138,6 +139,7 @@ def prediction_algorithm():
       predicted_data = prediction_logic(priority_1=p1_field,priority_2=p2_field,priority_3=p3_field)
       return render_template("sorted_colleges_names.html",data=predicted_data)
    return render_template("welcome.html")
+
 @app.route('/download_pdf',methods = ["GET","POST"])
 def download_pdf():
     if request.method == "POST": 
@@ -148,9 +150,7 @@ def download_pdf():
       
       # Example table data
       table_data = request.form.get("data_input")
-      print(table_data)
       table_data=ast.literal_eval(table_data)
-      print(table_data)
       # Add table headers
       pdf.set_font("Arial", 'B', 12)
       pdf.cell(40, 10,"Please find your college details")
@@ -174,6 +174,44 @@ def download_pdf():
          pdf.output(temp_file.name)
          temp_file.seek(0)
          return send_file(temp_file.name, as_attachment=True, download_name='customized_data.pdf', mimetype='application/pdf')
-    return render_template("welcome.html")    
+    return render_template("welcome.html") 
+
+@app.route('/download_pdf_list',methods = ["GET","POST"])
+def download_pdf_list():
+    if request.method == "POST": 
+      # Create a PDF document
+      pdf = FPDF()
+      pdf.add_page()
+      pdf.set_font("Arial", size = 12)
+      
+      # Example table data
+      table_data = request.form.get("data_input")
+      table_data=ast.literal_eval(table_data)
+      print(table_data)
+      # Add table headers
+      pdf.set_font("Arial", 'B', 12)
+      pdf.cell(40, 10,"Please find your college details")
+      pdf.ln()
+      pdf.set_font("Arial", 'B', 12)
+      pdf.cell(40, 10,"order", border=1)
+      pdf.cell(40, 10, "college name", border=1)
+      pdf.ln()
+
+      # Add table rows
+      pdf.set_font("Arial", size = 12)
+      for row in range(len(table_data)):
+
+         order_value = row+1
+         pdf.cell(40, 10,str(order_value), border=1)
+         pdf.cell(40, 10,table_data[row], border=1)
+         pdf.ln()
+
+      # Save the PDF to a BytesIO object
+
+      with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
+         pdf.output(temp_file.name)
+         temp_file.seek(0)
+         return send_file(temp_file.name, as_attachment=True, download_name='college_list.pdf', mimetype='application/pdf')
+    return render_template("welcome.html")     
 if __name__=="__main__":
    app.run(debug=True)
