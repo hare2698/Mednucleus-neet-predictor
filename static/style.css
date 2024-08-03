@@ -6,13 +6,11 @@ body
     color:black;
 
 }
-
 .container
 {
     display: flex;
     align-items: center;
 }
-
 .document {
     border: 1px solid #0b0b0b;
     padding: 10px;

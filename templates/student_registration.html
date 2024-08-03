@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block tittle%} Remove card {% endblock%}
+{% block tittle%} student registartion{% endblock%}
 {% block content%}
 <body>
     {% with messages = get_flashed_messages() %}
@@ -22,17 +22,7 @@
         <label for="sex">Please enter  sex </label>
         <input type="text" name="sex"><br><br>
         <label for="ID">Please enter student ID </label>
-        <input type="text" name="ID"><br><br>
-        <!-- <label for="institute">Please enter INSTITUTE </label>
-        <input type="text" name="institute", required><br><br>
-        <label for="type of institute">Please enter  type of institution </label>
-        <input type="text" name="type of institute"><br><br>
-        <label for="number of beds">Please enter number of beds </label>
-        <input type="text" name="number of beds"><br><br>
-        <label for="passing rate">Please enter  passing rate </label>
-        <input type="text" name="passing rate"><br><br>
-        <label for="feedback">Please enter feedback</label>
-        <input type="text" name="feedback"><br><br> -->
+        <input type="text" name="id"><br><br>
         <button type="submit">create registration</button>      
     </form>  
 {% endblock %}

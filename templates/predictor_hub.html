@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block tittle%} Welcome {% endblock%}
+{% block tittle%} predictor hub {% endblock%}
 {% block content%}
     <h1>Welcome to Neet predictor Hub</h1>
     {% if data %}
@@ -51,13 +51,13 @@
                         <option value="rank">Rank</option>
                         <option value="size">Size</option>
                     </select><br><br>
-                    <button type="submit">Hit me to make your futire bright</button>
+                    <button type="submit">Hit me to make your future bright</button>
                 </div>
             </form>
         {% endif %}
         {% if data_type == "dict" %}
             <h2>Student registration created successfully</h2>
-            <p>To create a another student registration page <a href="{{ url_for('student_operation') }}">click here</a></p> 
+            <p>To create a another student registration <a href="{{ url_for('student_operation') }}">click here</a></p> 
             <div class="document">
                 <h3>Name: {{ data.name }}</h3>
                 <h3>sex: {{ data.sex }}</h3>

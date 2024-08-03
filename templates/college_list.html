@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block tittle%} college list{% endblock%}
+{% block content%}
+    <h1>Welcome to Neet predictor Hub</h1>
+    {% if data %}
+        {% if data_type == "list" and map == "college_result" %}
+            <h1>Hello Amigo...this is your perfect match </h1>
+            {% for item in data %}    
+                <div class="document">
+                    <h3>college Name: {{ item.name }}</h3>
+                    <h3>college rank: {{ item.rank }}</h3>
+                    <h3>college zone: {{ item.zone }}</h3>
+                    <h3>number of bed: {{ item.bed }}</h3> 
+                    <h3>college size : {{ item.size}}</h3>                  
+                </div> 
+            {% endfor %}
+            <form action="{{ url_for('student_operation') }}" method="post">
+                <button name="operation" value ="fetch registration">hit me to take you to ... suspense</button>
+            </form><br><br>
+            <form action="{{ url_for('download_pdf') }}" method="post">
+                <input type="hidden" name="data_input" value="{{ data }}">
+                <button>hit me hard to download_pdf</button>
+            </form>
+        {% endif %}     
+    {% endif %}
+     
+{% endblock %}
+
