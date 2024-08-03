@@ -15,31 +15,29 @@
     <h1>Below are the sorted colleges list please  </h1>
     <p>Please select the button to get college details</p>
     {% if data %}
-    <div class="table-container"></div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Order</th>
-                    <th>College Name</th>
-                </tr>
-            </thead>
-            {% for college_name in data %}
-                <tbody>
+        <div class="table-container"></div>
+            <table>
+                <thead>
                     <tr>
-                        <form action="student_operation" method="post">
-                            <td></td>
-                            <td>
-                                <button type="submit" name="operation" value="{{college_name}}">
-                                    {{college_name}}
-                                </button>
-                            </td>
-                        </form>
+                        <th>Order</th>
+                        <th>College Name</th>
                     </tr>
-                </tbody>
-            {% endfor %}
-        </table>
-                
-        
-    </div>
+                </thead>
+                {% for college_name in data %}
+                    <tbody>
+                        <tr>
+                            <form action="student_operation" method="post">
+                                <td></td>
+                                <td>
+                                    <button type="submit" name="operation" value="{{college_name}}">
+                                        {{college_name}}
+                                    </button>
+                                </td>
+                            </form>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        </div>
     {%endif%}     
 {% endblock %}
