@@ -6,13 +6,25 @@ body
     color:black;
 
 }
+body, html {
+    height: 100%;
+    margin: 0;
+   
+    justify-content: center;
+    align-items: center;
+}
 
+.centered-content {
+    text-align: center;
+}
 .container
 {
     display: flex;
     align-items: center;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
-
 .document {
     border: 1px solid #0b0b0b;
     padding: 10px;
@@ -50,5 +62,6 @@ table tbody td:first-of-type::before {
     content: counter(row-number) ". "; /* Display the counter value before cell content */
     font-weight: bold; /* Optional: style the number */
 }
+
 
 
