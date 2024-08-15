@@ -5,7 +5,7 @@ import json
 import pandas as pd
 from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data
 import pymongo
-from models import prediction_logic
+from models import prediction_logic,filter_data
 from datetime import datetime, timedelta
 import ast
 import tempfile
@@ -37,21 +37,36 @@ def login():
             data = list(user_data)
             return render_template("predictor_hub.html",data=data,data_type="list",map="from operation")
       else: 
-         flash("invalid creds please try agian", "error")
+         flash("invalid creds please try again", "error")
          return render_template("welcome.html")  
    return render_template("welcome.html")
 
 @app.route("/Predictor_hub", methods = ["GET","POST"])
 def Predictor_hub():
    if request.method == "POST":    
-      fetch_student_data = None
       unique_id = request.form.get("unique_id")  
       fetch_student_data = get_student_data(unique_id)
-      data = list(fetch_student_data) 
+      data = list(fetch_student_data)
+      filter_1= [datas["Category"] for datas in data]
+      filter_2= [datas["state"] for datas in data]
+      filter_3= [datas["Course"] for datas in data]
+      filter_4= [datas["Quota"] for datas in data]
+
+      p1_field= request.form.get("priority-1") if request.form.get("priority-1") else None   
+      p2_field= request.form.get("priority-2") if request.form.get("priority-2") else None
+      p3_field= request.form.get("priority-3") if request.form.get("priority-3") else None
+      p4_field= request.form.get("priority-4") if request.form.get("priority-4") else None
+      p5_field= request.form.get("priority-5") if request.form.get("priority-5") else None
+      p6_field= request.form.get("priority-6") if request.form.get("priority-6") else None
+      print(p1_field,p2_field,p3_field,p4_field,p5_field,p6_field)
       if len(data) == 0:
          return render_template("thankyou.html",message = "Please enter a valid ID",flag=False)
-      if  bool(fetch_student_data):
+      if  bool(fetch_student_data) and p1_field is None and p2_field is None and p3_field is None and p4_field is None and p5_field is None and p6_field is None:
          return render_template("predictor_hub.html",data=data,data_type="list",map="from predictor hub")
+      if p1_field and p2_field and p3_field :
+         data = filter_data(filter_1,filter_2,filter_3,filter_4)
+         predicted_data = prediction_logic(data,priority_1=p1_field,priority_2=p2_field,priority_3=p3_field,priority_4=p4_field,priority_5=p5_field,priority_6=p6_field)
+         return render_template("sorted_colleges_names.html",data=predicted_data)
    return render_template("welcome.html")
 
 @app.route("/student_operation", methods = ["GET","POST"])
@@ -84,7 +99,7 @@ def student_operation():
 @app.route("/student_registration", methods = ["GET","POST"])
 def student_registration():
    if request.method == "POST": 
-      add_student_data = user_append(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),zone=request.form.get("zone"),unique_id =request.form.get("ID"))
+      add_student_data = user_append(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),zone=request.form.get("zone"),unique_id =request.form.get("id"),Course=request.form.get("Course"),Quota=request.form.get("Quota"),Category=request.form.get("Category"))
       if add_student_data == True:
          data ={}
          data["name"]=request.form.get("name")
@@ -92,6 +107,9 @@ def student_registration():
          data["zone"]=request.form.get("zone")
          data["mark"]=request.form.get("mark")
          data["unique_id"]=request.form.get("id")
+         data["Category"]=request.form.get("Category")
+         data["Course"]=request.form.get("Course")
+         data["Quota"]=request.form.get("Quota")
          return render_template("predictor_hub.html" ,data = data,data_type = "dict")
       else:
          flash("there was a error in adding a data please try again later",'error')
@@ -116,28 +134,21 @@ def student_registration_update():
 @app.route("/student_registration_update_display", methods = ["GET","POST"])
 def student_registration_update_display():
    if request.method == "POST":  
-      edit_student_data = user_edit(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),zone=request.form.get("zone"),unique_id=request.form.get("unique_id"))
+      edit_student_data = user_edit(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),state=request.form.get("state"),unique_id=request.form.get("unique_id"),Course=request.form.get("Course"),Quota=request.form.get("Quota"),Category=request.form.get("Category"))
       if edit_student_data == True:
          data ={}
          data["name"]=request.form.get("name")
          data["sex"]=request.form.get("sex")
-         data["zone"]=request.form.get("zone")
+         data["state"]=request.form.get("state")
          data["mark"]=request.form.get("mark")
          data["unique_id"]=request.form.get("unique_id")
+         data["Category"]=request.form.get("Category")
+         data["Course"]=request.form.get("Course")
+         data["Quota"]=request.form.get("Quota")
          return render_template("predictor_hub.html" ,data = data,data_type = "dict")
       else:
          flash("there was a error in editing a data please try again later",'error')
          return render_template("student_edit_registration_form.html" ,message = "student registration" )
-   return render_template("welcome.html")
-
-@app.route("/prediction_algorithm", methods = ["GET","POST"])
-def prediction_algorithm():
-   if request.method == "POST":  
-      p1_field= request.form.get("priority-1") if request.form.get("priority-1") else None   
-      p2_field= request.form.get("priority-2") if request.form.get("priority-2") else None
-      p3_field= request.form.get("priority-3") if request.form.get("priority-3") else None   
-      predicted_data = prediction_logic(priority_1=p1_field,priority_2=p2_field,priority_3=p3_field)
-      return render_template("sorted_colleges_names.html",data=predicted_data)
    return render_template("welcome.html")
 
 @app.route('/download_pdf',methods = ["GET","POST"])
@@ -153,19 +164,19 @@ def download_pdf():
       table_data=ast.literal_eval(table_data)
       # Add table headers
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(40, 10,"Please find your college details")
+      pdf.cell(50, 10,"Please find your college details")
       pdf.ln()
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(40, 10,"college parameters", border=1)
-      pdf.cell(40, 10, "value", border=1)
+      pdf.cell(50, 20,"college parameters", border=1)
+      pdf.cell(50, 20, "value", border=1)
       pdf.ln()
 
       # Add table rows
       pdf.set_font("Arial", size = 12)
       for row in table_data:
          for k,v in row.items():
-            pdf.cell(40, 10,f"{k}", border=1)
-            pdf.cell(40, 10,f"{v}", border=1)
+            pdf.cell(50, 10,f"{k}", border=1)
+            pdf.cell(50, 10,f"{v}", border=1)
             pdf.ln()
 
       # Save the PDF to a BytesIO object
@@ -193,8 +204,8 @@ def download_pdf_list():
       pdf.cell(40, 10,"Please find your college details")
       pdf.ln()
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(40, 10,"order", border=1)
-      pdf.cell(40, 10, "college name", border=1)
+      pdf.cell(50, 10,"order", border=1)
+      pdf.cell(50, 10, "college name", border=1)
       pdf.ln()
 
       # Add table rows
@@ -202,8 +213,8 @@ def download_pdf_list():
       for row in range(len(table_data)):
 
          order_value = row+1
-         pdf.cell(40, 10,str(order_value), border=1)
-         pdf.cell(40, 10,table_data[row], border=1)
+         pdf.cell(50, 10,str(order_value), border=1)
+         pdf.cell(50, 10,table_data[row], border=1)
          pdf.ln()
 
       # Save the PDF to a BytesIO object

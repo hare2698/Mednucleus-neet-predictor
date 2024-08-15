@@ -7,11 +7,18 @@
             <h1>Hello Amigo...this is your perfect match </h1>
             {% for item in data %}    
                 <div class="document">
-                    <h3>college Name: {{ item.name }}</h3>
-                    <h3>college rank: {{ item.rank }}</h3>
-                    <h3>college zone: {{ item.zone }}</h3>
-                    <h3>number of bed: {{ item.bed }}</h3> 
-                    <h3>college size : {{ item.size}}</h3>                  
+                    <h3>college Name: {{ item.Institute }}</h3>
+                    <h3>college rank: {{ item.Rank }}</h3>
+                    <h3>college zone: {{ item.State }}</h3>
+                    <h3>number of bed: {{ item.Beds }}</h3> 
+                    <h3>Category : {{ item.Category}}</h3>
+                    <h3>Course: {{ item.Course }}</h3>   
+                    <h3>Quota: {{ item.Quota }}</h3> 
+                    <h3>college Fee: {{ item.Fee }}</h3>
+                    <h3>Penality: {{ item["Bond Penalty"] }}</h3>                  
+                    <h3>number of Bond year: {{ item["Bond Years"] }}</h3>
+                    <h3>stipend Year one: {{ item["Stipend Year 1"] }}</h3>    
+                    
                 </div> 
             {% endfor %}
             <form action="{{ url_for('student_operation') }}" method="post">

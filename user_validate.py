@@ -15,11 +15,17 @@ def user_append(**kwargs):
         if key == "mark":
             student_info["mark"] = value
         if key == "zone":
-            student_info["zone"] = value
+            student_info["state"] = value
         if key == "sex":
             student_info["sex"] = value
         if key == "unique_id":
             student_info["unique_id"] = value
+        if key == "Course":
+            student_info["Course"] = value
+        if key == "Category":
+            student_info["Category"] = value
+        if key == "Quota":
+            student_info["Quota"] = value
     add_data = mongoconn().student_data.insert_one(student_info)
     return True if bool(add_data) else False
 
@@ -39,12 +45,18 @@ def user_edit(**kwargs):
             student_info["name"] = value
         if key == "mark":
             student_info["mark"] = value
-        if key == "zone":
-            student_info["zone"] = value
+        if key == "state":
+            student_info["state"] = value
         if key == "sex":
             student_info["sex"] = value
         if key == "unique_id":
             student_info["unique_id"] = value
+        if key == "Course":
+            student_info["Course"] = value
+        if key == "Category":
+            student_info["Category"] = value
+        if key == "Quota":
+            student_info["Quota"] = value
     query ={"unique_id":student_info["unique_id"]}
     fetch_data = mongoconn().student_data.update_one(query,{'$set':student_info})
     print(fetch_data)
@@ -59,10 +71,10 @@ def get_all_data():
         return None
     
 def get_college_data(name):
-    query = {"name":name}
+    query = {"Institute":name}
     fetch_data = mongoconn().sample_raw_data.find(query,{"_id":0})
-    print(fetch_data)
     if bool(fetch_data):
         return fetch_data
     else:
         return None
+    
