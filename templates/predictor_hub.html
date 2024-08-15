@@ -4,20 +4,17 @@
     <h1>Welcome to Neet predictor Hub</h1>
     {% if data %}
         {% if data_type == "list" and map == "from operation" %}
-        <form action = "/Predictor_hub" method="post">
-            <label for="unique_id">Please enter student Unique ID </label>
-            <input type="text" name="unique_id", required><br><br>
-            <button type="submit">Fetch student data</button>  
-        </form> 
+            <form action = "/Predictor_hub" method="post">
+                <label for="unique_id">Please enter student Unique ID </label>
+                <input type="text" name="unique_id", required><br><br>
+                <button type="submit">Fetch student data</button>  
+            </form> 
             <h2>Please find the data below</h2>
             <p>Navigate to student operation page to explore more data <a href="{{ url_for('student_operation') }}">click here</a></p> 
             {% for item in data %}    
                 <div class="document">
-                    <h3>Name: {{ item.name }}</h3>
-                    <h3>sex: {{ item.sex }}</h3>
-                    <h3>zone: {{ item.zone }}</h3>
-                    <h3>mark: {{ item.mark }}</h3> 
-                    <h3>unique_id: {{ item.unique_id }}</h3>                  
+                    <h3>Name: {{ item.name }}</h3>                   
+                    <h3>unique_id: {{ item.unique_id }}</h3>                                     
                 </div> 
             {% endfor %} 
         {% endif %}
@@ -28,32 +25,111 @@
                     <h3>sex: {{ item.sex }}</h3>
                     <h3>zone: {{ item.zone }}</h3>
                     <h3>mark: {{ item.mark }}</h3> 
-                    <h3>unique_id: {{ item.unique_id }}</h3>                  
+                    <h3>unique_id: {{ item.unique_id }}</h3> 
+                    <h3>Category :{{item.Category}}</h3> 
+                    <h3>state :{{item.state}}</h3>  
+                    <h3>Quota :{{item.Quota}}</h3>  
+                    <h3>Course :{{item.Course}}</h3>                 
                 </div> 
             {% endfor %}
-            <form action="prediction_algorithm" method="post">
+            <form action="/Predictor_hub" method="post">
                 <div >
                     <label for="priority-1">Choose first priority</label>
                     <select name="priority-1">   <option value="None">None</option>
-                        <option value="bed">Bed</option>
-                        <option value="rank">Rank</option>
-                        <option value="size">Size</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
                     </select><br><br>
                     <label for="priority-2">Choose second priority</label>
                     <select name="priority-2">   <option value="None">None</option>
-                        <option value="bed">Bed</option>
-                        <option value="rank">Rank</option>
-                        <option value="size">Size</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
                     </select><br><br>
-                    <label for="priority-2">Choose third priority</label>
+                    <label for="priority-3">Choose third priority</label>
                     <select name="priority-3">    <option value="None">None</option>
-                        <option value="bed">Bed</option> 
-                        <option value="rank">Rank</option>
-                        <option value="size">Size</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
                     </select><br><br>
+                    <label for="priority-4">Choose fourth priority</label>
+                    <select name="priority-4">    <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                    </select><br><br>
+                    <label for="priority-5">Choose fifth priority</label>
+                    <select name="priority-5">    <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                    </select><br><br>
+                    <label for="priority-6">Choose sixth priority</label>
+                    <select name="priority-6">    <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                    </select><br><br>
+                    
+                    {% for item in data %} 
+                        <label for="unique_id">unique_id</label>
+                        <input type="text" name="unique_id" value = "{{ item.unique_id }}" readonly><br><br>
+                    {% endfor %}
                     <button type="submit">Hit me to make your future bright</button>
-                </div>
+                </div>   
             </form>
+            <script>
+                 // Get all the select elements
+                const selectElements = document.querySelectorAll('select[name^="priority-"]');
+
+                // Add an event listener to each select element
+                selectElements.forEach(select => {
+                    select.addEventListener('change', () => {
+                        disableSelectedOptions();
+                    });
+                });
+
+                function disableSelectedOptions() {
+                    // Clear all disabled attributes first
+                    selectElements.forEach(select => {
+                        Array.from(select.options).forEach(option => {
+                            option.disabled = false;
+                        });
+                    });
+
+                    // Disable selected options in subsequent selects
+                    for (let i = 0; i < selectElements.length - 1; i++) {
+                        const selectedValue = selectElements[i].value;
+                        if (selectedValue !== "None") {
+                            for (let j = i + 1; j < selectElements.length; j++) {
+                                const optionToDisable = selectElements[j].querySelector(`option[value="${selectedValue}"]`);
+                                if (optionToDisable) {
+                                    optionToDisable.disabled = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            </script>
+            
         {% endif %}
         {% if data_type == "dict" %}
             <h2>Student registration created successfully</h2>
@@ -61,9 +137,12 @@
             <div class="document">
                 <h3>Name: {{ data.name }}</h3>
                 <h3>sex: {{ data.sex }}</h3>
-                <h3>zone: {{ data.zone }}</h3>
                 <h3>mark: {{ data.mark }}</h3>  
-                <h3>unique_id: {{ data.unique_id }}</h3>                 
+                <h3>unique_id: {{ data.unique_id }}</h3>
+                <h3>Category :{{data.Category}}</h3> 
+                <h3>state :{{data.state}}</h3>  
+                <h3>Quota :{{data.Quota}}</h3>  
+                <h3>Course :{{data.Course}}</h3>                 
             </div>
         {% endif %}
         {% if data_type == "list" and map == "college_result" %}

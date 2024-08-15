@@ -39,18 +39,35 @@
                     <h3>Name: {{ item.name }}</h3>
                     <label for="name">name</label>
                     <input type="text" name="name" value = "{{ item.name }}" required><br><br>
+
                     <h3>mark: {{ item.mark }}</h3>
                     <label for="mark">mark</label>
                     <input type="text" name="mark" value = "{{ item.mark }}" required><br><br>
-                    <h3>zone: {{ item.zone }}</h3>
-                    <label for="zone">zone</label>
-                     <input type="text" name="zone" value = "{{ item.zone }}" required><br><br>
+
+                    <h3>state: {{ item.state }}</h3>
+                    <label for="state">state</label>
+                     <input type="text" name="state" value = "{{ item.state }}" required><br><br>
+
                     <h3>sex: {{ item.sex }}</h3>
                     <label for="sex">sex</label>
                     <input type="text" name="sex" value = "{{ item.sex }}" required><br><br>
-                    <h3>unique_id: {{ item.unique_id }}</h3> 
+                    
+                    <h3>Category: {{ item.Category }}</h3>
+                    <label for="Category">Category</label>
+                    <input type="text" name="Category" value = "{{ item.Category }}" required><br><br>
+                    
+                    <h3>Course: {{ item.Course }}</h3>
+                    <label for="Course">Course</label>
+                    <input type="text" name="Course" value = "{{ item.Course }}" required><br><br>
+                    
+                    <h3>Quota: {{ item.Quota }}</h3>
+                    <label for="Quota">Quota</label>
+                    <input type="text" name="Quota" value = "{{ item.Quota }}" required><br><br>
+
+                    <h3>unique_id: {{ item.unique_id }}</h3>
                     <label for="unique_id">non editable</label>
                     <input type="text" name="unique_id" value = "{{ item.unique_id }}" readonly ><br><br>
+
                     <button type="submit">Edit registration</button>                 
                 </div> 
             {% endfor %} 
