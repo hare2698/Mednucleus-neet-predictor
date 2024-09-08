@@ -21,15 +21,14 @@
         {% if data_type == "list" and map == "from predictor hub" %}
             {% for item in data %}    
                 <div class="document">
-                    <h3>Name: {{ item.name }}</h3>
-                    <h3>sex: {{ item.sex }}</h3>
-                    <h3>zone: {{ item.zone }}</h3>
-                    <h3>mark: {{ item.mark }}</h3> 
-                    <h3>unique_id: {{ item.unique_id }}</h3> 
-                    <h3>Category :{{item.Category}}</h3> 
-                    <h3>state :{{item.state}}</h3>  
-                    <h3>Quota :{{item.Quota}}</h3>  
-                    <h3>Course :{{item.Course}}</h3>                 
+                    <h3>Name:{{ item.name }}</h3>
+                    <h3>sex:{{ item.sex }}</h3>
+                    <h3>mark:{{ item.mark }}</h3>
+                    <h3>state:{{ item.state|join(',') }}</h3>
+                    <h3>unique_id:{{ item.unique_id }}</h3>
+                    <h3>Category :{{item.Category|join(',')}}</h3>  
+                    <h3>Quota :{{item.Quota|join(',')}}</h3>  
+                    <h3>Course :{{item.Course|join(',')}}</h3>                  
                 </div> 
             {% endfor %}
             <form action="/Predictor_hub" method="post">
@@ -133,17 +132,19 @@
         {% endif %}
         {% if data_type == "dict" %}
             <h2>Student registration created successfully</h2>
-            <p>To create a another student registration <a href="{{ url_for('student_operation') }}">click here</a></p> 
+            
             <div class="document">
-                <h3>Name: {{ data.name }}</h3>
-                <h3>sex: {{ data.sex }}</h3>
-                <h3>mark: {{ data.mark }}</h3>  
-                <h3>unique_id: {{ data.unique_id }}</h3>
-                <h3>Category :{{data.Category}}</h3> 
-                <h3>state :{{data.state}}</h3>  
-                <h3>Quota :{{data.Quota}}</h3>  
-                <h3>Course :{{data.Course}}</h3>                 
+                <h3>Name:{{ data.name }}</h3>
+                <h3>sex:{{ data.sex }}</h3>
+                <h3>mark:{{ data.mark }}</h3>
+                <h3>state:{{ data.zone|join(',') }}</h3>
+                <h3>unique_id:{{ data.unique_id }}</h3>
+                <h3>Category :{{data.Category|join(',')}}</h3>  
+                <h3>Quota :{{data.Quota|join(',')}}</h3>  
+                <h3>Course :{{data.Course|join(',')}}</h3>                 
             </div>
+            <p>To create a another student registration <a href="{{ url_for('student_operation') }}">click here</a></p>
+            <p><a href="{{ url_for('Predictor_hub') }}">click here to go predictor hub</a></p>
         {% endif %}
         {% if data_type == "list" and map == "college_result" %}
             <h1>Hello Amigo...this is your perfect match </h1>

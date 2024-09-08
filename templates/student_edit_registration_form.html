@@ -44,25 +44,54 @@
                     <label for="mark">mark</label>
                     <input type="text" name="mark" value = "{{ item.mark }}" required><br><br>
 
-                    <h3>state: {{ item.state }}</h3>
-                    <label for="state">state</label>
-                     <input type="text" name="state" value = "{{ item.state }}" required><br><br>
+                    <h3>state:{{ item.state|join(',') }}</h3>
+                    <label for="zone"></label>State:</label>
+                    <div class="dropdown">
+                        <div class="selected-items" id="selected-states">None</div> 
+                        <div class="dropdown-content">
+                            {% for data in state %}
+                                <label><input type="checkbox" name="zone" value="{{ data }}" onchange="updateSelectedItems(this, 'selected-states')"> {{ data }}</label>
+                            {% endfor %}
+                        </div>
+                    </div><br><br>
 
                     <h3>sex: {{ item.sex }}</h3>
                     <label for="sex">sex</label>
                     <input type="text" name="sex" value = "{{ item.sex }}" required><br><br>
                     
-                    <h3>Category: {{ item.Category }}</h3>
+                    <h3>Category :{{item.Category|join(',')}}</h3>
                     <label for="Category">Category</label>
-                    <input type="text" name="Category" value = "{{ item.Category }}" required><br><br>
+                    <div class="dropdown">
+                        <div class="selected-items" id="selected-categories">None</div> 
+                        <div class="dropdown-content">
+                            {% for category in category %}
+                                <label><input type="checkbox" name="Category" value="{{ category }}" onchange="updateSelectedItems(this, 'selected-categories')"> {{ category }}</label>
+                            {% endfor %}
+                        </div>
+                    </div><br><br>
                     
-                    <h3>Course: {{ item.Course }}</h3>
+                    <h3>Course :{{item.Course|join(',')}}</h3>
                     <label for="Course">Course</label>
-                    <input type="text" name="Course" value = "{{ item.Course }}" required><br><br>
+                    <div class="dropdown">
+                        <div class="selected-items" id="selected-courses">None</div> 
+                        <div class="dropdown-content">
+                            {% for course in course %}
+                                <label><input type="checkbox" name="Course" value="{{ course }}" onchange="updateSelectedItems(this, 'selected-courses')"> {{ course }}</label>
+                            {% endfor %}
+                        </div>
+                    </div><br><br>
                     
-                    <h3>Quota: {{ item.Quota }}</h3>
+                    <h3>Quota :{{item.Quota|join(',')}}</h3>
                     <label for="Quota">Quota</label>
-                    <input type="text" name="Quota" value = "{{ item.Quota }}" required><br><br>
+                    <label for="Quota">Please select Quota:</label>
+                    <div class="dropdown">
+                        <div class="selected-items" id="selected-quotas">None</div> 
+                        <div class="dropdown-content">
+                            {% for quota in quota %}
+                                <label><input type="checkbox" name="Quota" value="{{ quota }}" onchange="updateSelectedItems(this, 'selected-quotas')"> {{ quota }}</label>
+                            {% endfor %}
+                        </div>
+                    </div><br><br>
 
                     <h3>unique_id: {{ item.unique_id }}</h3>
                     <label for="unique_id">non editable</label>
@@ -74,4 +103,21 @@
             </form>        
         {% endif %}         
     {% endif %}
+    <script>
+        function updateSelectedItems(checkbox, displayId) {
+            const selectedItemsDisplay = document.getElementById(displayId);
+            const checkboxes = checkbox.parentNode.parentNode.querySelectorAll('input[type="checkbox"]'); 
+            const selectedItems = Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.parentNode.textContent.trim());
+    
+            if (selectedItems.length === 0) {
+                selectedItemsDisplay.textContent = "None";
+            } else if (selectedItems.length <= 2) {
+                selectedItemsDisplay.textContent = selectedItems.join(", ");
+            } else {
+                selectedItemsDisplay.textContent = `${selectedItems.slice(0, 2).join(", ")}, +${selectedItems.length - 2}`;
+            }
+        }
+        </script>
 {% endblock %}

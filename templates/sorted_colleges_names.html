@@ -21,17 +21,23 @@
                     <tr>
                         <th>Order</th>
                         <th>College Name</th>
+                        <th>seats</th>
                     </tr>
                 </thead>
-                {% for college_name in data %}
+                {% for college_name,seats in data.items() %}
                     <tbody>
                         <tr>
                             <form action="student_operation" method="post">
                                 <td></td>
                                 <td>
+                                    <input type="hidden" name=filter_data value="{{filter_data}}">
+                                    <input type="hidden" name="student_data" value ="{{unique_id}}">
                                     <button type="submit" name="operation" value="{{college_name}}">
                                         {{college_name}}
                                     </button>
+                                </td>
+                                <td>
+                                    {{seats}}
                                 </td>
                             </form>
                         </tr>
@@ -42,7 +48,8 @@
         <div>
             <form action="{{ url_for('download_pdf_list') }}" method="post">
                 <input type="hidden" name="data_input" value="{{ data }}">
-                <button>hit me hard to download_pdf</button>
+                <input type="hidden" name="student_data" value ="{{unique_id}}"><br>
+                <button>Genarate pdf</button>
             </form>
         </div>
     {%endif%}     

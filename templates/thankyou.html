@@ -2,9 +2,9 @@
 {% block tittle%} Thank you {% endblock%}
 {% block content%}
 {% if flag==True%}
-    <h1>{{message}} success !!!</h1>
+    <h1>{{message|safe}} success !!!</h1>
 {%else%}
-    <h1>{{message}}!!!</h1>
+    <h1>{{message|safe}}!!!</h1>
 {%endif%}
-<button type="submit"><a href ="{{url_for('student_operation')}}">Welcome page</a></button>    
+<button type="submit"><a href ="{{url_for('Predictor_hub')}}">Neet predictor</a></button>    
 {% endblock %}
