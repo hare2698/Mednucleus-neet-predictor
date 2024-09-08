@@ -1,134 +1,236 @@
 from config import mongoconn 
-
-def ranking_field(total_rank):
+from user_validate import get_filter_college_data
+def ranking_field(total_rank,query):
     predictor={}
+    college_data={}
     for rank in total_rank:
         for name,weight in rank.items():
             if name in predictor:
                 predictor[name] +=weight
             else:
                 predictor[name] = weight
-    print(predictor)
+    
     sorted_colleges= sorted(predictor.items(),key = lambda x: x[1],reverse=True)
     college_names = [colleges[0] for colleges in sorted_colleges]
-    return college_names
+    for x in college_names:
+        user_data = get_filter_college_data(x,query)
+        user_data = list(user_data)
+       
+        college_data[x]= len(user_data)
+    
+    return college_data
 
 def prediction_logic(*args,**kwargs):
+    arg={}
     bed_l=[]
     rank_l=[]
     Bond_year_l=[]
     bond_penality_l=[]
     fee_l=[]
     stipend_year_1_l=[]
-    for data in args:
-        fetch_data=data
-    print(kwargs.items())    
+    count=0
+    occurance_bed={"bed":count}
+    occurance_stipend={"stipend":count}
+    occurance_bond_penality={"bond penality":count}
+    occurance_rank={"rank":count}
+    occurance_bondyear={"bond year":count}
+    occurance_fee={"fee":count}
+    
+    fetch_data = args[0]
+    query=args[1]
     for field,value in kwargs.items():
-        print(field,value)
-        if value =="Beds" :
-            print("insdie bed")
-            weightage = priority_set(field)
-            for data in fetch_data:
+     
+        
+        if value =="Beds" or (value =="None" and occurance_bed["bed"]==0):           
+            
+            if value == "None":
+                weightage=0.01
+               
+            else:
+                weightage = priority_set(field)
+            bed ={} 
+            for data in fetch_data: 
+                                          
+                if data["Beds"] >= 0 and data["Beds"] <= 100 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*1
+                    
+                if data["Beds"] >= 101 and data["Beds"] <= 200 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*2               
+                    
+                if data["Beds"] >= 201 and data["Beds"] <= 300 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*3
+                if data["Beds"] >= 301 and data["Beds"] <= 400 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*4
+                if data["Beds"] >= 401 and data["Beds"] <= 500 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*5 
+                if data["Beds"] >= 501 and data["Beds"] <= 600 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*6 
+                if data["Beds"] >= 601 and data["Beds"] <= 700 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*7 
+                if data["Beds"] >= 701 and data["Beds"] <= 800 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*8 
+                if data["Beds"] >= 801 and data["Beds"] <= 900 :
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*9  
                 
-                bed ={}
-                if data[value] >= 0 and data[value] <= 500 :
-                    bed[data["Institute"]] = weightage*1
-                    bed_l.append(bed)
-                if data[value] >= 500 and data[value] <= 1000 :
-                    bed[data["Institute"]] = weightage*2               
-                    bed_l.append(bed)
-                if data[value] >= 1000 :
-                    bed[data["Institute"]] = weightage*3                
-                    bed_l.append(bed)
-        print({"bed":bed_l})
-        if value =="Rank" :
-            weightage = priority_set(field)
-            for data in fetch_data:                       
-                rank={}
-                if data[value] >= 0 and data[value] <= 100:               
-                    rank[data["Institute"]] = weightage*3               
-                    rank_l.append(rank)
-                if data[value] >= 100 and data[value] <= 1000:
-                    rank[data["Institute"]] = weightage*2               
-                    rank_l.append(rank)
-                if data[value] <= 1000 :
-                    rank[data["Institute"]] = weightage*1             
-                    rank_l.append(rank)
-        print({"rank":rank_l})
-        if value =="Bond Years":
-            weightage=priority_set(field)
+                if data["Beds"] >= 1001:
+                    bed[data["Institute"]+"|"+data["Course"]] = weightage*10             
+            bed_l.append(bed)
+            occurance_bed["bed"]=1
+            
+       
+        
+        if value =="Rank" or (value =="None" and occurance_rank["rank"]==0) :
+            if value == "None":
+                weightage=0.01
+            else:
+                weightage = priority_set(field)                   
+            
+            rank={}
             for data in fetch_data:
-                      
-                Bond_year={}
-                if data[value] >= 0 and data[value] <= 10 :              
-                    Bond_year[data["Institute"]] = weightage*3             
-                    Bond_year_l.append(Bond_year)
-                if data[value] >= 10 and data[value] <= 15:
-                    Bond_year[data["Institute"]] = weightage*2             
-                    Bond_year_l.append(Bond_year)
-                if data[value] >= 15 :
-                    Bond_year[data["Institute"]] = weightage*1               
-                    Bond_year_l.append(Bond_year)
-        print({"Bond_year":Bond_year_l})
-        if value =="Fee":
-            weightage=priority_set(field)
-            for data in fetch_data:                      
-                fee={}
-                fees=data[value].replace(",","")
-                fees=int(fees)
-                if fees >= 0 and fees <= 100000 :              
-                    fee[data["Institute"]] = weightage*3             
-                    fee_l.append(fee)
+                                                                     
+                if data["Rank"] >= 0 and data["Rank"] <= 1000:               
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*10               
+                    
+                if data["Rank"] >= 1001 and data["Rank"] <= 2000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*9               
+                
+                if data["Rank"] >= 2001 and data["Rank"] <= 3000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*8 
+                if data["Rank"] >= 3001 and data["Rank"] <= 4000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*7 
+                if data["Rank"] >= 4001 and data["Rank"] <= 5000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*6
+                if data["Rank"] >= 5001 and data["Rank"] <= 6000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*5
+                if data["Rank"] >= 6001 and data["Rank"] <= 7000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*4 
+                if data["Rank"] >= 7001 and data["Rank"] <= 8000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*3 
+                if data["Rank"] >= 8001 and data["Rank"] <= 9000:
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*2 
+                if data["Rank"] >= 10000 :
+                    rank[data["Institute"]+"|"+data["Course"]] = weightage*1 
+                           
+            rank_l.append(rank)
+            occurance_rank["rank"]=1
+            
+    
+       
+        if value =="Bond Years" or (value =="None" and occurance_bondyear["bond year"]==0) : 
+            if value == "None":
+                weightage=0.01
+            else:
+                weightage = priority_set(field)                     
+            
+            Bond_year={}
+            for data in fetch_data: 
+                             
+                if data["Bond Years"] >= 0 and data["Bond Years"] <= 10 :              
+                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*3             
+                    
+                if data["Bond Years"] >= 10 and data["Bond Years"] <= 15:
+                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*2             
+                    
+                if data["Bond Years"] >= 15 :
+                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*1
+                              
+            Bond_year_l.append(Bond_year)
+            occurance_bondyear["bond year"]=1
+            
+        
+               
+        if value =="Fee" or (value =="None" and occurance_fee["fee"]==0):    
+            if value == "None":
+                weightage=0.01
+            else:
+                weightage = priority_set(field)        
+            
+            fee={}
+            for data in fetch_data:
+                                                 
+                if type(data["Fee"])=="string":
+                    fees=data["Fee"].replace(",","")
+                else:
+                    fees=data["Fee"]
+                if fees >= 0 and fees <= 100000 :
+                                 
+                    fee[data["Institute"]+"|"+data["Course"]] = weightage*3             
+                    
                 if fees >= 10000 and fees<= 1000000:
-                    fee[data["Institute"]] = weightage*2             
-                    fee_l.append(fee)
+                    fee[data["Institute"]+"|"+data["Course"]] = weightage*2             
+                    
                 if fees >= 1000000 :
-                    fee[data["Institute"]] = weightage*1               
-                    fee_l.append(fee)
-        print({"fee":fee_l})
-        if value =="Stipend Year 1":
-            weightage=priority_set(field)
-            for data in fetch_data:
-                       
-                stipend_year={}
-                if data[value] >= 0 and data[value] <= 20000 :              
-                    stipend_year[data["Institute"]] = weightage*1             
-                    stipend_year_1_l.append(Bond_year)
-                if data[value] >= 20000 and data[value] <= 50000:
-                    stipend_year[data["Institute"]] = weightage*2             
-                    stipend_year_1_l.append(Bond_year)
-                if data[value] >= 50000 :
-                    stipend_year[data["Institute"]] = weightage*3               
-                    stipend_year_1_l.append(Bond_year)
-        print({"stipend":stipend_year_1_l})
-        if value =="Bond Penalty":
-            weightage=priority_set(field)
-            for data in fetch_data:
-                       
-                bond_penality={}
-                if data[value] >= 0 and data[value] <= 100000 :              
-                    bond_penality[data["Institute"]] = weightage*3            
-                    bond_penality_l.append(Bond_year)
-                if data[value] >= 100000 and data[value] <= 300000:
-                    bond_penality[data["Institute"]] = weightage*2             
-                    bond_penality_l.append(Bond_year)
-                if data[value] >= 300000 :
-                    bond_penality[data["Institute"]] = weightage*1              
-                    bond_penality_l.append(bond_penality)       
-        print({"Bond_penality":bond_penality_l})
+                    fee[data["Institute"]+"|"+data["Course"]] = weightage*1               
+            fee_l.append(fee)
+            occurance_fee["fee"]=1
+            
+        
+        
+        if value =="Stipend Year 1" or (value =="None" and occurance_stipend["stipend"]==0) :
+            if value == "None":
+                weightage=0.01
+            else:
+                weightage = priority_set(field)           
+           
+            stipend_year={}
+            for data in fetch_data: 
+                          
+                if data["Stipend Year 1" ] >= 0 and data["Stipend Year 1" ] <= 10000 :              
+                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*1             
+                    
+                if data["Stipend Year 1" ] >= 10001 and data["Stipend Year 1" ] <= 20000:
+                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*2             
+                    
+                if data["Stipend Year 1" ] >= 20001 and data["Stipend Year 1" ] <= 30000:
+                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*3            
+                    
+                if data["Stipend Year 1" ] >= 30001 and data["Stipend Year 1" ] <= 40000:
+                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*4            
+                    
+                if data["Stipend Year 1" ] >= 40001 and data["Stipend Year 1" ] <= 50000:
+                    stipend_year[data["Institute"]+"|"+data["Course"]]= weightage*5            
+                   
+                if data["Stipend Year 1" ] >= 50001:
+                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*6 
+                            
+            stipend_year_1_l.append(stipend_year)
+            occurance_stipend["stipend"]=1
+            
+       
+       
+        if value =="Bond Penalty" or (value =="None" and occurance_bond_penality["bond penality"]==0):
+            if value == "None":
+                weightage=0.01
+            else:
+                weightage = priority_set(field)           
+            
+            bond_penality={}
+            for data in fetch_data: 
+                           
+                if data["Bond Penalty"] >= 0 and data["Bond Penalty"] <= 100000 :              
+                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*3            
+                    
+                if data["Bond Penalty"] >= 100000 and data["Bond Penalty"] <= 300000:
+                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*2             
+                    
+                if data["Bond Penalty"] >= 300000 :
+                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*1 
+                             
+            bond_penality_l.append(bond_penality) 
+            occurance_bond_penality["bond penality"]=1  
+              
+        
+
     total_rank = bed_l+rank_l+ bond_penality_l + Bond_year_l +fee_l+stipend_year_1_l
-    print({"total_rank":total_rank})
-    rank_prediction = ranking_field(total_rank)
+   
+    rank_prediction = ranking_field(total_rank,query)
     return rank_prediction
 
 def filter_data(filter_1,filter_2,filter_3,filter_4):
-    
-    query =  { "Category":filter_1[0],"Quota":filter_4[0],"State":filter_2[0],"Course":filter_3[0]}
-    
+    query =  {"State":{"$in":filter_2[0]},"Course":{"$in":filter_3[0]},"Category":{"$in":filter_1[0]},"Quota":{"$in":filter_4[0]}}
     fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
     fetch_data = list(fetch_data)
-    
-    return fetch_data
+    return fetch_data,query
 
 def priority_set(field):
     if field=="priority_1":
@@ -142,5 +244,10 @@ def priority_set(field):
     if field=="priority_5":
             weightage = 0.05
     if field=="priority_6":
-            weightage = 0.05
+            weightage = 0.025
     return weightage
+
+def distinct_data(value):
+    fetch_data = mongoconn().sample_raw_data.distinct(value)
+    
+    return list(fetch_data)

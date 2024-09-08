@@ -22,11 +22,12 @@
                 </div> 
             {% endfor %}
             <form action="{{ url_for('student_operation') }}" method="post">
-                <button name="operation" value ="fetch registration">hit me to take you to ... suspense</button>
+                <button name="operation" value ="fetch registration">Home</button>
             </form><br><br>
             <form action="{{ url_for('download_pdf') }}" method="post">
                 <input type="hidden" name="data_input" value="{{ data }}">
-                <button>hit me hard to download_pdf</button>
+                <input type="hidden" name="student_data" value ="{{student_data}}">
+                <button>Download PDF</button>
             </form>
         {% endif %}     
     {% endif %}

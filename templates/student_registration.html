@@ -1,34 +1,91 @@
 {% extends "base.html" %}
-{% block tittle%} student registartion{% endblock%}
-{% block content%}
+{% block title %} Student Registration {% endblock %}
+{% block content %}
 <body>
     {% with messages = get_flashed_messages() %}
-         {% if messages %}
+        {% if messages %}
             <ul>
-               {% for message in messages %}
-               <li>{{ message }}</li>
-               {% endfor %}
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
             </ul>
-         {% endif %}
-      {% endwith %}
-    <h1>Welcome to student registration form</h1>
-    <form action = /student_registration method="post">
-        <label for="name">Please enter  name </label>
-        <input type="text" name="name", required><br><br>
-        <label for="mark">Please enter  mark </label>
+        {% endif %}
+    {% endwith %}
+    <h1>Welcome to Student Registration Form</h1>
+    <form action="/student_registration" method="post">
+        <label for="name">Please enter Name:</label>
+        <input type="text" name="name" required><br><br>
+
+        <label for="mark">Please enter Mark:</label>
         <input type="text" name="mark"><br><br>
-        <label for="zone">Please enter state </label>
-        <input type="text" name="zone"><br><br>
-        <label for="sex">Please enter  sex </label>
+
+        <label for="zone">Please select State(s):</label>
+        <div class="dropdown">
+            <div class="selected-items" id="selected-states">None</div> 
+            <div class="dropdown-content">
+                {% for data in state %}
+                    <label><input type="checkbox" name="zone" value="{{ data }}" onchange="updateSelectedItems(this, 'selected-states')"> {{ data }}</label>
+                {% endfor %}
+            </div>
+        </div><br><br>
+        
+
+        <label for="sex">Please enter Gender:</label>
         <input type="text" name="sex"><br><br>
-        <label for="id">Please enter student ID </label>
+
+        <label for="id">Please enter Student ID:</label>
         <input type="text" name="id"><br><br>
-        <label for="Category">Please enter Category </label>
-        <input type="text" name="Category"><br><br>
-        <label for="Quota">Please enter Quota </label>
-        <input type="text" name="Quota"><br><br>
-        <label for="Course">Please enter course </label>
-        <input type="text" name="Course"><br><br>
-        <button type="submit">create registration</button>      
-    </form>  
+
+        <label for="Category">Please select Category:</label>
+        <div class="dropdown">
+            <div class="selected-items" id="selected-categories">None</div> 
+            <div class="dropdown-content">
+                {% for category in category %}
+                    <label><input type="checkbox" name="Category" value="{{ category }}" onchange="updateSelectedItems(this, 'selected-categories')"> {{ category }}</label>
+                {% endfor %}
+            </div>
+        </div><br><br>
+      
+        <label for="Quota">Please select Quota:</label>
+        <div class="dropdown">
+            <div class="selected-items" id="selected-quotas">None</div> 
+            <div class="dropdown-content">
+                {% for quota in quota %}
+                    <label><input type="checkbox" name="Quota" value="{{ quota }}" onchange="updateSelectedItems(this, 'selected-quotas')"> {{ quota }}</label>
+                {% endfor %}
+            </div>
+        </div><br><br>
+        
+
+        <label for="Course">Please select Course:</label>
+        <div class="dropdown">
+            <div class="selected-items" id="selected-courses">None</div> 
+            <div class="dropdown-content">
+                {% for course in course %}
+                    <label><input type="checkbox" name="Course" value="{{ course }}" onchange="updateSelectedItems(this, 'selected-courses')"> {{ course }}</label>
+                {% endfor %}
+            </div>
+        </div><br><br>
+        
+
+        <button type="submit">Create Registration</button>
+    </form>
+
+    <script>
+    function updateSelectedItems(checkbox, displayId) {
+        const selectedItemsDisplay = document.getElementById(displayId);
+        const checkboxes = checkbox.parentNode.parentNode.querySelectorAll('input[type="checkbox"]'); 
+        const selectedItems = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.parentNode.textContent.trim());
+
+        if (selectedItems.length === 0) {
+            selectedItemsDisplay.textContent = "None";
+        } else if (selectedItems.length <= 2) {
+            selectedItemsDisplay.textContent = selectedItems.join(", ");
+        } else {
+            selectedItemsDisplay.textContent = `${selectedItems.slice(0, 2).join(", ")}, +${selectedItems.length - 2}`;
+        }
+    }
+    </script>
 {% endblock %}

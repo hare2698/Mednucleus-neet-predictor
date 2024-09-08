@@ -49,4 +49,39 @@ table tbody td:first-of-type::before {
     font-weight: bold; /* Optional: style the number */
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 400px;
+    overflow-y: auto;
+    max-height: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content 
+   label {
+    display: block;
+    padding: 12px 16px;
+    
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Style for the selected items display */
+  .selected-items {
+    background-color: #ddd;
+    padding: 5px;
+    border-radius: 5px;
+  }
 
+  
+  
