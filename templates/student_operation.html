@@ -2,23 +2,24 @@
 {% block tittle%} student operation {% endblock%}
 {% block content%}
 <body>
-    {% with messages = get_flashed_messages() %}
-         {% if messages %}
-            <ul>
-               {% for message in messages %}
-               <li>{{ message }}</li>
-               {% endfor %}
-            </ul>
-         {% endif %}
-      {% endwith %}
-    
-    <h1>Please select the below option </h1>
-    <div>
+    <div class="stu-reg-container">
+        <div class="centered-content">
+    <h1>Registration Module</h1>
+    <p class="spacer"></p>
+        <div class="container">
+    <div class="student-operation">
         <form action = /student_operation method="post">
-            <button type="submit" name="operation" value ="create registration" >create registration</button> 
-            <button type="submit" name="operation" value ="fetch registration">fetch registration</button> 
-            <button type="submit" name="operation" value ="edit registration">Edit registration</button>
-            <button type="submit" name="operation" value ="NEET predictor">Neet predictor</button>
+            <div class="button-grid">
+            <button type="submit" name="operation" value ="create registration">New Student Registration</button>  
+            <button type="submit" name="operation" value ="fetch registration">Fetch Student Details</button>  
+            <button type="submit" name="operation" value ="edit registration">Edit Student Details</button> 
+            <button type="submit" name="operation" value ="NEET predictor">Prediction Hub</button>
+            </div>
         </form>
     </div>
+        </div>
+    </div>
+    <p style= color:grey;"><i>If the student registration is already done, proceed towards Prediction Hub</i></p><br>
+    </div>
+</body>
 {% endblock %}
