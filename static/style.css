@@ -1,16 +1,34 @@
-body
-{
-	background-color: #e6c45f;
-	text-align: justify;
+html,body {
+    text-align: justify;
     font-family: sans-serif;
-    color:black;
+    color:  black;
+    height: auto;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden; 
+    padding-bottom: 50px; /* Adds 50px of space at the bottom */
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.centered-content {
+    text-align: center;
 
 }
-.container
-{
+
+.container {
     display: flex;
     align-items: center;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
+/*hare*/
 .document {
     border: 1px solid #0b0b0b;
     padding: 10px;
@@ -18,12 +36,14 @@ body
     width: 45%; /* Adjust width as needed */
     float: left; /* Float left to display two documents side by side */
     margin-right: 5%; /* Add spacing between documents */
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
+
 .table-container {
     margin-bottom: 20px; /* Space between tables */
 }
 
+/* Table styles */
 table {
     border-collapse: collapse;
     width: 100%;
@@ -49,39 +69,267 @@ table tbody td:first-of-type::before {
     font-weight: bold; /* Optional: style the number */
 }
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 400px;
-    overflow-y: auto;
-    max-height: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content 
-   label {
-    display: block;
-    padding: 12px 16px;
-    
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  /* Style for the selected items display */
-  .selected-items {
-    background-color: #ddd;
-    padding: 5px;
+.button-group {
+    display: flex;
+    gap: 10px; /* Adds space between the buttons */
+}
+
+button.student-registration {
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button.student-registration:hover {
+    background-color: darkblue;
+}
+
+button.neet-predictor {
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button.neet-predictor:hover {
+    background-color: darkblue;
+}
+
+.header {
+    text-align: center;
+    color: #4a90e2;
+    margin-top: 20px;
+}
+
+.subheader {
+    text-align: center;
+    color: #333;
+    margin-top: 10px;
+    font-size: 1.5em;
+}
+
+.college-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+.college-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.college-item h3 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.college-item p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 10px;
     border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.primary-btn {
+    background-color: #4a90e2;
+    color: #fff;
+}
+
+.secondary-btn {
+    background-color: #e94e77;
+    color: #fff;
+}
+
+.primary-btn:hover {
+    background-color: #357ab8;
+}
+
+.secondary-btn:hover {
+    background-color: #c03f64;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.links {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+}
+.login {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+/*kavi*/
+.stu-reg-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  .student-operation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 50px auto;
+  }
+  
+  .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  label {
+    width: 100px; /* Fixed width for all labels */
+    margin-right: 10px;
+    text-align: right;
+    font-weight:bold
+  }
+  
+  input {
+    flex: 1; /* Input fields will take up the remaining space */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
 
+  .button-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+  }
   
-  
+  button {
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%; /* Ensure the button takes up full width of the grid cell */
+  }
+  button:hover {
+    background-color: black; /* Hover effect background color */
+    color: white; /* Change text color on hover */
+}
+  .button-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adds spacing between buttons */
+  }
+  .welcome-button {
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .column-right {
+    padding: 20px;
+    width: 60%;
+    gap: 20px;
+}
+.column-left {
+    padding: 20px;
+    width: 40%;
+    gap: 20px;
+}
+.new-student {
+      display: flex;
+}
+.dropdown-content {
+    display: flex;
+    flex-wrap: wrap; /* Wrap items to create columns */
+    gap: 10px; /* Space between items */
+}
+
+.checkbox-group legend {
+    width: 30%; /* Each label takes up 30% of the width (3 columns) */
+    text-align: left; /* Ensure the text is aligned to the left */
+    display: flex; /* Use flex to align the checkbox and label */
+    align-items: center;
+    gap: 8px; /* Space between checkbox and label text */  
+}
+.divider {
+    border: 0;
+    border-top: 2px solid #ccc;
+    margin: 20px 0; /* Space above and below the divider */
+}
+.read-only {
+    text-align: left; /* Align text to the left */
+    margin: 20px auto; /* Ensure the data is centered on the page but text is left-aligned */
+    max-width: 600px;
+    line-height: 1.8; /* Add space between the lines */
+    overflow: visible; 
+  }
+  .spacer {
+    margin: 20px 0; /* Creates a 20px empty space */
+    margin-bottom: 30px;
+}
