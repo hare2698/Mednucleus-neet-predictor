@@ -2,90 +2,113 @@
 {% block title %} Student Registration {% endblock %}
 {% block content %}
 <body>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    <h1>Welcome to Student Registration Form</h1>
-    <form action="/student_registration" method="post">
-        <label for="name">Please enter Name:</label>
-        <input type="text" name="name" required><br><br>
-
-        <label for="mark">Please enter Mark:</label>
-        <input type="text" name="mark"><br><br>
-
-        <label for="zone">Please select State(s):</label>
-        <div class="dropdown">
-            <div class="selected-items" id="selected-states">None</div> 
-            <div class="dropdown-content">
-                {% for data in state %}
-                    <label><input type="checkbox" name="zone" value="{{ data }}" onchange="updateSelectedItems(this, 'selected-states')"> {{ data }}</label>
-                {% endfor %}
-            </div>
-        </div><br><br>
+    <div class="centered-content">
+    <div class="new-student">
+        <div class="column-left">
+    <div class="stu-reg-container">
+      <h1>New Student Registration</h1>
+      <form action="/student_registration" method="post">
         
-
-        <label for="sex">Please enter Gender:</label>
-        <input type="text" name="sex"><br><br>
-
-        <label for="id">Please enter Student ID:</label>
-        <input type="text" name="id"><br><br>
-
-        <label for="Category">Please select Category:</label>
-        <div class="dropdown">
-            <div class="selected-items" id="selected-categories">None</div> 
-            <div class="dropdown-content">
-                {% for category in category %}
-                    <label><input type="checkbox" name="Category" value="{{ category }}" onchange="updateSelectedItems(this, 'selected-categories')"> {{ category }}</label>
-                {% endfor %}
+            
+               <div class="form-container">
+                  <div class="form-group">
+                     <label for="name">Name</label>
+                     <input type="text" name="name" required><br><br>
+                  </div>
+                  <div class="form-group">
+                     <label for="mark">Mark</label>
+                     <input type="text" name="mark"><br><br>
+                  </div>
+                  <div class="form-group">
+                     <label for="sex">Gender</label>
+                     <input type="text" name="sex"><br><br>
+                  </div>
+                  <div class="form-group">
+                     <label for="id">Unique Student ID</label>
+                     <input type="text" name="id"><br><br>
+                  </div>
+                  <p style="font-size: 12px; color:grey;"><i>Unique ID is important for all student correspondence</i></p>
+               </div>
             </div>
-        </div><br><br>
+         </div>
+         <div class="column-right">
+            <div class="stu-reg-container">
+              
+                <h1>Preferences</h1>
+                <p class="spacer"></p>
+                  <div class="form-group">
+                     <label for="zone">State(s)</label>
+                     <div class="dropdown">
+                        <div class="dropdown-content">
+                           {% for data in state %}
+                           <legend><input type="checkbox" name="zone" value="{{ data }}" onchange="updateSelectedItems(this, 'selected-states')"> {{ data }}</legend>
+                           {% endfor %}
+                        </div>
+                     </div>
+                     <br><br>
+                  </div>
+                  <hr class="divider">
+                  <div class="form-group">
+                     <label for="Category">Category</label>
+                     <div class="dropdown">
+                        <div class="dropdown-content">
+                           {% for category in category %}
+                           <legend><input type="checkbox" name="Category" value="{{ category }}" onchange="updateSelectedItems(this, 'selected-categories')"> {{ category }}</legend>
+                           {% endfor %}
+                        </div>
+                     </div>
+                     <br><br>
+                  </div>
+                  <hr class="divider">
+                  <div class="form-group">
+                     <label for="Quota">Quota</label>
+                     <div class="dropdown">
+                        <div class="dropdown-content">
+                           {% for quota in quota %}
+                           <legend><input type="checkbox" name="Quota" value="{{ quota }}" onchange="updateSelectedItems(this, 'selected-quotas')"> {{ quota }}</legend>
+                           {% endfor %}
+                        </div>
+                     </div>
+                     <br><br>
+                  </div>
+                  <hr class="divider">
+                  <div class="form-group">
+                     <label for="Course">Course(s)</label>
+                     <div class="dropdown">
+                        <div class="dropdown-content">
+                           {% for course in course %}
+                           <legend><input type="checkbox" name="Course" value="{{ course }}" onchange="updateSelectedItems(this, 'selected-courses')"> {{ course }}</legend>
+                           {% endfor %}
+                        </div>
+                     </div>
+                     <br><br>
+                  </div>
+               </div>
+            </div>
+           
+         </div>
+         <p style= color:grey;"><i>Double-check the details before proceeding towards registration.</i></p><br>
+         <button type="submit">Create Registration</ button>
+         </div>
+      </form>
       
-        <label for="Quota">Please select Quota:</label>
-        <div class="dropdown">
-            <div class="selected-items" id="selected-quotas">None</div> 
-            <div class="dropdown-content">
-                {% for quota in quota %}
-                    <label><input type="checkbox" name="Quota" value="{{ quota }}" onchange="updateSelectedItems(this, 'selected-quotas')"> {{ quota }}</label>
-                {% endfor %}
-            </div>
-        </div><br><br>
-        
-
-        <label for="Course">Please select Course:</label>
-        <div class="dropdown">
-            <div class="selected-items" id="selected-courses">None</div> 
-            <div class="dropdown-content">
-                {% for course in course %}
-                    <label><input type="checkbox" name="Course" value="{{ course }}" onchange="updateSelectedItems(this, 'selected-courses')"> {{ course }}</label>
-                {% endfor %}
-            </div>
-        </div><br><br>
-        
-
-        <button type="submit">Create Registration</button>
-    </form>
-
-    <script>
-    function updateSelectedItems(checkbox, displayId) {
-        const selectedItemsDisplay = document.getElementById(displayId);
-        const checkboxes = checkbox.parentNode.parentNode.querySelectorAll('input[type="checkbox"]'); 
-        const selectedItems = Array.from(checkboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.parentNode.textContent.trim());
-
-        if (selectedItems.length === 0) {
-            selectedItemsDisplay.textContent = "None";
-        } else if (selectedItems.length <= 2) {
-            selectedItemsDisplay.textContent = selectedItems.join(", ");
-        } else {
-            selectedItemsDisplay.textContent = `${selectedItems.slice(0, 2).join(", ")}, +${selectedItems.length - 2}`;
-        }
-    }
-    </script>
-{% endblock %}
+      <script>
+         function updateSelectedItems(checkbox, displayId) {
+             const selectedItemsDisplay = document.getElementById(displayId);
+             const checkboxes = checkbox.parentNode.parentNode.querySelectorAll('input[type="checkbox"]'); 
+             const selectedItems = Array.from(checkboxes)
+                 .filter(cb => cb.checked)
+                 .map(cb => cb.parentNode.textContent.trim());
+         
+             if (selectedItems.length === 0) {
+                 selectedItemsDisplay.textContent = "None";
+             } else if (selectedItems.length <= 2) {
+                 selectedItemsDisplay.textContent = selectedItems.join(", ");
+             } else {
+                 selectedItemsDisplay.textContent = `${selectedItems.slice(0, 2).join(", ")}, +${selectedItems.length - 2}`;
+             }
+         }
+      </script>
+   </div>
+   <body>  
+      {% endblock %}

@@ -1,30 +1,42 @@
 {% extends "base.html" %}
 {% block tittle%} Welcome {% endblock%}
 {% block content%}
-    {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-    <h1>Welcome to Mednucleus Neet predictor Hub</h1>
-    <h2>Please enter your username and password</h2>
+         <body> 
+            <p class="spacer"></p> 
+            <div class="stu-reg-container">
+            <div class="centered-content">
+    <h1>Welcome to Neet Predictor Hub powered by Mednucleus</h1>
+    <p class="spacer"></p>
+    <h2>Secure Login</h2>
     <div class="popup">
         <form action="/login" method="post">
-            <label for="username">Username:</label>
+            <div class="form-container">
+                <div class="form-group">
+            <label for="username">Login ID</label>
             <input type="email" name="username" required><br><br>
-            <label for="password">Password:</label>
+                </div>
+                <div class="form-group">
+            <label for="password">Secure Key</label>
             <input type="password" name="password" required><br><br>
+                </div>
+            </div>
+            <div class="centered-content">
             <div class="container">
-                <input type="submit" name = "operation" value="student_registration">
-                <br><br>
-                <input type="submit" name = "operation" value="Neet predictor">
-            </div>  
-        </form>
+                <div class="student-operation">
+                    <div class="button-row">
+                    <button class="welcome-button" type="submit" name="operation" value="student_registration">
+                        Registration Module </button>
+                  
+                    <button class="welcome-button" type="submit" name="operation" value="Neet predictor">
+                        Prediction Hub </button>
+                    </div>
+                </div> 
+        </div> 
+    </div> 
+    </form>
     </div>
-      
+    </div>
+</div>
+    <body>    
 {% endblock %}
 

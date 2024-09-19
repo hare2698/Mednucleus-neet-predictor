@@ -2,103 +2,130 @@
 {% block tittle%} student registration {% endblock%}
 {% block content%}
 <body>
-    {% with messages = get_flashed_messages() %}
-         {% if messages %}
-            <ul>
-               {% for message in messages %}
-               <li>{{ message }}</li>
-               {% endfor %}
-            </ul>
-         {% endif %}
-      {% endwith %}
-    <h1>Welcome to student registration edit form</h1>
+    <div class="centered-content">
+     
     {% if not unique_id %}
-        <h2>Please enter for which ID to edit</h2>
+    <div class="new-student">
+        <div class="column-left">
+           <div class="stu-reg-container">
         <form action = /student_registration_update method="post">
-            <div class="container">          
-                <label for="unique_id">enter ID</label>
+            <h2><label for="unique_id">Enter Student Unique ID </label></h2>
+            <p class="spacer"></p>
                 <input type="text" name="unique_id", required><br><br>
-                <button type="submit">select to get details</button>
+                <button type="submit">Fetch Student Details</button>
             </div>
-            <div>
-                <h2>Please find the data below</h2>
+        </div>
+        <div class="column-right">
+           <div class="stu-reg-container">
+              <h2>Registered Students</h2>
+              <p class="spacer"></p>
                 {% for item in data %}                   
-                    <div class="document">
-                        <h3>Name: {{ item.name }}</h3>
-                        <h3>unique_id: {{ item.unique_id }}</h3>                  
+                    <div class="stu-reg-container">
+                        <h4>Name: {{ item.name }}</h4>
+                        <h4>Unique Student ID: {{ item.unique_id }}</h4>                  
                     </div> 
                 {% endfor %} 
-            </div>
+            
         </form> 
+    </div>
+</div>
+        </div>
     {% else %}
         {% if data_type == "list" %}
-        <h2>Please find the data below</h2>
             <form action = "/student_registration_update_display" method="post">
             {% for item in data %}               
-                <div class="document">
-                    <h3>Name: {{ item.name }}</h3>
-                    <label for="name">name</label>
+            <div class="new-student">
+                <div class="column-left">
+                   <div class="stu-reg-container">
+                      <h2>Existing Student Data</h2>
+                      <p class="spacer">
+                      </p>
+                      <div class="read-only">
+                        <p><b>Name: </b>{{ item.name }}</p>
+                        <p><b>Mark: </b>{{ item.mark }}</p>
+                        <p><b>Gender: </b>{{ item.sex }}</p>
+                        <p><b>Unique Student ID: </b>{{ item.unique_id }}</p>
+                        <p><b>State(s): </b>{{ item.state|join(',') }}</p>
+                        <p><b>Category: </b>{{item.Category|join(',')}}</p>
+                        <p><b>Quota: </b>{{item.Quota|join(',')}}</p>
+                        <p><b>Course(s): </b>{{item.Course|join(',')}}</p>
+                     </div>
+                   </div>
+                </div>
+                <div class="column-right">
+                    <div class="stu-reg-container">
+                        <h2>Student Edit Form</h2>
+                       <div class="form-container">
+                    <div class="form-group">
+                    <label for="name">Name</label>
                     <input type="text" name="name" value = "{{ item.name }}" required><br><br>
-
-                    <h3>mark: {{ item.mark }}</h3>
-                    <label for="mark">mark</label>
+                    </div>
+                    <div class="form-group">
+                    <label for="mark">Mark</label>
                     <input type="text" name="mark" value = "{{ item.mark }}" required><br><br>
-
-                    <h3>state:{{ item.state|join(',') }}</h3>
-                    <label for="zone"></label>State:</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex">Gender</label>
+                        <input type="text" name="sex" value = "{{ item.sex }}" required><br><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="unique_id">Student  Unique ID</label>
+                            <input type="text" name="unique_id" value = "{{ item.unique_id }}" readonly ><br><br>
+                            </div>
+                    <div class="form-group">
+                    <label for="zone">State(s)</label>
                     <div class="dropdown">
-                        <div class="selected-items" id="selected-states">None</div> 
+                        
                         <div class="dropdown-content">
                             {% for data in state %}
-                                <label><input type="checkbox" name="zone" value="{{ data }}" onchange="updateSelectedItems(this, 'selected-states')"> {{ data }}</label>
+                                <legend><input type="checkbox" name="zone" value="{{ data }}" onchange="updateSelectedItems(this, 'selected-states')"> {{ data }}</legend>
                             {% endfor %}
                         </div>
                     </div><br><br>
-
-                    <h3>sex: {{ item.sex }}</h3>
-                    <label for="sex">sex</label>
-                    <input type="text" name="sex" value = "{{ item.sex }}" required><br><br>
-                    
-                    <h3>Category :{{item.Category|join(',')}}</h3>
+                    </div>
+                  
+                    <div class="form-group">
                     <label for="Category">Category</label>
                     <div class="dropdown">
-                        <div class="selected-items" id="selected-categories">None</div> 
+                      
                         <div class="dropdown-content">
                             {% for category in category %}
-                                <label><input type="checkbox" name="Category" value="{{ category }}" onchange="updateSelectedItems(this, 'selected-categories')"> {{ category }}</label>
+                                <legend><input type="checkbox" name="Category" value="{{ category }}" onchange="updateSelectedItems(this, 'selected-categories')"> {{ category }}</legend>
                             {% endfor %}
                         </div>
                     </div><br><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Quota">Quota</label>
+                        <div class="dropdown">
+                          
+                            <div class="dropdown-content">
+                                {% for quota in quota %}
+                                    <legend><input type="checkbox" name="Quota" value="{{ quota }}" onchange="updateSelectedItems(this, 'selected-quotas')"> {{ quota }}</legend>
+                                {% endfor %}
+                            </div>
+                        </div><br><br>
+                        </div>
+
+                    <div class="form-group">
                     
-                    <h3>Course :{{item.Course|join(',')}}</h3>
-                    <label for="Course">Course</label>
+                    <label for="Course">Course(s)</label>
                     <div class="dropdown">
-                        <div class="selected-items" id="selected-courses">None</div> 
+                     
                         <div class="dropdown-content">
                             {% for course in course %}
-                                <label><input type="checkbox" name="Course" value="{{ course }}" onchange="updateSelectedItems(this, 'selected-courses')"> {{ course }}</label>
+                                <legend><input type="checkbox" name="Course" value="{{ course }}" onchange="updateSelectedItems(this, 'selected-courses')"> {{ course }}</legend>
                             {% endfor %}
                         </div>
                     </div><br><br>
-                    
-                    <h3>Quota :{{item.Quota|join(',')}}</h3>
-                    <label for="Quota">Quota</label>
-                    <label for="Quota">Please select Quota:</label>
-                    <div class="dropdown">
-                        <div class="selected-items" id="selected-quotas">None</div> 
-                        <div class="dropdown-content">
-                            {% for quota in quota %}
-                                <label><input type="checkbox" name="Quota" value="{{ quota }}" onchange="updateSelectedItems(this, 'selected-quotas')"> {{ quota }}</label>
-                            {% endfor %}
-                        </div>
-                    </div><br><br>
-
-                    <h3>unique_id: {{ item.unique_id }}</h3>
-                    <label for="unique_id">non editable</label>
-                    <input type="text" name="unique_id" value = "{{ item.unique_id }}" readonly ><br><br>
-
-                    <button type="submit">Edit registration</button>                 
+                    </div>
+                  
+                   
+                    <button type="submit">Save Details</button>                 
                 </div> 
+                </div>
+            </div>
             {% endfor %} 
             </form>        
         {% endif %}         
@@ -120,4 +147,7 @@
             }
         }
         </script>
+       
+    </div>
+</body>
 {% endblock %}
