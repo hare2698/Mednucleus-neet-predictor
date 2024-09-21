@@ -12,46 +12,52 @@
          {% endif %}
       {% endwith %}
     
-    <h1>Below are the sorted colleges list please  </h1>
-    <p>Please select the button to get college details</p>
+    
     {% if data %}
-        <div class="table-container"></div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Order</th>
-                        <th>College Name</th>
-                        <th>seats</th>
-                    </tr>
-                </thead>
-                {% for college_name,seats in data.items() %}
-                    <tbody>
-                        <tr>
-                            <form action="student_operation" method="post">
-                                <td></td>
-                                <td>
-                                    <input type="hidden" name=filter_data value="{{filter_data}}">
-                                    <input type="hidden" name="student_data" value ="{{unique_id}}">
-                                    <button type="submit" name="operation" value="{{college_name}}">
-                                        {{college_name}}
-                                    </button>
-                                </td>
-                                <td>
-                                    {{seats}}
-                                </td>
-                            </form>
-                        </tr>
-                    </tbody>
-                {% endfor %}
-            </table>
-        </div>
-        <div>
-            <form action="{{ url_for('download_pdf_list') }}" method="post">
-                <input type="hidden" name="data_input" value="{{ data }}">
-                <input type="hidden" name="student_data" value ="{{unique_id}}"><br>
-                <button>Genarate pdf</button>
-            </form>
-        </div>
+            <p class="spacer"></p>
+            <div class="stu-reg-container">
+                <div class="centered-content"></div>
+                <h1>Personalised College Mapping</h1>
+                <p>Based on the set Parameter, Branch and State</p>
+                <p class="spacer"></p>
+                <form action="{{ url_for('download_pdf_list') }}" method="post">
+                    <input type="hidden" name="data_input" value="{{ data }}">
+                    <input type="hidden" name="student_data" value ="{{unique_id}}"><br>
+                    <button>Genarate Final PDF</button>
+                </form>
+                <p class="spacer"></p>
+                    <div class="table-container"></div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Preference Order</th>
+                                    <th>College Name</th>
+                                    <th>No of Seats</th>
+                                </tr>
+                            </thead>
+                            {% for college_name,seats in data.items() %}
+                                <tbody>
+                                    <tr>
+                                        <form action="student_operation" method="post">
+                                            <td></td>
+                                            <td>
+                                                <input type="hidden" name=filter_data value="{{filter_data}}">
+                                                <input type="hidden" name="student_data" value ="{{unique_id}}">
+                                                <button type="submit" name="operation" value="{{college_name}}">
+                                                    {{college_name}}
+                                                </button>
+                                            </td>
+                                            <td>
+                                                {{seats}}
+                                            </td>
+                                        </form>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    
+                    </div>
+                </div>
     {%endif%}     
 
 {% endblock %}

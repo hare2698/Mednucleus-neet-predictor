@@ -21,7 +21,7 @@
               <p class="spacer"></p>
                 {% for item in data %}                   
                     <div class="stu-reg-container">
-                        <h4>Name: {{ item.name }}</h4>
+                        <h4>Name: {{ item.Name }}</h4>
                         <h4>Unique Student ID: {{ item.unique_id }}</h4>                  
                     </div> 
                 {% endfor %} 
@@ -41,11 +41,11 @@
                       <p class="spacer">
                       </p>
                       <div class="read-only">
-                        <p><b>Name: </b>{{ item.name }}</p>
-                        <p><b>Mark: </b>{{ item.mark }}</p>
-                        <p><b>Gender: </b>{{ item.sex }}</p>
+                        <p><b>Name: </b>{{ item.Name }}</p>
+                        <p><b>Mark: </b>{{ item.Mark }}</p>
+                        <p><b>Gender: </b>{{ item.Sex }}</p>
                         <p><b>Unique Student ID: </b>{{ item.unique_id }}</p>
-                        <p><b>State(s): </b>{{ item.state|join(',') }}</p>
+                        <p><b>State(s): </b>{{ item.State|join(',') }}</p>
                         <p><b>Category: </b>{{item.Category|join(',')}}</p>
                         <p><b>Quota: </b>{{item.Quota|join(',')}}</p>
                         <p><b>Course(s): </b>{{item.Course|join(',')}}</p>
@@ -58,23 +58,27 @@
                        <div class="form-container">
                     <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" name="name" value = "{{ item.name }}" required><br><br>
+                    <input type="text" name="Name" value = "{{ item.Name }}" required><br><br>
                     </div>
+                    <hr class="divider">
                     <div class="form-group">
                     <label for="mark">Mark</label>
-                    <input type="text" name="mark" value = "{{ item.mark }}" required><br><br>
+                    <input type="text" name="Mark" value = "{{ item.Mark }}" required><br><br>
                     </div>
+                    <hr class="divider">
                     <div class="form-group">
                         <label for="sex">Gender</label>
-                        <input type="text" name="sex" value = "{{ item.sex }}" required><br><br>
+                        <input type="text" name="Sex" value = "{{ item.Sex }}" required><br><br>
                         </div>
-                        <div class="form-group">
-                            <label for="unique_id">Student  Unique ID</label>
-                            <input type="text" name="unique_id" value = "{{ item.unique_id }}" readonly ><br><br>
-                            </div>
+                        <hr class="divider">
                     <div class="form-group">
-                    <label for="zone">State(s)</label>
-                    <div class="dropdown">
+                        <label for="unique_id">Student  Unique ID</label>
+                        <input type="text" name="unique_id" value = "{{ item.unique_id }}" readonly ><br><br>
+                    </div>
+                    <hr class="divider">
+                        <div class="form-group">
+                        <label for="zone">State(s)</label>
+                        <div class="dropdown">
                         
                         <div class="dropdown-content">
                             {% for data in state %}
@@ -83,7 +87,7 @@
                         </div>
                     </div><br><br>
                     </div>
-                  
+                    <hr class="divider">
                     <div class="form-group">
                     <label for="Category">Category</label>
                     <div class="dropdown">
@@ -95,7 +99,7 @@
                         </div>
                     </div><br><br>
                     </div>
-
+                    <hr class="divider">
                     <div class="form-group">
                         <label for="Quota">Quota</label>
                         <div class="dropdown">
@@ -107,7 +111,7 @@
                             </div>
                         </div><br><br>
                         </div>
-
+                    <hr class="divider">
                     <div class="form-group">
                     
                     <label for="Course">Course(s)</label>

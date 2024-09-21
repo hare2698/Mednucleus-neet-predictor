@@ -1,7 +1,7 @@
 html,body {
     text-align: justify;
     font-family: sans-serif;
-    color:  black;
+    background-color:  rgb(158, 176, 177);
     height: auto;
     margin: 0;
     display: flex;
@@ -37,6 +37,7 @@ html,body {
     float: left; /* Float left to display two documents side by side */
     margin-right: 5%; /* Add spacing between documents */
     box-sizing: border-box;
+    text-align: left;
 }
 
 .table-container {

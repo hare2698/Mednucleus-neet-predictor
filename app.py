@@ -11,6 +11,7 @@ import ast
 import tempfile
 import ast
 
+
 app=Flask(__name__)
 
 app.secret_key ="wjbdvjkwb=kjvbwkvnlqkvj;lql;"
@@ -48,12 +49,13 @@ def login():
 @app.route("/Predictor_hub", methods = ["GET","POST"])
 def Predictor_hub():
    if request.method == "POST":    
-      unique_id = request.form.get("unique_id")  
+      unique_id = request.form.get("unique_id")
+      print(unique_id)
       fetch_student_data = get_student_data(unique_id)
       data = list(fetch_student_data)
-     
-      if type(data[0]["state"]) is not list:
-         data[0]["state"]=[(data[0]["state"])]
+      print(data)
+      if type(data[0]["State"]) is not list:
+         data[0]["State"]=[(data[0]["State"])]
          
       if type(data[0]["Course"]) is not list:
          data[0]["Course"]=[(data[0]["Course"])]
@@ -66,7 +68,7 @@ def Predictor_hub():
          
      
       filter_1= [datas["Category"] for datas in data]
-      filter_2= [datas["state"] for datas in data]
+      filter_2= [datas["State"] for datas in data]
       filter_3= [datas["Course"] for datas in data]
       filter_4= [datas["Quota"] for datas in data]
      
@@ -81,7 +83,9 @@ def Predictor_hub():
       if  bool(fetch_student_data) and p1_field == 0 and p2_field == 0 and p3_field == 0 and p4_field == 0 and p5_field == 0 and p6_field == 0:
          return render_template("predictor_hub.html",data=data,data_type="list",map="from predictor hub")
       else :
+         print("inside else")
          datas,query = filter_data(filter_1,filter_2,filter_3,filter_4)
+         print({"datas":datas})
          predicted_data = prediction_logic(datas,query,priority_1=p1_field,priority_2=p2_field,priority_3=p3_field,priority_4=p4_field,priority_5=p5_field,priority_6=p6_field)
       if not predicted_data:
          return render_template("thankyou.html",message = f"sorry, No data has been found on the given combination <br><br> category = {filter_1[0]}<br> state = {filter_2[0]}<br>course = {filter_3[0]}<br>Quota = {filter_4[0]} ",flag=False)
@@ -135,10 +139,10 @@ def student_registration():
       add_student_data = user_append(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),zone=request.form.getlist("zone"),unique_id =request.form.get("id"),Course=request.form.getlist("Course"),Quota=request.form.getlist("Quota"),Category=request.form.getlist("Category"))
       if add_student_data == True:
          data ={}
-         data["name"]=request.form.get("name")
-         data["sex"]=request.form.get("sex")
-         data["zone"]=request.form.getlist("zone")
-         data["mark"]=request.form.get("mark")
+         data["Name"]=request.form.get("name")
+         data["Sex"]=request.form.get("sex")
+         data["Zone"]=request.form.getlist("zone")
+         data["Mark"]=request.form.get("mark")
          data["unique_id"]=request.form.get("id")
          data["Category"]=request.form.getlist("Category")
          data["Course"]=request.form.getlist("Course")
@@ -173,13 +177,13 @@ def student_registration_update():
 @app.route("/student_registration_update_display", methods = ["GET","POST"])
 def student_registration_update_display():
    if request.method == "POST":  
-      edit_student_data = user_edit(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),state=request.form.getlist("zone"),unique_id=request.form.get("unique_id"),Course=request.form.getlist("Course"),Quota=request.form.getlist("Quota"),Category=request.form.getlist("Category"))
+      edit_student_data = user_edit(student_name=request.form.get("Name"),mark=request.form.get("Mark"),sex=request.form.get("Sex"),state=request.form.getlist("zone"),unique_id=request.form.get("unique_id"),Course=request.form.getlist("Course"),Quota=request.form.getlist("Quota"),Category=request.form.getlist("Category"))
       if edit_student_data == True:
          data ={}
-         data["name"]=request.form.get("name")
-         data["sex"]=request.form.get("sex")
-         data["zone"]=request.form.getlist("zone")
-         data["mark"]=request.form.get("mark")
+         data["Name"]=request.form.get("Name")
+         data["Sex"]=request.form.get("Sex")
+         data["Zone"]=request.form.getlist("zone")
+         data["Mark"]=request.form.get("Mark")
          data["unique_id"]=request.form.get("unique_id")
          data["Category"]=request.form.getlist("Category")
          data["Course"]=request.form.getlist("Course")
@@ -196,6 +200,7 @@ def download_pdf():
       # Create a PDF document
       pdf = FPDF()
       pdf.add_page()
+      pdf.set_fill_color(230, 230, 230) 
       pdf.set_font("Arial", size = 12)
       
       # Example table data
@@ -206,7 +211,7 @@ def download_pdf():
      
       # Add table headers
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(50, 10,"Please find the student details")
+      pdf.cell(50, 10,"Registered Student Details")
       pdf.ln()
       pdf.set_font("Arial", size = 12)
       for values in data:
@@ -219,11 +224,11 @@ def download_pdf():
                      pdf.ln()
       pdf.add_page()
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(50, 10,"Please find your college details")
+      pdf.cell(50, 10,"College Seat Details")
       pdf.ln()
-      pdf.set_font("Arial", 'B', 12)
-      pdf.cell(50, 20,"college parameters", border=1)
-      pdf.cell(100, 20, "value", border=1)
+      pdf.set_font("Arial", size=12)
+      pdf.cell(50, 20,"College Parameters", border=1)
+      pdf.cell(100, 20, "Details", border=1)
       pdf.ln()
 
       # Add table rows
@@ -243,9 +248,9 @@ def download_pdf():
          if count ==len(table_data):
             break
          pdf.add_page()
-         pdf.set_font("Arial", 'B', 12)
-         pdf.cell(50, 20,"college parameters", border=1)
-         pdf.cell(100, 20, "value", border=1)
+         pdf.set_font("Arial", size=12)
+         pdf.cell(50, 20,"College Parameters", border=1)
+         pdf.cell(100, 20, "Details", border=1)
          pdf.ln()
 
       # Save the PDF to a BytesIO object
@@ -274,7 +279,7 @@ def download_pdf_list():
       
       # Add table headers
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(40, 10,"Please find student details")
+      pdf.cell(40, 10,"Registered Student Details")
       pdf.ln()
       for value in data:
           for k,v in value.items():
@@ -285,12 +290,12 @@ def download_pdf_list():
                      pdf.cell(0, 10, v, border=1) 
                      pdf.ln()
       pdf.add_page()
-      pdf.cell(40, 10,"Please find your college details")
+      pdf.cell(40, 10,"Personalised College Mapping")
       pdf.ln()
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(25, 10,"order", border=1)
-      pdf.cell(100, 10, "college name", border=1)
-      pdf.cell(25, 10, "seats", border=1)
+      pdf.cell(25, 10,"Order", border=1)
+      pdf.cell(120, 10, "College Name", border=1)
+      pdf.cell(25, 10, "No of Seats", border=1)
       pdf.ln()
 
       # Add table rows
@@ -299,7 +304,7 @@ def download_pdf_list():
       for key,value in table_data.items():
          count+=1
          pdf.cell(25, 10,str(count), border=1)
-         pdf.cell(100, 10,key, border=1)
+         pdf.cell(120, 10,key, border=1)
          pdf.cell(25, 10,str(value), border=1)
          pdf.ln()
 
