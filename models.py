@@ -55,28 +55,28 @@ def prediction_logic(*args,**kwargs):
             for data in fetch_data: 
                                           
                 if data["Beds"] >= 0 and data["Beds"] <= 200 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*1
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*1
                     
                 if data["Beds"] >= 201 and data["Beds"] <= 400 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*2               
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*2               
                     
                 if data["Beds"] >= 401 and data["Beds"] <= 600 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*3
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*3
                 if data["Beds"] >= 601 and data["Beds"] <= 800 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*4
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*4
                 if data["Beds"] >= 801 and data["Beds"] <= 1000 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*5 
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*5 
                 if data["Beds"] >= 1001 and data["Beds"] <= 1200 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*6 
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*6 
                 if data["Beds"] >= 1201 and data["Beds"] <= 1400 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*7 
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*7 
                 if data["Beds"] >= 1401 and data["Beds"] <= 1600 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*8 
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*8 
                 if data["Beds"] >= 1601 and data["Beds"] <= 1800 :
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*9  
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*9  
                 
                 if data["Beds"] >= 1801:
-                    bed[data["Institute"]+"|"+data["Course"]] = weightage*10             
+                    bed[data["Institute"]+" | "+data["Course"]] = weightage*10             
             bed_l.append(bed)
             occurance_bed["bed"]=1
             
@@ -92,27 +92,27 @@ def prediction_logic(*args,**kwargs):
             for data in fetch_data:
                                                                      
                 if data["Rank"] >= 0 and data["Rank"] <= 2500:               
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*10               
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*10               
                     
                 if data["Rank"] >= 2501 and data["Rank"] <= 5000:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*9               
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*9               
                 
                 if data["Rank"] >= 5001 and data["Rank"] <= 7500:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*8 
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*8 
                 if data["Rank"] >= 7501 and data["Rank"] <= 10000:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*7 
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*7 
                 if data["Rank"] >= 10001 and data["Rank"] <= 12500:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*6
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*6
                 if data["Rank"] >= 12501 and data["Rank"] <= 15000:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*5
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*5
                 if data["Rank"] >= 15001 and data["Rank"] <= 17500:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*4 
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*4 
                 if data["Rank"] >= 17501 and data["Rank"] <= 20000:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*3 
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*3 
                 if data["Rank"] >= 20001 and data["Rank"] <= 25000:
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*2 
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*2 
                 if data["Rank"] >= 25001 :
-                    rank[data["Institute"]+"|"+data["Course"]] = weightage*1 
+                    rank[data["Institute"]+" | "+data["Course"]] = weightage*1 
                            
             rank_l.append(rank)
             occurance_rank["rank"]=1
@@ -129,29 +129,29 @@ def prediction_logic(*args,**kwargs):
             for data in fetch_data: 
                              
                 if data["Bond Years"] >= 0 and data["Bond Years"] <= 0.9:              
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*10            
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*10            
                     
                 if data["Bond Years"] >= 1 and data["Bond Years"] <= 1.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*9            
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*9            
                     
                 if data["Bond Years"] >= 2 and data["Bond Years"] <= 2.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*8
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*8
                 
                 if data["Bond Years"] >= 3 and data["Bond Years"] <= 3.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*7
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*7
                 
                 if data["Bond Years"] >= 4 and data["Bond Years"] <= 4.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*6
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*6
                 if data["Bond Years"] >= 5 and data["Bond Years"] <= 5.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*5
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*5
                 if data["Bond Years"] >= 6 and data["Bond Years"] <= 6.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*4
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*4
                 if data["Bond Years"] >= 7 and data["Bond Years"] <= 7.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*3
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*3
                 if data["Bond Years"] >= 8 and data["Bond Years"] <= 8.9:
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*2
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*2
                 if  data["Bond Years"] >= 9 :
-                    Bond_year[data["Institute"]+"|"+data["Course"]] = weightage*1
+                    Bond_year[data["Institute"]+" | "+data["Course"]] = weightage*1
                               
             Bond_year_l.append(Bond_year)
             occurance_bondyear["bond year"]=1
@@ -173,34 +173,34 @@ def prediction_logic(*args,**kwargs):
                     fees=data["Fee"]
                 if fees >= 0 and fees <= 20000 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*10            
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*10            
                     
                 if fees >= 20001 and fees<= 40000:
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*9            
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*9            
                     
                 if fees >= 40001 and fees<= 60000:
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*8  
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*8  
                 if fees >= 60001 and fees <= 80000 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*7
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*7
                 if fees >= 80001 and fees <= 100000 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*6 
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*6 
                 if fees >= 100001 and fees <= 120000 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*5
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*5
                 if fees >= 120001 and fees <= 140000 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*4 
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*4 
                 if fees >= 140001 and fees <= 160000 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*3 
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*3 
                 if fees >= 160001 and fees <= 180000 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*2 
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*2 
                 if fees >= 180001 :
                                  
-                    fee[data["Institute"]+"|"+data["Course"]] = weightage*1  
+                    fee[data["Institute"]+" | "+data["Course"]] = weightage*1  
                           
             fee_l.append(fee)
             occurance_fee["fee"]=1
@@ -217,31 +217,31 @@ def prediction_logic(*args,**kwargs):
             for data in fetch_data: 
                           
                 if data["Stipend Year 1" ] >= 0 and data["Stipend Year 1" ] <= 13000 :              
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*1             
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*1             
                     
                 if data["Stipend Year 1" ] >= 13001 and data["Stipend Year 1" ] <= 26000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*2             
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*2             
                     
                 if data["Stipend Year 1" ] >= 26001 and data["Stipend Year 1" ] <= 39000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*3            
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*3            
                     
                 if data["Stipend Year 1" ] >= 39001 and data["Stipend Year 1" ] <= 52000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*4            
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*4            
                     
                 if data["Stipend Year 1" ] >= 52001 and data["Stipend Year 1" ] <= 65000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]]= weightage*5            
+                    stipend_year[data["Institute"]+" | "+data["Course"]]= weightage*5            
                    
                 if data["Stipend Year 1" ] >= 65001 and data["Stipend Year 1" ] <= 78000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*6 
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*6 
 
                 if data["Stipend Year 1" ] >= 78001 and data["Stipend Year 1" ] <= 91000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*7
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*7
                 if data["Stipend Year 1" ] >= 91001 and data["Stipend Year 1" ] <= 104000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*8
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*8
                 if data["Stipend Year 1" ] >= 104001 and data["Stipend Year 1" ] <= 117000:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*9
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*9
                 if data["Stipend Year 1" ] >= 117001:
-                    stipend_year[data["Institute"]+"|"+data["Course"]] = weightage*10
+                    stipend_year[data["Institute"]+" | "+data["Course"]] = weightage*10
                  
                             
             stipend_year_1_l.append(stipend_year)
@@ -259,27 +259,27 @@ def prediction_logic(*args,**kwargs):
             for data in fetch_data: 
                            
                 if data["Bond Penalty"] >= 0 and data["Bond Penalty"] <= 500000 :              
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*10           
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*10           
                     
                 if data["Bond Penalty"] >= 500001 and data["Bond Penalty"] <= 1000000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*9            
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*9            
                     
                 if data["Bond Penalty"] >= 1000001 and data["Bond Penalty"] <= 1500000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*8
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*8
                 if data["Bond Penalty"] >= 1500001 and data["Bond Penalty"] <= 2000000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*7 
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*7 
                 if data["Bond Penalty"] >= 2000001 and data["Bond Penalty"] <= 2500000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*6 
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*6 
                 if data["Bond Penalty"] >= 2500001 and data["Bond Penalty"] <= 3000000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*5 
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*5 
                 if data["Bond Penalty"] >= 3000001 and data["Bond Penalty"] <= 3500000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*4 
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*4 
                 if data["Bond Penalty"] >= 3500001 and data["Bond Penalty"] <= 4000000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*3 
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*3 
                 if data["Bond Penalty"] >= 4000001 and data["Bond Penalty"] <= 4500000:
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*2 
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*2 
                 if data["Bond Penalty"] >= 4500001 :
-                    bond_penality[data["Institute"]+"|"+data["Course"]] = weightage*1 
+                    bond_penality[data["Institute"]+" | "+data["Course"]] = weightage*1 
                 
                              
             bond_penality_l.append(bond_penality) 

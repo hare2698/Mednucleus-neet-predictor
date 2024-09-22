@@ -311,6 +311,7 @@ def download_pdf_list():
       pdf.set_font("Arial", size = 12)
       count =0
       for key,value in table_data.items():
+         key=key.split("_")[0]
          count+=1
          pdf.cell(25, 10,str(count), border=1)
          pdf.cell(120, 10,key, border=1)
