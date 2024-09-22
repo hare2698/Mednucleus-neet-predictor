@@ -187,8 +187,12 @@
          </div>
       </div>
       <div class="stu-reg-container">
-         <p>To create a another student registration <a href="{{ url_for('student_operation') }}">Click here</a></p>
-         <p><a href="{{ url_for('Predictor_hub') }}">Click here to go Predictor Hub</a></p>
+         <form action="{{ url_for('login') }}" method="post">
+            <button name="operation" value = "create registration">Create another student_registration</button>
+        </form><br>
+        <form action="{{ url_for('Predictor_hub') }}" method="post">
+            <button name="unique_id" value="{{data.unique_id}}">Go to predictor hub</button>
+        </form><br>
       </div>
       {% endif %}
       {% if data_type == "list" and map == "college_result" %}

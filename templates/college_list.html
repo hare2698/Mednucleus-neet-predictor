@@ -14,22 +14,25 @@
                         <input type="hidden" name="student_data" value ="{{student_data}}">
                         <button>Download the PDF of College Seat Details</button>
                     </form><br>
-                
-                    <h1>The following are the seats taken in the previous year counselling </h1>
-                    <br>
-                    {% for item in data %}    
-                        <div class="document">
-                            <h3>College Name: {{ item.Institute }}</h3><br>
-                            <h3>College Rank: {{ item.Rank }}</h3><br>
-                            <h3>Number of bed: {{ item.Beds }}</h3> <br>
-                            <h3>Category : {{ item.Category}}</h3><br>
-                            <h3>Course: {{ item.Course }}</h3><br>
-                            <h3>Quota: {{ item.Quota }}</h3> <br>
-                            <h3>College Fee: {{ item.Fee }}</h3><br>
-                            <h3>Penality: {{ item["Bond Penalty"] }}</h3> <br>                 
-                            <h3>Number of Bond year: {{ item["Bond Years"] }}</h3><br>
-                            <h3>Stipend Year one: {{ item["Stipend Year 1"] }}</h3> <br>   
-                            
+                    <p>The following are the seats taken in the previous year counselling </p>
+                    <div class="stu-reg-container">
+                    
+                    <h3>College Name: {{data[0]["Institute"]}}</h3>
+                    <h3>Course: {{data[0]["Course"]}}</h3>
+                    <p3>Number of Bed: {{data[0]["Beds"] }}</p3>
+                    <p>College Fee: {{data[0]["Fee"]}}</p>
+                    <p>Number of Bond Year: {{data[0]["Bond Years"]}}</p>
+                    <p>Penality Amount: ₹ {{data[0]["Bond Penalty"]}}</p>
+                    <p>Stipend Year one: ₹ {{data[0]["Stipend Year 1"]}}</p>
+                    
+
+                </div>                  
+                    {% for item in data %}                      
+                    <div class="document">                  
+                        <p3>Round: {{item.Round}}</p3><br>
+                        <p3>Student Rank: {{ item.Rank }}</p3><br>                           
+                        <p3>Category : {{ item.Category}}</p3><br>                       
+                        <p3>Quota: {{ item.Quota }}</p3>                       
                         </div> 
                     {% endfor %}
                 

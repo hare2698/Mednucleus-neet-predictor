@@ -11,14 +11,16 @@ def ranking_field(total_rank,query):
                 predictor[name] = weight
     
     sorted_colleges= sorted(predictor.items(),key = lambda x: x[1],reverse=True)
-    print({"sorrted****************":sorted_colleges})
-    college_names = [colleges[0] for colleges in sorted_colleges]
+    
+    college_names = [colleges[0]+"_"+str(round(colleges[1],7)) for colleges in sorted_colleges]
     for x in college_names:
-        user_data = get_filter_college_data(x,query)
+        name=x.split("_")[0]
+        print(name)
+        user_data = get_filter_college_data(name,query)
         user_data = list(user_data)
 
         college_data[x]= len(user_data)
-    
+    print({"sorted****************":college_data})
     return college_data
 
 def prediction_logic(*args,**kwargs):

@@ -28,8 +28,11 @@ def user_append(**kwargs):
         if key == "Quota":
             student_info["Quota"] = value
     print({"student_info":student_info})
-    add_data = mongoconn().student_data.insert_one(student_info)
-    return True if bool(add_data) else False
+    try:
+        add_data = mongoconn().student_data.insert_one(student_info)
+        return True if bool(add_data) else False
+    except Exception as e:
+        return False
 
 def get_student_data(unique_id):
     query = {"unique_id": unique_id}

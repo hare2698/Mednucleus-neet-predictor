@@ -78,20 +78,21 @@ def Predictor_hub():
       p4_field= request.form.get("priority-4") if request.form.get("priority-4") else 0
       p5_field= request.form.get("priority-5") if request.form.get("priority-5") else 0
       p6_field= request.form.get("priority-6") if request.form.get("priority-6") else 0
+      preference_dict={"p1":p1_field,"p2":p2_field,"p3":p3_field,"p4":p4_field,"p5":p5_field,"p6":p6_field}
       if len(data) == 0:
          return render_template("thankyou.html",message = "Please enter a valid ID",flag=False)
       if  bool(fetch_student_data) and p1_field == 0 and p2_field == 0 and p3_field == 0 and p4_field == 0 and p5_field == 0 and p6_field == 0:
          return render_template("predictor_hub.html",data=data,data_type="list",map="from predictor hub")
       else :
-         print("inside else")
+         
          datas,query = filter_data(filter_1,filter_2,filter_3,filter_4)
-         print({"datas":datas})
+        
          predicted_data = prediction_logic(datas,query,priority_1=p1_field,priority_2=p2_field,priority_3=p3_field,priority_4=p4_field,priority_5=p5_field,priority_6=p6_field)
       if not predicted_data:
          return render_template("thankyou.html",message = f"sorry, No data has been found on the given combination <br><br> category = {filter_1[0]}<br> state = {filter_2[0]}<br>course = {filter_3[0]}<br>Quota = {filter_4[0]} ",flag=False)
       else:
-         merged_stu_college_detail=student_record_insert(data[0] | {"selected_colleges":[predicted_data]})
-         return render_template("sorted_colleges_names.html",data=predicted_data,filter_data=query,unique_id=unique_id)
+         merged_stu_college_detail=student_record_insert(data[0] | {"selected_colleges":[predicted_data]} | {"preference":preference_dict})
+         return render_template("sorted_colleges_names.html",data=predicted_data,filter_data=query,unique_id=unique_id,student_data=data,preference=preference_dict)
       
    return render_template("welcome.html")
 
@@ -127,8 +128,9 @@ def student_operation():
          unique_id= request.form.get("student_data")      
          fetch_student_data = get_student_data(unique_id)
          data = list(fetch_student_data)
-        
+         
          #filter_data=ast.literal_eval(filter_data)
+         print({"user_data":user_data})
          return render_template("college_list.html",data=user_data,data_type="list",map="college_result",student_data=data)
    return render_template("welcome.html")
 
@@ -149,8 +151,7 @@ def student_registration():
          data["Quota"]=request.form.getlist("Quota")
          return render_template("predictor_hub.html" ,data = data,data_type = "dict")
       else:
-         flash("there was a error in adding a data please try again later",'error')
-         return render_template("student_registration.html" ,message = "student registration" )
+         return render_template("thankyou.html" ,message = " Please check unique ID uniqueness if the problem persists, there might be an database issue Try again later" )
    return render_template("welcome.html")
 
 @app.route("/student_registration_update", methods = ["GET","POST"])
@@ -216,6 +217,8 @@ def download_pdf():
       pdf.set_font("Arial", size = 12)
       for values in data:
          for k,v in values.items():
+            if k=="unique_id":
+               unique_id=v
             pdf.cell(25, 10, k, border=1)
             if type(v) is list:
                      pdf.multi_cell(0, 10, ", ".join(v), border=1)  # Use multi_cell for wrapping, adjust height as needed
@@ -240,6 +243,10 @@ def download_pdf():
       for row in table_data:
          count=count+1
          for k,v in row.items():
+            if k=="Institute":
+               c_n=v
+            if k=="Course":
+               course=v
             pdf.cell(50, 10,f"{k}", border=1)
             pdf.cell(100, 10,f"{v}", border=1)
             pdf.ln()
@@ -258,7 +265,7 @@ def download_pdf():
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
          pdf.output(temp_file.name)
          temp_file.seek(0)
-         return send_file(temp_file.name, as_attachment=True, download_name='customized_data.pdf', mimetype='application/pdf')
+         return send_file(temp_file.name, as_attachment=True, download_name=f"{unique_id+'_'+c_n+'_'+course}.pdf", mimetype='application/pdf')
     return render_template("welcome.html") 
 
 @app.route('/download_pdf_list',methods = ["GET","POST"])
@@ -283,6 +290,8 @@ def download_pdf_list():
       pdf.ln()
       for value in data:
           for k,v in value.items():
+            if k=="unique_id":
+               unique_id=v
             pdf.cell(25, 10, k, border=1)
             if type(v) is list:
                      pdf.multi_cell(0, 10, ", ".join(v), border=1)  # Use multi_cell for wrapping, adjust height as needed
@@ -313,7 +322,7 @@ def download_pdf_list():
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
          pdf.output(temp_file.name)
          temp_file.seek(0)
-         return send_file(temp_file.name, as_attachment=True, download_name='college_list.pdf', mimetype='application/pdf')
+         return send_file(temp_file.name, as_attachment=True, download_name=f'{unique_id+"_"+"college_list"}.pdf', mimetype='application/pdf')
     return render_template("welcome.html")     
 if __name__=="__main__":
    app.run(debug=True)
