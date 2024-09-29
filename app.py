@@ -138,7 +138,7 @@ def student_operation():
 def student_registration():
    if request.method == "POST": 
      
-      add_student_data = user_append(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),zone=request.form.getlist("zone"),unique_id =request.form.get("id"),Course=request.form.getlist("Course"),Quota=request.form.getlist("Quota"),Category=request.form.getlist("Category"))
+      add_student_data = user_append(student_name=request.form.get("name"),mark=request.form.get("mark"),sex=request.form.get("sex"),zone=request.form.getlist("zone"),unique_id =request.form.get("id"),Course=request.form.getlist("Course"),Quota=request.form.getlist("Quota"),Category=request.form.getlist("Category"),education=request.form.get("education"),email=request.form.getlist("email"),contact=request.form.getlist("contact_number"),languages=request.form.getlist("languages"))
       if add_student_data == True:
          data ={}
          data["Name"]=request.form.get("name")
@@ -149,6 +149,10 @@ def student_registration():
          data["Category"]=request.form.getlist("Category")
          data["Course"]=request.form.getlist("Course")
          data["Quota"]=request.form.getlist("Quota")
+         data["Email"]=request.form.get("email")
+         data["Contact_Details"]=request.form.get("contact_number")
+         data["Languages"]=request.form.get("languages")
+         data["Education_Details"]=request.form.get("education")
          return render_template("predictor_hub.html" ,data = data,data_type = "dict")
       else:
          return render_template("thankyou.html" ,message = " Please check unique ID uniqueness if the problem persists, there might be an database issue Try again later" )
@@ -178,7 +182,7 @@ def student_registration_update():
 @app.route("/student_registration_update_display", methods = ["GET","POST"])
 def student_registration_update_display():
    if request.method == "POST":  
-      edit_student_data = user_edit(student_name=request.form.get("Name"),mark=request.form.get("Mark"),sex=request.form.get("Sex"),state=request.form.getlist("zone"),unique_id=request.form.get("unique_id"),Course=request.form.getlist("Course"),Quota=request.form.getlist("Quota"),Category=request.form.getlist("Category"))
+      edit_student_data = user_edit(student_name=request.form.get("Name"),mark=request.form.get("Mark"),sex=request.form.get("Sex"),state=request.form.getlist("zone"),unique_id=request.form.get("unique_id"),Course=request.form.getlist("Course"),Quota=request.form.getlist("Quota"),Category=request.form.getlist("Category"),education=request.form.getlist("education"),email=request.form.getlist("email"),contact=request.form.getlist("contact"),languages=request.form.getlist("language"))
       if edit_student_data == True:
          data ={}
          data["Name"]=request.form.get("Name")
@@ -189,6 +193,10 @@ def student_registration_update_display():
          data["Category"]=request.form.getlist("Category")
          data["Course"]=request.form.getlist("Course")
          data["Quota"]=request.form.getlist("Quota")
+         data["Email"]=request.form.get("email")
+         data["Contact_Details"]=request.form.get("contact")
+         data["Languages"]=request.form.get("language")
+         data["Education_Details"]=request.form.get("education")
          return render_template("predictor_hub.html" ,data = data,data_type = "dict")
       else:
          flash("there was a error in editing a data please try again later",'error')

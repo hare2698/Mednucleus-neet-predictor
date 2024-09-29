@@ -37,11 +37,15 @@
           <h1>Student Details</h1>
           <p class="spacer">
           </p>
-   {% for item in data %}    
+   {% for item in data %}  
    <div class="read-only">
       <p><b>Name: </b>{{ item.Name }}</p>
       <p><b>Mark: </b>{{ item.Mark }}</p>
       <p><b>Gender: </b>{{ item.Sex }}</p>
+      <p><b>Email: </b>{{ item.Email|join(',') }}</p>
+      <p><b>Contact: </b>{{ item.Contact|join(',') }}</p>
+      <p><b>Languages: </b>{{ item.Language|join(',') }}</p>
+      <p><b>Education: </b>{{ item.Education|join(',') }}</p>
       <p><b>Unique Student ID: </b>{{ item.unique_id }}</p>
       <p><b>State(s): </b>{{ item.State|join(',') }}</p>
       <p><b>Category: </b>{{item.Category|join(',')}}</p>
@@ -179,11 +183,16 @@
             <p><b>Name: </b>{{ data.Name }}</p>
             <p><b>Mark: </b>{{ data.Mark }}</p>
             <p><b>Gender: </b>{{ data.Sex }}</p>
+
             <p><b>Unique Student ID: </b>{{ data.unique_id }}</p>
             <p><b>State(s): </b>{{ data.Zone|join(',') }}</p>
             <p><b>Category: </b>{{data.Category|join(',')}}</p>
             <p><b>Quota: </b>{{data.Quota|join(',')}}</p>
             <p><b>Course(s): </b>{{data.Course|join(',')}}</p>
+            <p><b>Email: </b>{{ data.Email}}</p>
+            <p><b>Contact: </b>{{ data.Contact_Details }}</p>
+            <p><b>Languages: </b>{{ data.Languages }}</p>
+            <p><b>Education: </b>{{ data.Education_Details }}</p>
          </div>
       </div>
       <div class="stu-reg-container">

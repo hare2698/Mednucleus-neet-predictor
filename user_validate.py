@@ -27,6 +27,14 @@ def user_append(**kwargs):
             student_info["Category"] = value
         if key == "Quota":
             student_info["Quota"] = value
+        if key == "email":
+            student_info["Email"] = value
+        if key == "languages":
+            student_info["Language"] = value
+        if key == "education":
+            student_info["Education"] = value
+        if key == "contact":
+            student_info["Contact"] = value
     print({"student_info":student_info})
     try:
         add_data = mongoconn().student_data.insert_one(student_info)
@@ -61,9 +69,17 @@ def user_edit(**kwargs):
             student_info["Category"] = value
         if key == "Quota":
             student_info["Quota"] = value
+        if key == "email":
+            student_info["Email"] = value
+        if key == "languages":
+            student_info["Language"] = value
+        if key == "education":
+            student_info["Education"] = value
+        if key == "contact":
+            student_info["Contact"] = value
     query ={"unique_id":student_info["unique_id"]}
     fetch_data = mongoconn().student_data.update_one(query,{'$set':student_info})
-    
+    print(fetch_data)
     return True if bool(fetch_data) else False
 
 def get_all_data():  
@@ -76,12 +92,12 @@ def get_all_data():
     
 def get_filter_college_data(query_college,query_filter):
     #query_filter=ast.literal_eval(query_filter)
-    parsed_query = query_college.split("|") 
+    parsed_query = query_college.split(" | ") 
     
     course=parsed_query[1]
     college=parsed_query[0]
     match_filter={"$match":query_filter}
-    college_course = {"$match":{"Institute":college,"Course":course}}
+    college_course = {"$match":{"Institute":college,"Course":course,"Round":1}}
     query = [match_filter,college_course]
    
     collection=db.sample_raw_data
@@ -93,7 +109,7 @@ def get_filter_college_data(query_college,query_filter):
     
 def get_college_data(name):
     #query_filter=ast.literal_eval(query_filter)
-    parsed_query = name.split("|") 
+    parsed_query = name.split(" | ") 
     course=parsed_query[1]
     college=parsed_query[0]
     query = {"Institute":college,"Course":course}

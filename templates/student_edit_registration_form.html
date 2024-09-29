@@ -44,6 +44,10 @@
                         <p><b>Name: </b>{{ item.Name }}</p>
                         <p><b>Mark: </b>{{ item.Mark }}</p>
                         <p><b>Gender: </b>{{ item.Sex }}</p>
+                        <p><b>Email: </b>{{ item.Email|join(',') }}</p>
+                        <p><b>Contact: </b>{{ item.Contact|join(',') }}</p>
+                        <p><b>Languages: </b>{{ item.Language|join(',') }}</p>
+                        <p><b>Education: </b>{{ item.Education }}</p>
                         <p><b>Unique Student ID: </b>{{ item.unique_id }}</p>
                         <p><b>State(s): </b>{{ item.State|join(',') }}</p>
                         <p><b>Category: </b>{{item.Category|join(',')}}</p>
@@ -57,20 +61,42 @@
                         <h2>Student Edit Form</h2>
                        <div class="form-container">
                     <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" name="Name" value = "{{ item.Name }}" required><br><br>
+                        <label for="name">Name</label>
+                        <input type="text" name="Name" value = "{{ item.Name }}" required><br><br>
                     </div>
                     <hr class="divider">
                     <div class="form-group">
-                    <label for="mark">Mark</label>
-                    <input type="text" name="Mark" value = "{{ item.Mark }}" required><br><br>
+                        <label for="Rank">Rank</label>
+                        <input type="text" name="Mark" value = "{{ item.Mark }}" required><br><br>
                     </div>
                     <hr class="divider">
                     <div class="form-group">
                         <label for="sex">Gender</label>
                         <input type="text" name="Sex" value = "{{ item.Sex }}" required><br><br>
-                        </div>
-                        <hr class="divider">
+                     </div>
+                    <hr class="divider">                    
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="text" name="email" value = "{{ item.Email }}" required><br><br>                       
+                    </div>
+                    <hr class="divider">
+                    <div class="form-group">
+                        <label for="Contact">Contact</label>
+                        <input type="text" name="contact" value = "{{ item.Contact }}" required><br><br>
+                    </div>
+                        <hr class="divider">                   
+                    <div class="form-group">
+                        <label for="Language">Language</label>
+                        <input type="text" name="language" value = "{{ item.Language }}" required><br><br>
+                        
+                    </div>
+                    <hr class="divider">
+                    <div class="form-group">
+                        <label for="Education">Education</label>
+                        <input type="text" name="education" value = "{{ item.Education }}" required><br><br>
+                       
+                    </div>
+                    <hr class="divider">
                     <div class="form-group">
                         <label for="unique_id">Student  Unique ID</label>
                         <input type="text" name="unique_id" value = "{{ item.unique_id }}" readonly ><br><br>
