@@ -24,7 +24,15 @@
                     <p>Number of Bond Year: {{data[0]["Bond Years"]}}</p>
                     <p>Penality Amount: ₹ {{data[0]["Bond Penalty"]}}</p>
                     <p>Stipend Year one: ₹ {{data[0]["Stipend Year 1"]}}</p>
+                    </div>
                     
+                    <hr class="divider">
+                    <div class="stu-reg-containe">
+                        {% for item in data %} 
+                        <p3>Reviews: {{item.Reviews}}</p3><br><br>
+                        {%endfor%}
+                    </div>
+                    <hr class="divider">
 
                 </div>                  
                     {% for item in data %}                      
@@ -34,9 +42,10 @@
                         <p3>Category : {{ item.Category}}</p3><br>                       
                         <p3>Quota: {{ item.Quota }}</p3>                       
                         </div> 
-                    {% endfor %}
+                        {%endfor%}
+                    
                 
-            </div>
+                 </div>
         </div>
         {% endif %}     
     {% endif %}

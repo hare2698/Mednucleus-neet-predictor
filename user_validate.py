@@ -127,3 +127,13 @@ def student_record_insert(student_info):
     student_info["date_time"]=formatted_date
     add_data = mongoconn().student_preferred_college.insert_one(student_info)
     return True if bool(add_data) else False
+
+def priority_data(name):
+    query = {"Institute":name}
+    collection=db.sample_raw_data
+    fetch_data = collection.find(query,{"_id":0,"Fee":1,"Stipend Year 1":1,"Bond Penalty":1,"Bond Years":1,"Beds":1})
+    fetch_data = list(fetch_data)
+    if bool(fetch_data):
+        return fetch_data
+    else:
+        return None

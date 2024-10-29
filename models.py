@@ -1,5 +1,7 @@
 from config import mongoconn 
 from user_validate import get_filter_college_data
+from user_validate import priority_data
+
 def ranking_field(total_rank,query):
     predictor={}
     college_data={}
@@ -11,12 +13,16 @@ def ranking_field(total_rank,query):
                 predictor[name] = weight
     
     sorted_colleges= sorted(predictor.items(),key = lambda x: x[1],reverse=True)
-    
-    college_names = [colleges[0]+"_"+str(round(colleges[1],7)) for colleges in sorted_colleges]
-    for x in college_names:
+    priority_value=[]
+    for colleges in sorted_colleges:
+        
+        p_data=priority_data(colleges[0].split(" | ")[0])[0]
+        priority_value.append(colleges[0]+"_"+str(round(colleges[1],7))+"_"+str(p_data["Fee"])+"_"+str(p_data["Bond Penalty"])+"_"+str(p_data["Bond Years"])+"_"+str(p_data["Beds"])+"_"+str(p_data["Stipend Year 1"]))
+    for x in priority_value:
         name=x.split("_")[0]
         print(name)
         user_data = get_filter_college_data(name,query)
+
         user_data = list(user_data)
 
         college_data[x]= len(user_data)
@@ -47,7 +53,7 @@ def prediction_logic(*args,**kwargs):
         if value =="Beds" or (value =="None" and occurance_bed["bed"]==0):           
             
             if value == "None":
-                weightage=0.01
+                weightage=0
                
             else:
                 weightage = priority_set(field)
@@ -84,7 +90,7 @@ def prediction_logic(*args,**kwargs):
         
         if value =="Rank" or (value =="None" and occurance_rank["rank"]==0) :
             if value == "None":
-                weightage=0.01
+                weightage=0
             else:
                 weightage = priority_set(field)                   
             
@@ -121,7 +127,7 @@ def prediction_logic(*args,**kwargs):
        
         if value =="Bond Years" or (value =="None" and occurance_bondyear["bond year"]==0) : 
             if value == "None":
-                weightage=0.01
+                weightage=0
             else:
                 weightage = priority_set(field)                     
             
@@ -160,7 +166,7 @@ def prediction_logic(*args,**kwargs):
                
         if value =="Fee" or (value =="None" and occurance_fee["fee"]==0):    
             if value == "None":
-                weightage=0.01
+                weightage=0
             else:
                 weightage = priority_set(field)        
             
@@ -209,7 +215,7 @@ def prediction_logic(*args,**kwargs):
         
         if value =="Stipend Year 1" or (value =="None" and occurance_stipend["stipend"]==0) :
             if value == "None":
-                weightage=0.01
+                weightage=0
             else:
                 weightage = priority_set(field)           
            
@@ -251,7 +257,7 @@ def prediction_logic(*args,**kwargs):
        
         if value =="Bond Penalty" or (value =="None" and occurance_bond_penality["bond penality"]==0):
             if value == "None":
-                weightage=0.01
+                weightage=0
             else:
                 weightage = priority_set(field)           
             
@@ -294,8 +300,11 @@ def prediction_logic(*args,**kwargs):
 
 def filter_data(filter_1,filter_2,filter_3,filter_4):
     query =  {"State":{"$in":filter_2[0]},"Course":{"$in":filter_3[0]},"Category":{"$in":filter_1[0]},"Quota":{"$in":filter_4[0]}}
+    print(query)
     fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
+    
     fetch_data = list(fetch_data)
+    print(fetch_data)
     return fetch_data,query
 
 def priority_set(field):
@@ -317,3 +326,22 @@ def distinct_data(value):
     fetch_data = mongoconn().sample_raw_data.distinct(value)
     print(list(fetch_data))
     return list(fetch_data)
+
+def personal_rankings(data,query):
+    personal_rank={}
+    college_data={}
+    for college in data:
+        try:
+            personal_rank[college["Institute"] + " | " +college["Course"]]=college["KM Ranking"]
+        except Exception as e:
+            personal_rank[college["Institute"] + " | " +college["Course"]]=9999
+    sorted_colleges= sorted(personal_rank.items(),key = lambda x: x[1])
+    college_names = [colleges[0]+"_"+str(colleges[1] if colleges[1]!=9999 else "Yet to be Ranked") for colleges in sorted_colleges]
+    print(college_names)
+    for college in college_names:
+        name=college.split("_")[0]
+        user_data = get_filter_college_data(name,query)
+        college_data[college]= len(list(user_data))
+        
+    return college_data
+

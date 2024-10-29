@@ -5,7 +5,7 @@ import json
 import pandas as pd
 from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data,student_record_insert
 import pymongo
-from models import prediction_logic,filter_data,distinct_data
+from models import prediction_logic,filter_data,distinct_data,personal_rankings
 from datetime import datetime, timedelta
 import ast
 import tempfile
@@ -22,9 +22,24 @@ def data_clean(data):
    conv_list=[data]
    return conv_list
 
+def data_type(data):
+      if type(data[0]["State"]) is not list:
+         data[0]["State"]=[(data[0]["State"])]
+         
+      if type(data[0]["Course"]) is not list:
+         data[0]["Course"]=[(data[0]["Course"])]
+         
+      if type(data[0]["Quota"]) is not list:
+         data[0]["Quota"]=[(data[0]["Quota"])]
+        
+      if type(data[0]["Category"]) is not list:
+         data[0]["Category"]=[(data[0]["Category"])]
+
+      return data
 @app.route("/welcome")
 def introduction():  
    return render_template("welcome.html")
+
 
 @app.route("/login", methods = ["GET","POST"])
 def login():
@@ -54,19 +69,9 @@ def Predictor_hub():
       fetch_student_data = get_student_data(unique_id)
       data = list(fetch_student_data)
       print(data)
-      if type(data[0]["State"]) is not list:
-         data[0]["State"]=[(data[0]["State"])]
-         
-      if type(data[0]["Course"]) is not list:
-         data[0]["Course"]=[(data[0]["Course"])]
-         
-      if type(data[0]["Quota"]) is not list:
-         data[0]["Quota"]=[(data[0]["Quota"])]
-        
-      if type(data[0]["Category"]) is not list:
-         data[0]["Category"]=[(data[0]["Category"])]
-         
-     
+
+      data=data_type(data)
+
       filter_1= [datas["Category"] for datas in data]
       filter_2= [datas["State"] for datas in data]
       filter_3= [datas["Course"] for datas in data]
@@ -332,6 +337,30 @@ def download_pdf_list():
          pdf.output(temp_file.name)
          temp_file.seek(0)
          return send_file(temp_file.name, as_attachment=True, download_name=f'{unique_id+"_"+"college_list"}.pdf', mimetype='application/pdf')
-    return render_template("welcome.html")     
+    return render_template("welcome.html")    
+
+@app.route('/custom_ranking',methods = ["GET","POST"])
+def custom_ranking():
+   if request.method == "POST":
+      course=request.form.get("course")
+      course=course.split(",")
+      quota=request.form.get("quota")
+      quota=quota.split(",")
+      category=request.form.get("category")
+      category=category.split(",")
+      state=request.form.get("state")
+      state=state.split(",")
+      unique_id=request.form.get("unique_id")
+      print(course,quota,state,unique_id)
+      filterdata,query = filter_data([category],[state],[course],[quota])
+      fetch_student_data = get_student_data(unique_id)
+      data = list(fetch_student_data)
+      
+      preference_dict={"p1":'No Preference',"p2":'No Preference',"p3":'No Preference',"p4":'No Preference',"p5":'No Preference',"p6":'No Preference'}
+      data=data_type(data)
+      
+      personalised_filter_data=personal_rankings(filterdata,query)
+      print(personalised_filter_data)
+      return render_template("sorted_colleges_names.html",data=personalised_filter_data,filter_data=query,unique_id=unique_id,student_data=data,preference=preference_dict)
 if __name__=="__main__":
    app.run(debug=True)

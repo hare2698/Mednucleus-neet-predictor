@@ -51,7 +51,16 @@
       <p><b>Category: </b>{{item.Category|join(',')}}</p>
       <p><b>Quota: </b>{{item.Quota|join(',')}}</p>
       <p><b>Course(s): </b>{{item.Course|join(',')}}</p>
+      <form action="custom_ranking" method="post" >
+         <input name = state value = "{{ item.State|join(',') }}" type="hidden">
+         <input name = category value = "{{ item.Category|join(',') }}" type="hidden">
+         <input name = quota value = "{{ item.Quota|join(',') }}" type="hidden">
+         <input name = course value = "{{ item.Course|join(',') }}" type="hidden">
+         <input name = unique_id value = "{{ item.unique_id }}" type="hidden">
+      <button>Custom ranking</button>
    </div>
+   
+   </form>
    {% endfor %}
          </div>
       </div>
@@ -138,6 +147,7 @@
                   <input type="text" name="unique_id" value = "{{ item.unique_id }}" hidden><br><br>
                {% endfor %}
                <button type="submit">Generate Preference List</button>
+               
             </div>
          </div>
          </div>
