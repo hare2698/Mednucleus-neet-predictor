@@ -12,8 +12,16 @@
                     <form action="{{ url_for('download_pdf') }}" method="post">
                         <input type="hidden" name="data_input" value="{{ data }}">
                         <input type="hidden" name="student_data" value ="{{student_data}}">
+                        <input type="hidden" name="college_name" value="{{data[0]['Institute']}}">
+                        <input type="hidden" name="course" value="{{data[0]['Course']}}">
+                        <input type="hidden" name="number of bed" value="{{data[0]['Beds']}}">
+                        <input type="hidden" name="college fee" value="{{data[0]['Fee']}}">
+                        <input type="hidden" name="number of bondyear" value="{{data[0]['Bond Years']}}">
+                        <input type="hidden" name="penalty" value="{{data[0]['Bond Penalty']}}">
+                        <input type="hidden" name="stipend" value="{{data[0]['Stipend Year 1']}}">
                         <button>Download the PDF of College Seat Details</button>
                     </form><br>
+
                     <p>The following are the seats taken in the previous year counselling </p>
                     <div class="stu-reg-container">
                     

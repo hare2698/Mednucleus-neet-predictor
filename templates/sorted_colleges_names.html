@@ -12,6 +12,7 @@
                 <form action="{{ url_for('download_pdf_list') }}" method="post">
                     <input type="hidden" name="data_input" value="{{ data }}">
                     <input type="hidden" name="student_data" value ="{{unique_id}}"><br>
+                    <input type="hidden" name="priority" value ="{{preference}}"><br>
                     <button>Genarate Final PDF</button>
                 
                 <div class="stu-reg-container">
@@ -43,7 +44,7 @@
                                     <th>Preference Order</th>
                                     <th>College Name</th>
                                     <th>No of Seats</th>
-                                    <th>Total weightage</th>
+                                    <th>Metrics</th>
                                     <th>Fee</th>
                                     <th>Stipend Year 1</th>
                                     <th>Penalty</th>

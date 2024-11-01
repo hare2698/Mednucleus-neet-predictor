@@ -215,13 +215,20 @@ def download_pdf():
       pdf.add_page()
       pdf.set_fill_color(230, 230, 230) 
       pdf.set_font("Arial", size = 12)
-      
+      pdf.image("C:/Users/hareks/Downloads/med/Mednucleus-neet-predictor/static/pic.png",0,0,pdf.w,pdf.h)
       # Example table data
       table_data = request.form.get("data_input")
       table_data=ast.literal_eval(table_data)
       data=request.form.get("student_data")
       data =ast.literal_eval(data)
-     
+      college_name= request.form.get("college_name")
+      print(college_name)
+      course= request.form.get("course")
+      bed= request.form.get("number of bed")
+      fee=  request.form.get("college fee")
+      bondyear= request.form.get("number of bondyear")
+      penalty= request.form.get("penalty")
+      stipend= request.form.get("stipend")
       # Add table headers
       pdf.set_font("Arial", 'B', 12)
       pdf.cell(50, 10,"Registered Student Details")
@@ -238,6 +245,7 @@ def download_pdf():
                      pdf.cell(0, 10, v, border=1) 
                      pdf.ln()
       pdf.add_page()
+      pdf.image("C:/Users/hareks/Downloads/med/Mednucleus-neet-predictor/static/pic.png",0,0,pdf.w,pdf.h)
       pdf.set_font("Arial", 'B', 12)
       pdf.cell(50, 10,"College Seat Details")
       pdf.ln()
@@ -250,15 +258,41 @@ def download_pdf():
       pdf.set_font("Arial", size = 12)
       
       length = len(table_data)
-  
+      pdf.cell(50, 10,"Institute", border=1)
+      pdf.cell(100, 10,college_name , border=1)
+      pdf.ln()
+      pdf.cell(50, 10,"Course", border=1)
+      pdf.cell(100, 10,course , border=1)
+      pdf.ln()
+      pdf.cell(50, 10,"Bed", border=1)
+      pdf.cell(100, 10,bed , border=1)
+      pdf.ln()
+      pdf.cell(50, 10,"Fees", border=1)
+      pdf.cell(100, 10,fee, border=1)
+      pdf.ln()
+      pdf.cell(50, 10,"Bond Year", border=1)
+      pdf.cell(100, 10,bondyear , border=1)
+      pdf.ln()
+      pdf.cell(50, 10,"Penalty", border=1)
+      pdf.cell(100, 10,penalty , border=1)
+      pdf.ln()
+      pdf.cell(50, 10,"Stipend", border=1)
+      pdf.cell(100, 10,stipend, border=1)
+      pdf.ln()
+      pdf.add_page()
+      pdf.image("C:/Users/hareks/Downloads/med/Mednucleus-neet-predictor/static/pic.png",0,0,pdf.w,pdf.h)
       count=0
       for row in table_data:
          count=count+1
          for k,v in row.items():
             if k=="Institute":
                c_n=v
+               continue
             if k=="Course":
                course=v
+               continue
+            if k=="Beds" or k=="Fee" or k=="Bond Years" or k=="Bond Penalty" or k=="Stipend Year 1":
+               continue
             pdf.cell(50, 10,f"{k}", border=1)
             pdf.cell(100, 10,f"{v}", border=1)
             pdf.ln()
@@ -267,6 +301,7 @@ def download_pdf():
          if count ==len(table_data):
             break
          pdf.add_page()
+         pdf.image("C:/Users/hareks/Downloads/med/Mednucleus-neet-predictor/static/pic.png",0,0,pdf.w,pdf.h)
          pdf.set_font("Arial", size=12)
          pdf.cell(50, 20,"College Parameters", border=1)
          pdf.cell(100, 20, "Details", border=1)
@@ -285,12 +320,21 @@ def download_pdf_list():
     if request.method == "POST": 
       # Create a PDF document
       unique_id = request.form.get("student_data") 
-   
+      priority=request.form.get("priority")
+      priority = ast.literal_eval(priority)
+      print(type(priority))
+      p_1=priority["p1"] if priority else "None"
+      p_2=priority["p2"] if priority else "None"
+      p_3=priority["p3"] if priority else "None"
+      p_4=priority["p4"] if priority else "None"
+      p_5=priority["p5"] if priority else "None"
+      p_6=priority["p6"] if priority else "None"
       fetch_student_data = get_student_data(unique_id)
       data = list(fetch_student_data)
    
       pdf = FPDF()
       pdf.add_page()
+      pdf.image("C:/Users/hareks/Downloads/med/Mednucleus-neet-predictor/static/pic.png",0,0,pdf.w,pdf.h)
       pdf.set_font("Arial", size = 12)
       # Example table data
       table_data = request.form.get("data_input")
@@ -310,7 +354,28 @@ def download_pdf_list():
             else:
                      pdf.cell(0, 10, v, border=1) 
                      pdf.ln()
+      pdf.cell(40, 10,"Student Preference")
+      pdf.ln()
+      pdf.cell(50, 10,"First priority", border=1)
+      pdf.cell(50, 10, p_1, border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "second priority", border=1)
+      pdf.cell(50, 10, p_2, border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "Third priority", border=1)
+      pdf.cell(50, 10, p_3, border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "Fourth priority", border=1)
+      pdf.cell(50, 10, p_4, border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "Fifth priority", border=1)
+      pdf.cell(50, 10, p_5, border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "sixth priority", border=1)
+      pdf.cell(50, 10, p_6, border=1)
+      pdf.ln()
       pdf.add_page()
+      pdf.image("C:/Users/hareks/Downloads/med/Mednucleus-neet-predictor/static/pic.png",0,0,pdf.w,pdf.h)
       pdf.cell(40, 10,"Personalised College Mapping")
       pdf.ln()
       pdf.set_font("Arial", 'B', 12)

@@ -336,11 +336,11 @@ def personal_rankings(data,query):
     college_data={}
     for college in data:
         try:
-            personal_rank[college["Institute"] + " | " +college["Course"]]=college["KM Ranking"]
+            personal_rank[college["Institute"] + " | " +college["Course"] + "_"+str(college["KM Ranking"])+"_"+str(college["Fee"])+"_"+str(college["Bond Penalty"])+"_"+str(college["Bond Years"])+"_"+str(college["Beds"])+"_"+str(college["Stipend Year 1"])]=college["KM Ranking"]
         except Exception as e:
-            personal_rank[college["Institute"] + " | " +college["Course"]]=9999
+            personal_rank[college["Institute"] + " | " +college["Course"] +"_" +"yet to be ranked"+str(college["Fee"])+"_"+str(college["Bond Penalty"])+"_"+str(college["Bond Years"])+"_"+str(college["Beds"])+"_"+str(college["Stipend Year 1"])]=9999
     sorted_colleges= sorted(personal_rank.items(),key = lambda x: x[1])
-    college_names = [colleges[0]+"_"+str(colleges[1] if colleges[1]!=9999 else "Yet to be Ranked") for colleges in sorted_colleges]
+    college_names = [colleges[0] for colleges in sorted_colleges]
     print(college_names)
     for college in college_names:
         name=college.split("_")[0]
