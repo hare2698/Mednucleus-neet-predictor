@@ -21,12 +21,16 @@ def ranking_field(total_rank,query,priority):
         college_data[colleges[0]+"_"+str(round(colleges[1],7))+"_"+str(p_data["Fee"])+"_"+str(p_data["Bond Penalty"])+"_"+str(p_data["Bond Years"])+"_"+str(p_data["Beds"])+"_"+str(p_data["Stipend Year 1"])]= len(user_data)
     print({"col_data":college_data})
     
-    if priority!="None":
+    if priority!="None" and priority in ["Beds","Stipend Year 1"]:
     # Sorting function
         value = priority_value_set(priority)
         sorted_items = sorted(college_data.items(), key=lambda item: (float(item[0].split('_')[1]),int(item[0].split('_')[value])),reverse=True)
-    
-    # Creating a sorted dictionary (if needed)
+        sorted_dict = {key: value for key, value in sorted_items}
+        print({"sorted****************":sorted_dict})
+        return sorted_dict
+    if priority!="None" and priority in ["Bond Years","Penalty","Fee"]:
+        value = priority_value_set(priority)
+        sorted_items = sorted(college_data.items(), key=lambda item: (-float(item[0].split('_')[1]),int(item[0].split('_')[value])))
         sorted_dict = {key: value for key, value in sorted_items}
         print({"sorted****************":sorted_dict})
         return sorted_dict
@@ -338,7 +342,7 @@ def personal_rankings(data,query):
         try:
             personal_rank[college["Institute"] + " | " +college["Course"] + "_"+str(college["KM Ranking"])+"_"+str(college["Fee"])+"_"+str(college["Bond Penalty"])+"_"+str(college["Bond Years"])+"_"+str(college["Beds"])+"_"+str(college["Stipend Year 1"])]=college["KM Ranking"]
         except Exception as e:
-            personal_rank[college["Institute"] + " | " +college["Course"] +"_" +"yet to be ranked"+str(college["Fee"])+"_"+str(college["Bond Penalty"])+"_"+str(college["Bond Years"])+"_"+str(college["Beds"])+"_"+str(college["Stipend Year 1"])]=9999
+            personal_rank[college["Institute"] + " | " +college["Course"] +"_" +"yet to be ranked"+"_"+str(college["Fee"])+"_"+str(college["Bond Penalty"])+"_"+str(college["Bond Years"])+"_"+str(college["Beds"])+"_"+str(college["Stipend Year 1"])]=9999
     sorted_colleges= sorted(personal_rank.items(),key = lambda x: x[1])
     college_names = [colleges[0] for colleges in sorted_colleges]
     print(college_names)
