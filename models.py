@@ -2,7 +2,7 @@ from config import mongoconn
 from user_validate import get_filter_college_data
 from user_validate import priority_data
 
-def ranking_field(total_rank,query):
+def ranking_field(total_rank,query,priority):
     predictor={}
     college_data={}
     for rank in total_rank:
@@ -13,20 +13,23 @@ def ranking_field(total_rank,query):
                 predictor[name] = weight
     
     sorted_colleges= sorted(predictor.items(),key = lambda x: x[1],reverse=True)
-    priority_value=[]
-    for colleges in sorted_colleges:
-        
+
+    for colleges in sorted_colleges:      
         p_data=priority_data(colleges[0].split(" | ")[0])[0]
-        priority_value.append(colleges[0]+"_"+str(round(colleges[1],7))+"_"+str(p_data["Fee"])+"_"+str(p_data["Bond Penalty"])+"_"+str(p_data["Bond Years"])+"_"+str(p_data["Beds"])+"_"+str(p_data["Stipend Year 1"]))
-    for x in priority_value:
-        name=x.split("_")[0]
-        print(name)
-        user_data = get_filter_college_data(name,query)
-
+        user_data = get_filter_college_data(colleges[0],query)
         user_data = list(user_data)
-
-        college_data[x]= len(user_data)
-    print({"sorted****************":college_data})
+        college_data[colleges[0]+"_"+str(round(colleges[1],7))+"_"+str(p_data["Fee"])+"_"+str(p_data["Bond Penalty"])+"_"+str(p_data["Bond Years"])+"_"+str(p_data["Beds"])+"_"+str(p_data["Stipend Year 1"])]= len(user_data)
+    print({"col_data":college_data})
+    
+    if priority!="None":
+    # Sorting function
+        value = priority_value_set(priority)
+        sorted_items = sorted(college_data.items(), key=lambda item: (float(item[0].split('_')[1]),int(item[0].split('_')[value])),reverse=True)
+    
+    # Creating a sorted dictionary (if needed)
+        sorted_dict = {key: value for key, value in sorted_items}
+        print({"sorted****************":sorted_dict})
+        return sorted_dict
     return college_data
 
 def prediction_logic(*args,**kwargs):
@@ -48,6 +51,8 @@ def prediction_logic(*args,**kwargs):
     fetch_data = args[0]
     query=args[1]
     for field,value in kwargs.items():
+        if field=="priority_1":
+            priority=value
         print(field,value)
         
         if value =="Beds" or (value =="None" and occurance_bed["bed"]==0):           
@@ -295,7 +300,7 @@ def prediction_logic(*args,**kwargs):
 
     total_rank = bed_l+rank_l+ bond_penality_l + Bond_year_l +fee_l+stipend_year_1_l
     print({"total_rank":total_rank})
-    rank_prediction = ranking_field(total_rank,query)
+    rank_prediction = ranking_field(total_rank,query,priority)
     return rank_prediction
 
 def filter_data(filter_1,filter_2,filter_3,filter_4):
@@ -304,7 +309,6 @@ def filter_data(filter_1,filter_2,filter_3,filter_4):
     fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
     
     fetch_data = list(fetch_data)
-    print(fetch_data)
     return fetch_data,query
 
 def priority_set(field):
@@ -345,3 +349,15 @@ def personal_rankings(data,query):
         
     return college_data
 
+def priority_value_set(value):
+    if value=="Beds":
+        return 5
+    if value=="Fee":
+        return 2
+    if value=="Stipend Year 1":
+        return 6
+    if value=="Bond Penalty":
+        return 3
+    if value=="Bond Years":
+        return 4
+    return 5

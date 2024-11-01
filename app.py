@@ -68,7 +68,6 @@ def Predictor_hub():
       print(unique_id)
       fetch_student_data = get_student_data(unique_id)
       data = list(fetch_student_data)
-      print(data)
 
       data=data_type(data)
 
