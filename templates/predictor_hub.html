@@ -57,7 +57,7 @@
          <input name = quota value = "{{ item.Quota|join(',') }}" type="hidden">
          <input name = course value = "{{ item.Course|join(',') }}" type="hidden">
          <input name = unique_id value = "{{ item.unique_id }}" type="hidden">
-      <button>Custom ranking</button>
+      <button>Custom KM Ranking</button>
    </div>
    
    </form>
@@ -146,7 +146,7 @@
                   
                   <input type="text" name="unique_id" value = "{{ item.unique_id }}" hidden><br><br>
                {% endfor %}
-               <button type="submit">Generate Preference List</button>
+               <button type="submit">Single/Multi-Priority Ranking</button>
                
             </div>
          </div>
