@@ -5,28 +5,28 @@
             <p class="spacer"></p> 
             <div class="stu-reg-container">
             <div class="centered-content">
+                {% with messages = get_flashed_messages()%}
+                {% if messages%}
+                            {% for message in messages%}
+                            <h6>{{message}}</h6>
+                         {%endfor%}
+                        {%endif%}
+                    {%endwith%}
     <h1>Welcome to Neet Predictor Hub powered by Mednucleus v1.4</h1>
     <p class="spacer"></p>
-    <h2>Secure Login</h2>
+    <h2>Secure login</h2>
     <div class="popup">
         <form action="/login" method="post">
             <div class="form-container">
                 <div class="form-group">
-            <label for="username">Login ID</label>
-            <input type="email" name="username" required><br><br>
-                </div>
-                <div class="form-group">
-            <label for="password">Secure Key</label>
+            <label for="password">Enter Token</label>
             <input type="password" name="password" required><br><br>
                 </div>
             </div>
             <div class="centered-content">
             <div class="container">
                 <div class="student-operation">
-                    <div class="button-row">
-                    <button class="welcome-button" type="submit" name="operation" value="student_registration">
-                        Registration Module </button>
-                  
+                    <div class="button-row">                 
                     <button class="welcome-button" type="submit" name="operation" value="Neet predictor">
                         Prediction Hub </button>
                     </div>
