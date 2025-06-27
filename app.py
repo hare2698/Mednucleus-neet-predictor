@@ -202,7 +202,7 @@ def download_pdf():
 def download_pdf_list():
     if request.method == "POST": 
       # Create a PDF document
-      pwd_delete = mongoconn().secret_keys_b2c_simple.delete_one({"secret_keys":password})
+      pwd_delete = mongoconn().secret_keys.delete_one({"secret_key":password})
       priority=request.form.get("priority")
       priority = ast.literal_eval(priority)
       print(type(priority))
