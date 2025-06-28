@@ -11,6 +11,7 @@
                     </form><br>
                     <form action="{{ url_for('download_pdf') }}" method="post">
                         <input type="hidden" name="data_input" value="{{ data }}">
+                        <input type="hidden" name="student_data" value ="{{student_data}}">
                         <input type="hidden" name="college_name" value="{{data[0]['Institute']}}">
                         <input type="hidden" name="course" value="{{data[0]['Course']}}">
                         <input type="hidden" name="number of bed" value="{{data[0]['Beds']}}">

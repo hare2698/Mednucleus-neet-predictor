@@ -7,17 +7,99 @@
             <div class="stu-reg-container">
                 <div class="centered-content"></div>
                 <h1>Personalised College Mapping</h1>
-                <p class="spacer"></p>
                 <p>Based on the set Parameter, Branch and State</p>
-                <p class="spacer"></p>
+                
                 <form action="{{ url_for('download_pdf_list') }}" method="post">
                     <input type="hidden" name="data_input" value="{{ data }}">
+                    <input type="hidden" name="student_data" value ="{{unique_id}}"><br>
                     <input type="hidden" name="priority" value ="{{preference}}"><br>
-                    <button>Download pdf</button>
-                    <p class="spacer"></p>
-                    <h1>Thanks for download</h1>
+                    <button>Genarate Final PDF</button>
+                
+                <div class="stu-reg-container">
+                    <div class="new-student">
+                        <div class="column-left">
+                <h4>Student Name : {{student_data[0]["Name"]}}</h3>
+                <h4>Mark : {{student_data[0].Mark}}</h3>
+                <h4>Unique_id : {{student_data[0].unique_id}}</h4>
+                <h4>State : {{student_data[0].State|join(',')}}</h4>
+                <h4>Category : {{student_data[0].Category|join(',')}}</h4>
+                <h4>Quota : {{student_data[0].Quota|join(',')}}</h4>
+                </div>
+                <div class="column-right">
+                <p>Priority 1: {{preference["p1"]}}</p>
+                <p>Priority 2: {{preference["p2"]}}</p>
+                <p>Priority 3: {{preference["p3"]}}</p>
+                <p>Priority 4: {{preference["p4"]}}</p>
+                <p>Priority 5: {{preference["p5"]}}</p>
+                <p>Priority 6: {{preference["p6"]}}</p>
+            </div>
+                </div>
+                
                 </form>
-               
+                
+                    <div class="table-container"></div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Preference Order</th>
+                                    <th>College Name</th>
+                                    <th>No of Seats</th>
+                                    <th>Metrics</th>
+                                    <th>Fee</th>
+                                    <th>Stipend Year 1</th>
+                                    <th>Penalty</th>
+                                    <th>Bond</th>
+                                    <th>Bed</th>
+                                </tr>
+                            </thead>
+                            {% for college_name,seats in data.items() %}
+                                {% set c_name = college_name.split("_")[0] %}
+                                {% set weight = college_name.split("_")[1] %}
+                                {% set Fee = college_name.split("_")[2] %}
+                                {% set Penalty = college_name.split("_")[3] %}
+                                {% set Bond = college_name.split("_")[4] %}
+                                {% set Bed = college_name.split("_")[5] %}
+                                {% set stipend = college_name.split("_")[6] %}
+                                <tbody>
+                                    <tr>
+                                        <form action="student_operation" method="post">
+                                            <td></td>
+                                            <td>
+                                                <input type="hidden" name=filter_data value="{{filter_data}}">
+                                                <input type="hidden" name="student_data" value ="{{unique_id}}">
+                                                <button type="submit" name="operation" value="{{c_name}}">
+                                                    {{c_name}}
+                                                </button>
+                                            </td>
+                                            <td>
+                                                {{seats}}
+                                            </td>
+                                            <td>
+                                                {{weight}}
+                                            </td>
+                                            <td>
+                                                {{Fee}}
+                                            </td>
+                                            <td>
+                                                {{stipend}}
+                                            </td>
+                                            <td>
+                                                {{Penalty}}
+                                            </td>
+                                            <td>
+                                                {{Bond}}
+                                            </td>
+                                            <td>
+                                                {{Bed}}
+                                            </td>
+                                        </form>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    
+                    </div>
+                </div>
     {%endif%}     
 
 {% endblock %}
