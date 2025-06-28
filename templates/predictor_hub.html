@@ -3,155 +3,143 @@
 {% block content%}
 <body>
    <div class="centered-content">
-   {% if data %}
       {% if data_type == "list" and map == "from operation" %}
-   <div class="new-student">
+      <div class="new-student">
       <div class="column-left">
          <div class="stu-reg-container">
-            <form action = "/Predictor_hub" method="post">
-               <h2><label for="unique_id">Enter Student Unique ID </label></h2>
-               <p class="spacer"></p>
-               <input type="text" name="unique_id", required><br><br>
-               <button type="submit">Fetch Student Details</button>  
-            </form>
-         </div>
-      </div>
-      <div class="column-right">
-         <div class="stu-reg-container">
-            <h2>Registered Students</h2>
+         <form action="/Predictor_hub" method="post">
+            <h1>Preferences</h1>
             <p class="spacer"></p>
-            {% for item in data %}    
-            <div class="stu-reg-container">
-               <h3>Name: {{ item.Name }}</h3>
-               <h5>Student Unique ID: {{ item.unique_id }}</h5>
-            </div>
-            {% endfor %} 
-         </div>
+              <div class="form-group">
+                 <label for="zone">State(s)</label>
+                 <div class="dropdown">
+                    <div class="dropdown-content">
+                       {% for data in state %}
+                       <legend><input type="checkbox" name="zone" value="{{ data }}" onchange="updateSelectedItems(this, 'selected-states')"> {{ data }}</legend>
+                       {% endfor %}
+                    </div>
+                 </div>
+                 <br><br>
+              </div>
+              <hr class="divider">
+              <div class="form-group">
+                 <label for="Category">Category</label>
+                 <div class="dropdown">
+                    <div class="dropdown-content">
+                       {% for category in category %}
+                       <legend><input type="checkbox" name="Category" value="{{ category }}" onchange="updateSelectedItems(this, 'selected-categories')"> {{ category }}</legend>
+                       {% endfor %}
+                    </div>
+                 </div>
+                 <br><br>
+              </div>
+              <hr class="divider">
+              <div class="form-group">
+                 <label for="Quota">Quota</label>
+                 <div class="dropdown">
+                    <div class="dropdown-content">
+                       {% for quota in quota %}
+                       <legend><input type="checkbox" name="Quota" value="{{ quota }}" onchange="updateSelectedItems(this, 'selected-quotas')"> {{ quota }}</legend>
+                       {% endfor %}
+                    </div>
+                 </div>
+                 <br><br>
+              </div>
+              <hr class="divider">
+              <div class="form-group">
+                 <label for="Course">Course(s)</label>
+                 <div class="dropdown">
+                    <div class="dropdown-content">
+                       {% for course in course %}
+                       <legend><input type="checkbox" name="Course" value="{{ course }}" onchange="updateSelectedItems(this, 'selected-courses')"> {{ course }}</legend>
+                       {% endfor %}
+                    </div>
+                 </div>
+                 <br><br>
+              </div>
+           </div> 
       </div>
-   </div>
-   {% endif %}
-   {% if data_type == "list" and map == "from predictor hub" %}
-   <div class="new-student">
-    <div class="column-left">
-       <div class="stu-reg-container">
-          <h1>Student Details</h1>
-          <p class="spacer">
-          </p>
-   {% for item in data %}  
-   <div class="read-only">
-      <p><b>Name: </b>{{ item.Name }}</p>
-      <p><b>Mark: </b>{{ item.Mark }}</p>
-      <p><b>Gender: </b>{{ item.Sex }}</p>
-      <p><b>Email: </b>{{ item.Email|join(',') }}</p>
-      <p><b>Contact: </b>{{ item.Contact|join(',') }}</p>
-      <p><b>Languages: </b>{{ item.Language|join(',') }}</p>
-      <p><b>Education: </b>{{ item.Education|join(',') }}</p>
-      <p><b>Unique Student ID: </b>{{ item.unique_id }}</p>
-      <p><b>State(s): </b>{{ item.State|join(',') }}</p>
-      <p><b>Category: </b>{{item.Category|join(',')}}</p>
-      <p><b>Quota: </b>{{item.Quota|join(',')}}</p>
-      <p><b>Course(s): </b>{{item.Course|join(',')}}</p>
-      <form action="custom_ranking" method="post" >
-         <input name = state value = "{{ item.State|join(',') }}" type="hidden">
-         <input name = category value = "{{ item.Category|join(',') }}" type="hidden">
-         <input name = quota value = "{{ item.Quota|join(',') }}" type="hidden">
-         <input name = course value = "{{ item.Course|join(',') }}" type="hidden">
-         <input name = unique_id value = "{{ item.unique_id }}" type="hidden">
-      <button>Custom KM Ranking</button>
-   </div>
-   
-   </form>
-   {% endfor %}
-         </div>
-      </div>
-  
       <div class="column-right">
-        <div class="stu-reg-container">
-      <form action="/Predictor_hub" method="post">
-             <h1>Student Priority on College Parameter</h1>
-               <p class="spacer"></p>
-               <label for="priority-1">First priority</label>
-               <select name="priority-1">
-                  <option value="None">None</option>
-                  <option value="Fee">Fee</option>
-                  <option value="Beds">Beds</option>
-                  <option value="Bond Years">Bond Years</option>
-                  <option value="Bond Penalty">Bond Penalty</option>
-                  <option value="Stipend Year 1">stipend year1</option>
-                  <option value="Rank">Rank</option>
-               </select>
-               <label for="priority-1"> (50% weightage)</label>
-               <br><br>
-               <label for="priority-2">Second priority</label>
-               <select name="priority-2">
-                  <option value="None">None</option>
-                  <option value="Fee">Fee</option>
-                  <option value="Beds">Beds</option>
-                  <option value="Bond Years">Bond Years</option>
-                  <option value="Bond Penalty">Bond Penalty</option>
-                  <option value="Stipend Year 1">stipend year1</option>
-                  <option value="Rank">Rank</option>
-               </select>
-               <label for="priority-2"> (20% weightage)</label>
-               <br><br>
-               <label for="priority-3">Third priority</label>
-               <select name="priority-3">
-                  <option value="None">None</option>
-                  <option value="Fee">Fee</option>
-                  <option value="Beds">Beds</option>
-                  <option value="Bond Years">Bond Years</option>
-                  <option value="Bond Penalty">Bond Penalty</option>
-                  <option value="Stipend Year 1">stipend year1</option>
-                  <option value="Rank">Rank</option>
-               </select>
-               <label for="priority-3"> (15% weightage)</label>
-               <br><br>
-               <label for="priority-4">Fourth priority</label>
-               <select name="priority-4">
-                  <option value="None">None</option>
-                  <option value="Fee">Fee</option>
-                  <option value="Beds">Beds</option>
-                  <option value="Bond Years">Bond Years</option>
-                  <option value="Bond Penalty">Bond Penalty</option>
-                  <option value="Stipend Year 1">stipend year1</option>
-                  <option value="Rank">Rank</option>
-               </select>
-               <label for="priority-4"> (10% weightage)</label>
-               <br><br>
-               <label for="priority-5">Fifth priority</label>
-               <select name="priority-5">
-                  <option value="None">None</option>
-                  <option value="Fee">Fee</option>
-                  <option value="Beds">Beds</option>
-                  <option value="Bond Years">Bond Years</option>
-                  <option value="Bond Penalty">Bond Penalty</option>
-                  <option value="Stipend Year 1">stipend year1</option>
-                  <option value="Rank">Rank</option>
-               </select>
-               <label for="priority-5"> (5% weightage)</label>
-               <br><br>
-               <label for="priority-6">Sixth priority</label>
-               <select name="priority-6">
-                  <option value="None">None</option>
-                  <option value="Fee">Fee</option>
-                  <option value="Beds">Beds</option>
-                  <option value="Bond Years">Bond Years</option>
-                  <option value="Bond Penalty">Bond Penalty</option>
-                  <option value="Stipend Year 1">stipend year1</option>
-                  <option value="Rank">Rank</option>
-               </select>
-               <label for="priority-6"> (2.5% weightage)</label>
-               <br><br>
-               {% for item in data %} 
-                  
-                  <input type="text" name="unique_id" value = "{{ item.unique_id }}" hidden><br><br>
-               {% endfor %}
-               <button type="submit">Single/Multi-Priority Ranking</button>
-               
-            </div>
-         </div>
-         </div>
-      </form>
+        <div class="stu-reg-container">        
+                  <h1>Student Priority on College Parameter</h1>
+                     <p class="spacer"></p>
+                     <label for="priority-1">First priority</label>
+                     <select name="priority-1">
+                        <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                     </select>
+                     <label for="priority-1"> (50% weightage)</label>
+                     <br><br>
+                     <label for="priority-2">Second priority</label>
+                     <select name="priority-2">
+                        <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                     </select>
+                     <label for="priority-2"> (20% weightage)</label>
+                     <br><br>
+                     <label for="priority-3">Third priority</label>
+                     <select name="priority-3">
+                        <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                     </select>
+                     <label for="priority-3"> (15% weightage)</label>
+                     <br><br>
+                     <label for="priority-4">Fourth priority</label>
+                     <select name="priority-4">
+                        <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                     </select>
+                     <label for="priority-4"> (10% weightage)</label>
+                     <br><br>
+                     <label for="priority-5">Fifth priority</label>
+                     <select name="priority-5">
+                        <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                     </select>
+                     <label for="priority-5"> (5% weightage)</label>
+                     <br><br>
+                     <label for="priority-6">Sixth priority</label>
+                     <select name="priority-6">
+                        <option value="None">None</option>
+                        <option value="Fee">Fee</option>
+                        <option value="Beds">Beds</option>
+                        <option value="Bond Years">Bond Years</option>
+                        <option value="Bond Penalty">Bond Penalty</option>
+                        <option value="Stipend Year 1">stipend year1</option>
+                        <option value="Rank">Rank</option>
+                     </select>
+                     <label for="priority-6"> (2.5% weightage)</label>
+                     <br><br>
+                     <button type="submit">get my list</button>
+                  </form>
+               </div>
+            </div> 
+      </div>
       <script>
          // Get all the select elements
          const selectElements = document.querySelectorAll('select[name^="priority-"]');
@@ -185,49 +173,8 @@
             }
          }
       </script>
-      {% endif %}
-      {% if data_type == "dict" %}
-      <div class="stu-reg-container">
-         <h3>Student registration created successfully</h3>
-         <div class="read-only">
-            <p><b>Name: </b>{{ data.Name }}</p>
-            <p><b>Mark: </b>{{ data.Mark }}</p>
-            <p><b>Gender: </b>{{ data.Sex }}</p>
-
-            <p><b>Unique Student ID: </b>{{ data.unique_id }}</p>
-            <p><b>State(s): </b>{{ data.Zone|join(',') }}</p>
-            <p><b>Category: </b>{{data.Category|join(',')}}</p>
-            <p><b>Quota: </b>{{data.Quota|join(',')}}</p>
-            <p><b>Course(s): </b>{{data.Course|join(',')}}</p>
-            <p><b>Email: </b>{{ data.Email}}</p>
-            <p><b>Contact: </b>{{ data.Contact_Details }}</p>
-            <p><b>Languages: </b>{{ data.Languages }}</p>
-            <p><b>Education: </b>{{ data.Education_Details }}</p>
-         </div>
-      </div>
-      <div class="stu-reg-container">
-         <form action="{{ url_for('login') }}" method="post">
-            <button name="operation" value = "create registration">Create another student_registration</button>
-        </form><br>
-        <form action="{{ url_for('Predictor_hub') }}" method="post">
-            <button name="unique_id" value="{{data.unique_id}}">Go to predictor hub</button>
-        </form><br>
-      </div>
-      {% endif %}
-      {% if data_type == "list" and map == "college_result" %}
-      <h1>Hello Amigo...this is your perfect match </h1>
-      {% for item in data %}    
-      <div class="document">
-         <h3>college Name: {{ item.name }}</h3>
-         <h3>college rank: {{ item.rank }}</h3>
-         <h3>college zone: {{ item.zone }}</h3>
-         <h3>number of bed: {{ item.bed }}</h3>
-         <h3>college size : {{ item.size}}</h3>
-      </div>
-      {% endfor %}  
-      {% endif %}     
-      {% endif %}
+      {% endif %}    
       <p class="spacer"></p>
    </div>
-   <body>  
+</body>  
 {% endblock %}

@@ -1,13 +1,12 @@
 from config import mongoconn,db
-from datetime import datetime
+from datetime import datetime,timedelta
 import time
 
-def validate(username,password):
-    query = {"email":username,"password":password}
-    cross_check = mongoconn().Users.find_one(query,{'_id':0})
-   
+def validate(password):
+    query = {"secret_key":str(password)}
+    cross_check = mongoconn().secret_keys.find_one(query,{'_id':0})  
     return True if bool(cross_check) else False
-        
+     
 def user_append(**kwargs):
     student_info={}
     for key,value in kwargs.items():    
@@ -137,3 +136,4 @@ def priority_data(name):
         return fetch_data
     else:
         return None
+
