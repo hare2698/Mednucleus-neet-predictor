@@ -87,6 +87,7 @@ def Predictor_hub():
       if not predicted_data:
          return render_template("thankyou.html",message = f"sorry, No data has been found on the given combination <br><br> category = {filter_1[0]}<br> state = {filter_2[0]}<br>course = {filter_3[0]}<br>Quota = {filter_4[0]} ",flag=False)
       else:
+         merged_stu_college_detail=student_record_insert({"Token":password} | {"selected_colleges":[predicted_data]} | {"preference":preference_dict})
          return render_template("sorted_colleges_names.html",data=predicted_data,filter_data=query,preference=preference_dict)
       
    return render_template("welcome.html")
@@ -108,11 +109,11 @@ def download_pdf():
       # Create a PDF document
       pdf = FPDF()
       pdf.add_page()
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/First_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/First_Page.png",0,0,pdf.w,pdf.h)
       pdf.set_fill_color(230, 230, 230) 
       pdf.set_font("Arial", size = 12)
       pdf.set_text_color(255, 255, 255)
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Mid_pages.png",0,0,pdf.w,pdf.h)
       # Example table data
       table_data = request.form.get("data_input")
       table_data=ast.literal_eval(table_data)
@@ -127,7 +128,7 @@ def download_pdf():
       # Add table headers
       pdf.set_font("Arial", size = 12)
       pdf.add_page()
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Mid_pages.png",0,0,pdf.w,pdf.h)
       pdf.set_font("Arial", 'B', 12)
       pdf.cell(50, 10,"College Seat Details")
       pdf.ln()
@@ -162,7 +163,7 @@ def download_pdf():
       pdf.cell(100, 10,stipend, border=1)
       pdf.ln()
       pdf.add_page()
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Mid_pages.png",0,0,pdf.w,pdf.h)
       count=0
       for row in table_data:
          count=count+1
@@ -183,13 +184,13 @@ def download_pdf():
          if count ==len(table_data):
             break
          pdf.add_page()
-         pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+         pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Mid_pages.png",0,0,pdf.w,pdf.h)
          pdf.set_font("Arial", size=12)
          pdf.cell(50, 20,"College Parameters", border=1)
          pdf.cell(100, 20, "Details", border=1)
          pdf.ln()
       pdf.add_page()
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Last_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Last_Page.png",0,0,pdf.w,pdf.h)
       # Save the PDF to a BytesIO object
 
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
@@ -215,10 +216,10 @@ def download_pdf_list():
    
       pdf = FPDF()
       pdf.add_page()
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/First_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/First_Page.png",0,0,pdf.w,pdf.h)
       pdf.add_page()
       pdf.set_text_color(255, 255, 255)
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Mid_pages.png",0,0,pdf.w,pdf.h)
       pdf.set_font("Arial", size = 12)
       # Example table data
       table_data = request.form.get("data_input")
@@ -249,7 +250,7 @@ def download_pdf_list():
       pdf.cell(50, 10, p_6, border=1)
       pdf.ln()
       pdf.add_page()
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Mid_pages.png",0,0,pdf.w,pdf.h)
       pdf.cell(40, 10,"Personalised College Mapping")
       pdf.ln()
       pdf.set_font("Arial", 'B', 12)
@@ -271,7 +272,7 @@ def download_pdf_list():
 
       # Save the PDF to a BytesIO object
       pdf.add_page()
-      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/Last_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor B2C - simplified version/static/Last_Page.png",0,0,pdf.w,pdf.h)
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
          pdf.output(temp_file.name)
          temp_file.seek(0)
