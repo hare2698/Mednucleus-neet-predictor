@@ -87,6 +87,7 @@ def Predictor_hub():
       if not predicted_data:
          return render_template("thankyou.html",message = f"sorry, No data has been found on the given combination <br><br> category = {filter_1[0]}<br> state = {filter_2[0]}<br>course = {filter_3[0]}<br>Quota = {filter_4[0]} ",flag=False)
       else:
+         merged_stu_college_detail=student_record_insert({"Token":password} | {"selected_colleges":[predicted_data]} | {"preference":preference_dict})
          return render_template("sorted_colleges_names.html",data=predicted_data,filter_data=query,preference=preference_dict)
       
    return render_template("welcome.html")
@@ -108,6 +109,7 @@ def download_pdf():
       # Create a PDF document
       pdf = FPDF()
       pdf.add_page()
+      
       pdf.image("C:/Users/hares/Downloads/Mednucleus/Mednucleus-neet-predictor/static/First_Page.png",0,0,pdf.w,pdf.h)
       pdf.set_fill_color(230, 230, 230) 
       pdf.set_font("Arial", size = 12)
@@ -302,4 +304,4 @@ def custom_ranking():
       print(personalised_filter_data)
       return render_template("sorted_colleges_names.html",data=personalised_filter_data,filter_data=query,unique_id=unique_id,student_data=data,preference=preference_dict)
 if __name__=="__main__":
-   app.run(debug=True)
+   app.run(host="0.0.0.0",port = 8080)
