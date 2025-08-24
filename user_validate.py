@@ -2,9 +2,16 @@ from config import mongoconn,db
 from datetime import datetime,timedelta
 import time
 
-def validate(password):
-    query = {"secret_key":str(password)}
-    cross_check = mongoconn().secret_keys.find_one(query,{'_id':0})  
+def validate(password,operation):
+    if operation == "agent_login":
+        query = {"secret_key":str(password)}
+        cross_check = mongoconn().agent_login.find_one(query,{'_id':0}) 
+    else:
+        query = {"secret_key":str(password)}
+        cross_check = mongoconn().secret_keys.find_one(query,{'_id':0})
+        if not bool(cross_check):
+            cross_check = mongoconn().secret_keys.insert_one(query,{'_id':0})
+        print(cross_check)
     return True if bool(cross_check) else False
      
 def user_append(**kwargs):
@@ -137,3 +144,12 @@ def priority_data(name):
     else:
         return None
 
+def upload_token(tokens):
+    data=[]
+    for token in tokens:
+        data.append({"secret_key":token})
+    try:
+        upload = db.secret_keys.insert_many(data)
+    except Exception:
+        upload = False
+    return bool(upload)

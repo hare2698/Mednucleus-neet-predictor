@@ -3,14 +3,14 @@ from io import BytesIO
 from fpdf import FPDF
 import json
 import pandas as pd
-from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data,student_record_insert
+from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data,student_record_insert,upload_token
 import pymongo
 from models import prediction_logic,filter_data,distinct_data,personal_rankings
 from datetime import datetime, timedelta
 import ast
 import tempfile
 import ast
-from config import mongoconn,db
+from config import mongoconn,db,first_page,mid_page,last_page
 
 
 
@@ -38,18 +38,23 @@ def data_type(data):
          data[0]["Category"]=[(data[0]["Category"])]
 
       return data
+
 @app.route("/welcome")
 def introduction():  
    return render_template("welcome.html")
 
+@app.route("/agentwelcome",methods = ["GET","POST"])
+def agnet_welcome():  
+   return render_template("agent_welcome.html")
 
 @app.route("/login", methods = ["GET","POST"])
 def login():
    if request.method == "POST":
       global password
       password = request.form.get("password")
-      print(password)
-      user_validation = validate(password)
+      operation = request.form.get("operation")
+      print(operation)
+      user_validation = validate(password,operation)
       if user_validation == True:
          flash('Login success', 'success')
          state_data = distinct_data("State")
@@ -61,6 +66,36 @@ def login():
          flash("Token might expired or invalid token entered", "error")
          return render_template("welcome.html")  
    return render_template("welcome.html")
+
+@app.route("/agentlogin", methods = ["GET","POST"])
+def agent_login():
+   if request.method == "POST":
+      global password
+      password = request.form.get("password")
+      operation= request.form.get("operation")
+      print(operation)
+      print(password)
+      user_validation = validate(password,operation)
+      if user_validation == True:
+         flash('Login success', 'success')     
+         return render_template("token_upload.html")
+      else: 
+         flash("Token might expired or invalid token entered", "error")
+         return render_template("welcome.html")  
+   return render_template("welcome.html")
+
+@app.route("/tokenupload", methods = ["GET","POST"])
+def tokenupload():
+   if request.method == "POST":
+      token=request.form.get("token")
+      token=token.split(",")
+      upload_status=upload_token(token)
+      print(upload_status)
+      flash("Token uploaded successfully") if upload_status else flash("Omitted Insertions") 
+      return render_template("agent_welcome.html")
+   
+   return render_template("welcome.html")  
+   
 
 @app.route("/Predictor_hub", methods = ["GET","POST"])
 def Predictor_hub(): 
@@ -110,11 +145,11 @@ def download_pdf():
       pdf = FPDF()
       pdf.add_page()
       
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/First_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image(first_page,0,0,pdf.w,pdf.h)
       pdf.set_fill_color(230, 230, 230) 
       pdf.set_font("Arial", size = 12)
       pdf.set_text_color(255, 255, 255)
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image(mid_page,0,0,pdf.w,pdf.h)
       # Example table data
       table_data = request.form.get("data_input")
       table_data=ast.literal_eval(table_data)
@@ -129,7 +164,7 @@ def download_pdf():
       # Add table headers
       pdf.set_font("Arial", size = 12)
       pdf.add_page()
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image(mid_page,0,0,pdf.w,pdf.h)
       pdf.set_font("Arial", 'B', 12)
       pdf.cell(50, 10,"College Seat Details")
       pdf.ln()
@@ -164,7 +199,7 @@ def download_pdf():
       pdf.cell(100, 10,stipend, border=1)
       pdf.ln()
       pdf.add_page()
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image(mid_page,0,0,pdf.w,pdf.h)
       count=0
       for row in table_data:
          count=count+1
@@ -185,13 +220,13 @@ def download_pdf():
          if count ==len(table_data):
             break
          pdf.add_page()
-         pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+         pdf.image(mid_page,0,0,pdf.w,pdf.h)
          pdf.set_font("Arial", size=12)
          pdf.cell(50, 20,"College Parameters", border=1)
          pdf.cell(100, 20, "Details", border=1)
          pdf.ln()
       pdf.add_page()
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Last_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image(last_page,0,0,pdf.w,pdf.h)
       # Save the PDF to a BytesIO object
 
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
@@ -217,10 +252,10 @@ def download_pdf_list():
    
       pdf = FPDF()
       pdf.add_page()
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/First_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image(first_page,0,0,pdf.w,pdf.h)
       pdf.add_page()
       pdf.set_text_color(255, 255, 255)
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image(mid_page,0,0,pdf.w,pdf.h)
       pdf.set_font("Arial", size = 12)
       # Example table data
       table_data = request.form.get("data_input")
@@ -251,7 +286,7 @@ def download_pdf_list():
       pdf.cell(50, 10, p_6, border=1)
       pdf.ln()
       pdf.add_page()
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Mid_pages.png",0,0,pdf.w,pdf.h)
+      pdf.image(mid_page,0,0,pdf.w,pdf.h)
       pdf.cell(40, 10,"Personalised College Mapping")
       pdf.ln()
       pdf.set_font("Arial", 'B', 12)
@@ -273,7 +308,7 @@ def download_pdf_list():
 
       # Save the PDF to a BytesIO object
       pdf.add_page()
-      pdf.image("/home/ubuntu/Mednucleus-neet-predictor/static/Last_Page.png",0,0,pdf.w,pdf.h)
+      pdf.image(last_page,0,0,pdf.w,pdf.h)
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
          pdf.output(temp_file.name)
          temp_file.seek(0)
@@ -303,5 +338,6 @@ def custom_ranking():
       personalised_filter_data=personal_rankings(filterdata,query)
       print(personalised_filter_data)
       return render_template("sorted_colleges_names.html",data=personalised_filter_data,filter_data=query,unique_id=unique_id,student_data=data,preference=preference_dict)
+   
 if __name__=="__main__":
    app.run(host="0.0.0.0",port = 8080)
