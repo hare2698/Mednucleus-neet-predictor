@@ -3,7 +3,7 @@ from io import BytesIO
 from fpdf import FPDF
 import json
 import pandas as pd
-from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data,student_record_insert,upload_token
+from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data,student_record_insert,upload_token,download_review
 import pymongo
 from models import prediction_logic,filter_data,distinct_data,personal_rankings
 from datetime import datetime, timedelta
@@ -73,12 +73,13 @@ def agent_login():
       global password
       password = request.form.get("password")
       operation= request.form.get("operation")
-      print(operation)
-      print(password)
-      user_validation = validate(password,operation)
+      user_validation= validate(password,operation)
+      review =download_review()
+      review =review[0]["reviews"]
+      print(review)
       if user_validation == True:
          flash('Login success', 'success')     
-         return render_template("token_upload.html")
+         return render_template("token_upload.html",data=review)
       else: 
          flash("Token might expired or invalid token entered", "error")
          return render_template("welcome.html")  
@@ -89,17 +90,29 @@ def tokenupload():
    if request.method == "POST":
       token=request.form.get("token")
       token=token.split(",")
-      upload_status=upload_token(token)
-      print(upload_status)
+      upload_status=upload_token(token,"token")
       flash("Token uploaded successfully") if upload_status else flash("Omitted Insertions") 
       return render_template("agent_welcome.html")
    
    return render_template("welcome.html")  
-   
 
+@app.route("/reviewupload", methods = ["GET","POST"])
+def reviewupload():
+   if request.method == "POST":
+      review=request.form.get("reviews")
+      upload_review=upload_token(review,"review")
+      flash("Token uploaded successfully") if upload_review else flash("Review not uploaded") 
+      return render_template("agent_welcome.html")
+   
+   return render_template("welcome.html")  
+   
 @app.route("/Predictor_hub", methods = ["GET","POST"])
 def Predictor_hub(): 
-   if request.method == "POST":    
+   if request.method == "POST":   
+      global filter_1
+      global filter_2
+      global filter_3
+      global filter_4
       filter_1=[request.form.getlist("Category")]
       filter_3=[request.form.getlist("Course")]
       filter_4=[request.form.getlist("Quota")]
@@ -260,12 +273,11 @@ def download_pdf_list():
       # Example table data
       table_data = request.form.get("data_input")
       table_data=ast.literal_eval(table_data)
-      
+      review =download_review()
+      review =review[0]["reviews"]
       # Add table headers
       pdf.set_font("Arial", 'B', 12)
-      pdf.cell(40, 10,"Registered Student Details")
-      pdf.ln()
-      pdf.cell(40, 10,"Student Preference")
+      pdf.cell(40, 10,"Your Preference")
       pdf.ln()
       pdf.cell(50, 10,"First priority", border=1)
       pdf.cell(50, 10, p_1, border=1)
@@ -284,6 +296,27 @@ def download_pdf_list():
       pdf.ln()
       pdf.cell(50, 10, "sixth priority", border=1)
       pdf.cell(50, 10, p_6, border=1)
+      pdf.ln()
+      pdf.ln()
+      pdf.cell(40, 10,"Your choosed Criteria")
+      pdf.ln()
+      pdf.cell(50, 10,"Category", border=1)
+      pdf.cell(50, 10, filter_1[0][0], border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "Zone", border=1)
+      pdf.cell(50, 10, filter_2[0][0], border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "Course", border=1)
+      pdf.cell(50, 10, filter_3[0][0], border=1)
+      pdf.ln()
+      pdf.cell(50, 10, "Quoat", border=1)
+      pdf.cell(50, 10, filter_4[0][0], border=1)
+      pdf.ln()
+      pdf.add_page()
+      pdf.image(mid_page,0,0,pdf.w,pdf.h)
+      pdf.cell(40, 10,"Reviews")
+      pdf.ln()
+      pdf.cell(100, 100, review)
       pdf.ln()
       pdf.add_page()
       pdf.image(mid_page,0,0,pdf.w,pdf.h)

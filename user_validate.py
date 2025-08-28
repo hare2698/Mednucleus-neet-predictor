@@ -1,19 +1,31 @@
 from config import mongoconn,db
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,timezone
 import time
 
 def validate(password,operation):
     if operation == "agent_login":
         query = {"secret_key":str(password)}
-        cross_check = mongoconn().agent_login.find_one(query,{'_id':0}) 
+        cross_check = db.agent_login.find_one(query,{'_id':0})     
     else:
         query = {"secret_key":str(password)}
         cross_check = mongoconn().secret_keys.find_one(query,{'_id':0})
         if not bool(cross_check):
             cross_check = mongoconn().secret_keys.insert_one(query,{'_id':0})
-        print(cross_check)
+        
     return True if bool(cross_check) else False
-     
+
+def download_review():
+    try:
+        review = db.reviews.find().sort( "created_dt", -1 ).limit(1)
+        review=list(review)
+    except:
+        review =None
+    return review
+        
+   
+    
+
+    
 def user_append(**kwargs):
     student_info={}
     for key,value in kwargs.items():    
@@ -144,12 +156,19 @@ def priority_data(name):
     else:
         return None
 
-def upload_token(tokens):
-    data=[]
-    for token in tokens:
-        data.append({"secret_key":token})
-    try:
-        upload = db.secret_keys.insert_many(data)
-    except Exception:
-        upload = False
-    return bool(upload)
+def upload_token(values,operation):
+    if operation == "token":
+        data=[]
+        for token in values:
+            data.append({"secret_key":token})
+        try:
+            upload = db.secret_keys.insert_many(data)
+        except Exception:
+            upload = False
+        return bool(upload)
+    else:
+        dt_object = datetime.now(timezone.utc)
+        data = {"created_dt":dt_object,"reviews":values}
+        upload = db.reviews.insert_one(data)
+        return bool(upload)
+    

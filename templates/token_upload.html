@@ -1,42 +1,58 @@
 {% extends "base.html" %}
 {% block tittle%} Token upload {% endblock%}
 {% block content%}
-         <body> 
-            <p class="spacer"></p> 
-            <div class="stu-reg-container">
-            <div class="centered-content">
-                {% with messages = get_flashed_messages()%}
-                {% if messages%}
-                            {% for message in messages%}
-                            <h6>{{message}}</h6>
-                         {%endfor%}
-                        {%endif%}
-                    {%endwith%}
-    <h1>Please enter the Token with comma separated </h1>
-    <h2>Ex : 1A2B3er,2w3rtl </h2>
-    <p class="spacer"></p>
-    <h2>Secure login</h2>
-    <div class="popup">
-        <form action="/tokenupload" method="post">
-            <div class="form-container">
-                <div class="form-group">
-            <input type="text" name="token"><br><br>
-                </div>
-            </div>
-            <div class="centered-content">
-            <div class="container">
-                <div class="student-operation">
-                    <div class="button-row">                 
-                    <button class="welcome-button" type="submit">
-                        Upload </button>
-                    </div>
-                </div> 
-        </div> 
-    </div> 
-    </form>
-    </div>
-    </div>
-</div>
-    <body>    
-{% endblock %}
 
+<body>
+    <p class="spacer"></p>
+    <div class="stu-reg-container">
+        <div class="centered-content">
+            {% with messages = get_flashed_messages()%}
+            {% if messages%}
+            {% for message in messages%}
+            <h6>{{message}}</h6>
+            {%endfor%}
+            {%endif%}
+            {%endwith%}
+            <h1>Please enter the Token with comma separated </h1>
+            <p class="spacer"></p>
+            <h2>Ex : 1A2B3er,2w3rtl </h2>
+            <div class="popup">
+                <form action="/tokenupload" method="post">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <input type="text" name="token"><br><br>
+                        </div>
+                    </div>
+                    <div class="centered-content">
+                        <div class="container">
+                            <div class="student-operation">
+                                <div class="button-row">
+                                    <button class="welcome-button" type="submit">
+                                        Upload </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <h3>Recent Review</h3>
+                <p class="spacer"></p>
+                <textarea rows="10" cols="90" >{{data}}</textarea>
+                <p class="spacer"></p>
+                <h3>Update Review</h3>
+                <p class="spacer"></p>
+                <form action="/reviewupload" method="post">
+                    
+                    <textarea name="reviews" rows="10" cols="90"></textarea>
+                    <div class="button-row">
+                        <button class="welcome-button" type="submit">
+                            Update Review</button>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <body>
+        {% endblock %}
