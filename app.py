@@ -252,8 +252,9 @@ def download_pdf():
 def download_pdf_list():
     if request.method == "POST": 
       # Create a PDF document
-      pwd_delete = mongoconn().secret_keys.delete_one({"secret_key":password})
+      #pwd_delete = mongoconn().secret_keys.delete_one({"secret_key":password})
       priority=request.form.get("priority")
+      print(priority)
       priority = ast.literal_eval(priority)
       print(type(priority))
       p_1=priority["p1"] if priority else "None"
@@ -262,7 +263,6 @@ def download_pdf_list():
       p_4=priority["p4"] if priority else "None"
       p_5=priority["p5"] if priority else "None"
       p_6=priority["p6"] if priority else "None"
-   
       pdf = FPDF()
       pdf.add_page()
       pdf.image(first_page,0,0,pdf.w,pdf.h)
@@ -300,17 +300,16 @@ def download_pdf_list():
       pdf.ln()
       pdf.cell(40, 10,"Your choosed Criteria")
       pdf.ln()
-      pdf.cell(50, 10,"Category", border=1)
-      pdf.cell(50, 10, filter_1[0][0], border=1)
+      pdf.multi_cell(0, 10,"Category"+" ---->> "+",".join(filter_1[0]), border=1)
       pdf.ln()
-      pdf.cell(50, 10, "Zone", border=1)
-      pdf.cell(50, 10, filter_2[0][0], border=1)
+    
+      pdf.multi_cell(0, 10,"Zone"+" ---->> "+",".join(filter_2[0]), border=1)
       pdf.ln()
-      pdf.cell(50, 10, "Course", border=1)
-      pdf.cell(50, 10, filter_3[0][0], border=1)
+      
+      pdf.multi_cell(0, 10,"Course"+" ---->> "+",".join(filter_3[0]), border=1)
       pdf.ln()
-      pdf.cell(50, 10, "Quoat", border=1)
-      pdf.cell(50, 10, filter_4[0][0], border=1)
+     
+      pdf.multi_cell(0, 10,"Quoat"+" ---->> "+",".join(filter_4[0]), border=1)
       pdf.ln()
       pdf.add_page()
       pdf.image(mid_page,0,0,pdf.w,pdf.h)
@@ -338,6 +337,14 @@ def download_pdf_list():
          pdf.cell(120, 10,key, border=1)
          pdf.cell(25, 10,str(value), border=1)
          pdf.ln()
+         if count in (23*1,23*2,23*3,23*4,23*5,23*6,23*7,23*8,23*9,23*10):            
+            pdf.add_page()
+            pdf.image(mid_page,0,0,pdf.w,pdf.h)
+            pdf.set_font("Arial", size=12)
+            pdf.cell(25, 10,"Order", border=1)
+            pdf.cell(120, 10, "College Name", border=1)
+            pdf.cell(25, 10, "No of Seats", border=1)
+            pdf.ln()
 
       # Save the PDF to a BytesIO object
       pdf.add_page()
@@ -345,7 +352,7 @@ def download_pdf_list():
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
          pdf.output(temp_file.name)
          temp_file.seek(0)
-         return send_file(temp_file.name, as_attachment=True, download_name=f'{password+"_"+"college_list"}.pdf', mimetype='application/pdf')
+         return send_file(temp_file.name, as_attachment=True, download_name=f'{"password"+"_"+"college_list"}.pdf', mimetype='application/pdf')
     return render_template("welcome.html")    
 
 @app.route('/custom_ranking',methods = ["GET","POST"])
@@ -373,4 +380,4 @@ def custom_ranking():
       return render_template("sorted_colleges_names.html",data=personalised_filter_data,filter_data=query,unique_id=unique_id,student_data=data,preference=preference_dict)
    
 if __name__=="__main__":
-   app.run(host="0.0.0.0",port = 8080)
+   app.run(host="0.0.0.0",port =8080)
