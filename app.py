@@ -39,7 +39,7 @@ def data_type(data):
 
       return data
 
-@app.route("/welcome")
+@app.route("/")
 def introduction():  
    return render_template("welcome.html")
 
@@ -381,3 +381,4 @@ def custom_ranking():
    
 if __name__=="__main__":
    app.run(host="0.0.0.0",port =8080)
+
