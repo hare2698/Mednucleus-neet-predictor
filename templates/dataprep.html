@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block tittle%} Token upload {% endblock%}
+{% block content%}
+
+<body>
+    <p class="spacer"></p>
+    <div class="stu-reg-container">
+        <div class="centered-content">
+            <h1>Specify the filters </h1>
+            <div class="popup">
+                <form action="/datasearch" method="post">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="State">State</label>
+                            <select name="State">
+                                <option value="NONE">NONE</option>
+                                {% for data in state %}
+                                <option value="{{data}}">{{data}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="Category">Category</label>
+                            <select name="Category">
+                                <option value="NONE">NONE</option>
+                                {% for data in category %}
+                                <option value="{{data}}">{{data}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="Course">Course</label>
+                            <select name="Course">
+                                <option value="NONE">NONE</option>
+                                {% for data in course %}
+                                <option value="{{data}}">{{data}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="Quota">Quota</label>
+                            <select name="Quota">
+                                <option value="NONE">NONE</option>
+                                {% for data in quota %}
+                                <option value="{{data}}">{{data}}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="centered-content">
+                        <div class="container">
+                            <div class="student-operation">
+                                <div class="button-row">
+                                    <button class="welcome-button" type="submit">
+                                        Search </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+{% endblock %}

@@ -14,7 +14,6 @@
             {%endif%}
             {%endwith%}
             <h1>Please enter the Token with comma separated </h1>
-            <p class="spacer"></p>
             <h2>Ex : 1A2B3er,2w3rtl </h2>
             <div class="popup">
                 <form action="/tokenupload" method="post">
@@ -34,25 +33,31 @@
                         </div>
                     </div>
                 </form>
+                <form action="/dataprep" method ="post">
+                    <div class="centered-content">
+                        <div class="container">
+                            <div class="student-operation">
+                                <div class="button-row">
+                                    <button class="welcome-button" type="submit">
+                                        click here for dataprep</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <h3>Recent Review</h3>
-                <p class="spacer"></p>
-                <textarea rows="10" cols="90" >{{data}}</textarea>
-                <p class="spacer"></p>
+                <textarea rows="10" cols="90">{{data}}</textarea>
                 <h3>Update Review</h3>
-                <p class="spacer"></p>
                 <form action="/reviewupload" method="post">
-                    
                     <textarea name="reviews" rows="10" cols="90"></textarea>
                     <div class="button-row">
                         <button class="welcome-button" type="submit">
                             Update Review</button>
                     </div>
-
-
                 </form>
             </div>
         </div>
     </div>
 
-    <body>
-        {% endblock %}
+</body>
+{% endblock %}

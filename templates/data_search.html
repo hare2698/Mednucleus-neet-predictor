@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block tittle%} Data_search{% endblock%}
+{% block content%}
+
+<body>
+    {% if result %}
+    <p class="spacer"></p>
+    <div class="stu-reg-container">
+        <div class="centered-content">
+        <h1>Please find the below result</h1>
+        <p>Based on the set Parameter</p>
+
+        <form action="{{ url_for('data_prep') }}" method="post">
+            <button>Return back to search</button>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <h4>COURSE : {{Course}} </h3>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <h4>STATE : {{State}} </h3>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <h4>QUOTA : {{Quota}} </h3>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <h4>CATEGORY : {{Category}} </h3>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <h4>COUNT : {{len+1}} </h3>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Edit</th>
+                    <th>Round</th>
+                    <th>Rank</th>
+                    <th>Quota</th>
+                    <th>Category</th>
+                    <th>Reviews</th>
+                    <th>State</th>
+                    <th>Institute</th>
+                    <th>Course</th>
+                    <th>Fee</th>
+                    <th>Stipend</th>
+                    <th>Penalty</th>
+                    <th>BondYears</th>
+                    <th>Beds</th>
+                </tr>
+            </thead>
+            {% for info in result%}
+            {% set Round = info['Round'] %}
+            {% set Rank = info['Rank'] %}
+            {% set Quota = info['Quota'] %}
+            {% set Category = info['Category'] %}
+            {% set Reviews = info['Reviews'] %}
+            {% set Institute= info['Institute'] %}
+            {% set Course= info['Course'] %}
+            {% set Fee= info['Fee'] %}
+            {% set State= info['State'] %}
+            {% set Stipend= info['Stipend Year 1'] %}
+            {% set Penalty= info['Bond Penalty'] %}
+            {% set BondYears= info['Bond Years'] %}
+            {% set Beds= info['Beds'] %}
+            <tbody>
+                <tr>
+                    <form action="edit_data" method="post" target="_blank">
+                        <td>
+                            <input type="hidden" name=rank value="{{info['Rank']}}">
+                            <input type="hidden" name="stipend" value="{{info['Stipend Year 1']}}">
+                            <input type="hidden" name=round value="{{info['Round']}}">
+                            <input type="hidden" name="course" value="{{info['Course']}}">
+                            <input type="hidden" name=quota value="{{info['Quota']}}">
+                            <input type="hidden" name="bond_year" value="{{info['Bond Years']}}">
+                            <input type="hidden" name=category value="{{info['Category']}}">
+                            <input type="hidden" name="bond_penalty" value="{{info['Bond Penalty']}}">
+                            <input type="hidden" name=reviews value="{{info['Reviews']}}">
+                            <input type="hidden" name="state" value="{{info['State']}}">
+                            <input type="hidden" name=institute value="{{info['Institute']}}">
+                            <input type="hidden" name="fees" value="{{info['Fee']}}">
+                            <button type="submit" name="beds" value="{{info['Beds']}}">
+                                Edit
+                            </button>
+                        </td>
+                    </form>
+                    <td>
+                        {{Round}}
+                    </td>
+                    <td>
+                        {{Rank}}
+                    </td>
+                    <td>
+                        {{Quota}}
+                    </td>
+                    <td>
+                        {{Category}}
+                    </td>
+                    <td>
+                        {{Reviews}}
+                    </td>
+                     <td>
+                        {{State}}
+                    </td>
+                    <td>
+                        {{Institute}}
+                    </td>
+                    <td>
+                        {{Course}}
+                    </td>
+                    <td>
+                        {{Fee}}
+                    </td>
+                   
+                    <td>
+                        {{Stipend}}
+                    </td>
+                    <td>
+                        {{Penalty}}
+                    </td>
+                    <td>
+                        {{BondYears}}
+                    </td>
+                    <td>
+                        {{Beds}}
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        </div>
+        </div>
+    </div>
+    {%endif%}
+
+    {% endblock %}
