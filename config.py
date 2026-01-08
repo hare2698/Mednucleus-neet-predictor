@@ -9,5 +9,5 @@ client=pymongo.MongoClient('mongodb+srv://hare:Bbuulleett8@mednucleus.ax9wr8c.mo
 db =client["Neet_predictor"]
 
 first_page = "/home/ubuntu/Mednucleus-neet-predictor/static/First_Page.png"
-mid_page = "/home/ubuntu/Mednucleus-neet-predictor/static/Mid_Pages.png"
+mid_page = "/home/ubuntu/Mednucleus-neet-predictor/static/Mid_pages.png"
 last_page = "/home/ubuntu/Mednucleus-neet-predictor/static/Last_Page.png"
