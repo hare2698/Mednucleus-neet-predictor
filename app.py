@@ -39,7 +39,7 @@ def data_type(data):
 
       return data
 
-@app.route("/welcome")
+@app.route("/")
 def introduction():  
    return render_template("welcome.html")
 
@@ -459,4 +459,4 @@ def custom_ranking():
       return render_template("sorted_colleges_names.html",data=personalised_filter_data,filter_data=query,unique_id=unique_id,student_data=data,preference=preference_dict)
    
 if __name__=="__main__":
-    app.run(host="0.0.0.0",port =8080)
+   app.run(host="0.0.0.0",port =8080)
