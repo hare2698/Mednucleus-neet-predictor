@@ -331,7 +331,7 @@ def download_pdf():
 def download_pdf_list():
     if request.method == "POST": 
       # Create a PDF document
-      pwd_delete = mongoconn().secret_keys.delete_one({"secret_key":password})
+      #pwd_delete = mongoconn().secret_keys.delete_one({"secret_key":password})
       priority=request.form.get("priority")
       print(priority)
       priority = ast.literal_eval(priority)
@@ -431,7 +431,7 @@ def download_pdf_list():
       with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
          pdf.output(temp_file.name)
          temp_file.seek(0)
-         return send_file(temp_file.name, as_attachment=True, download_name=f'{password+"_"+"college_list"}.pdf', mimetype='application/pdf')
+         return send_file(temp_file.name, as_attachment=True, download_name=f'{"password"+"_"+"college_list"}.pdf', mimetype='application/pdf')
     return render_template("welcome.html")    
 
 @app.route('/custom_ranking',methods = ["GET","POST"])
