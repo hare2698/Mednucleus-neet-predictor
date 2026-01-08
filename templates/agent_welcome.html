@@ -1,42 +1,42 @@
 {% extends "base.html" %}
 {% block tittle%} Welcome {% endblock%}
 {% block content%}
-         <body> 
-            <p class="spacer"></p> 
-            <div class="stu-reg-container">
-            <div class="centered-content">
-                {% with messages = get_flashed_messages()%}
-                {% if messages%}
-                            {% for message in messages%}
-                            <h6>{{message}}</h6>
-                         {%endfor%}
-                        {%endif%}
-                    {%endwith%}
-    <h1>Welcome to Neet Predictor Hub token upload</h1>
-    <p class="spacer"></p>
-    <h2>Secure login</h2>
-    <div class="popup">
-        <form action="/agentlogin" method="post">
-            <div class="form-container">
-                <div class="form-group">
-            <label for="password">Enter MN ID</label>
-            <input type="password" name="password" required><br><br>
-                </div>
-            </div>
-            <div class="centered-content">
-            <div class="container">
-                <div class="student-operation">
-                    <div class="button-row">                 
-                    <button class="welcome-button" type="submit" name="operation" value="agent_login">
-                        Login </button>
-                    </div>
-                </div> 
-        </div> 
-    </div> 
-    </form>
-    </div>
-    </div>
-</div>
-    <body>    
-{% endblock %}
 
+<body>
+    <p class="spacer"></p>
+    <div class="stu-reg-container">
+        <div class="centered-content">
+            {% with messages = get_flashed_messages()%}
+            {% if messages%}
+            {% for message in messages%}
+            <h6>{{message}}</h6>
+            {%endfor%}
+            {%endif%}
+            {%endwith%}
+            <h1>Welcome to Neet Predictor Hub token upload</h1>
+            <p class="spacer"></p>
+            <h2>Secure login</h2>
+            <div class="popup">
+                <form action="/agentlogin" method="post">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="password">Enter MN ID</label>
+                            <input type="password" name="password" required><br><br>
+                        </div>
+                    </div>
+                    <div class="centered-content">
+                        <div class="container">
+                            <div class="student-operation">
+                                <div class="button-row">
+                                    <button class="welcome-button" type="submit" name="operation" value="agent_login">
+                                        Login </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

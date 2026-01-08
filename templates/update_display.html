@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block tittle%} student registration {% endblock%}
+{% block content%}
+
+<div class="stu-reg-container">
+    <div class="centered-content">
+        <form action="{{ url_for('data_prep') }}" method="post">
+            <button>Return back to search</button>
+        </form>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="rank">Rank</label>
+                <input type="text" name="rank" value="{{ rank }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="round">Round</label>
+                <input type="text" name="round" value="{{ round }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="category">Category</label>
+                <input type="text" name="category" value="{{ category }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="state">state</label>
+                <input type="text" name="state" value="{{ state }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="fees">Fees</label>
+                <input type="text" name="fees" value="{{ fees }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="beds">Beds</label>
+                <input type="text" name="beds" value="{{ beds }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="bond_year">Bond_year</label>
+                <input type="text" name="bond_year" value="{{ bond_year }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="bond_penalty">Bond_penalty</label>
+                <input type="text" name="bond_penalty" value="{{ bond_penalty }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="stipend">Stipend</label>
+                <input type="text" name="stipend" value="{{ stipend }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="reviews">Reviews</label>
+                <input type="text" name="reviews" value="{{ reviews }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="category">Category</label>
+                <input type="text" name="category" value="{{ category }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="institute">Institute</label>
+                <input type="text" name="institute" value="{{ institute }}" readonly><br><br>
+            </div>
+        </div>
+        <div class="stu-reg-container">
+            <div class="new-student">
+                <label for="quota">Quota</label>
+                <input type="text" name="quota" value="{{ quota }}" readonly><br><br>
+            </div>
+        </div>
+        <form action="{{ url_for('data_prep') }}" method="post">
+            <button>Return back to search</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

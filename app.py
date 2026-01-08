@@ -5,7 +5,7 @@ import json
 import pandas as pd
 from user_validate import validate,user_append,get_student_data,user_edit,get_all_data,get_college_data,student_record_insert,upload_token,download_review
 import pymongo
-from models import prediction_logic,filter_data,distinct_data,personal_rankings
+from models import prediction_logic,filter_data,distinct_data,personal_rankings,mongo_search,mongo_edit
 from datetime import datetime, timedelta
 import ast
 import tempfile
@@ -81,8 +81,87 @@ def agent_login():
          flash('Login success', 'success')     
          return render_template("token_upload.html",data=review)
       else: 
-         flash("Token might expired or invalid token entered", "error")
+         flash("MN_ID is not correct", "error")
          return render_template("welcome.html")  
+   return render_template("welcome.html")
+
+@app.route("/dataprep", methods = ["GET","POST"])
+def data_prep():
+   if request.method == "POST":
+         state_data = distinct_data("State")
+         course_data =distinct_data("Course") 
+         Quota_data = distinct_data("Quota")
+         category_data=distinct_data("Category")
+         return render_template("dataprep.html",state=state_data,course=course_data,quota=Quota_data,category=category_data) 
+   return render_template("welcome.html")
+
+@app.route("/datasearch", methods = ["GET","POST"])
+def data_search():
+   if request.method == "POST":
+      df_1=request.form.get("Category")
+      df_2=request.form.get("Course")
+      df_3=request.form.get("Quota")
+      df_4=request.form.get("State")
+      data= mongo_search(Category=df_1,Course=df_2,Quota=df_3,State=df_4)
+      print(data)
+      return render_template("data_search.html",Category=df_1,Course=df_2,Quota=df_3,State=df_4,result=data,len=len(data))
+        
+   return render_template("welcome.html")
+
+@app.route("/edit_data", methods = ["GET","POST"])
+def data_edit():
+   if request.method == "POST":
+      df_1=request.form.get("category")
+      df_2=request.form.get("course")
+      df_3=request.form.get("quota")
+      df_4=request.form.get("state")
+      df_5=request.form.get("round")
+      df_6=request.form.get("rank")
+      df_7=request.form.get("bond_year")
+      df_8=request.form.get("bond_penalty")
+      df_9=request.form.get("beds")
+      df_10=request.form.get("stipend")
+      df_11=request.form.get("reviews")
+      df_12=request.form.get("institute")
+      df_13=request.form.get("fees")
+      return render_template("data_edit.html",category=df_1,course=df_2,quota=df_3,state=df_4,round=df_5,rank=df_6,bond_year=df_7,bond_penalty=df_8,beds=df_9,fees=df_13,reviews=df_11,institute=df_12,stipend=df_10)
+        
+   return render_template("welcome.html")
+
+@app.route("/update_edit", methods = ["GET","POST"])
+def update_edit():
+   if request.method == "POST":
+      df_1=request.form.get("category")
+      df_2=request.form.get("course")
+      df_3=request.form.get("quota")
+      df_4=request.form.get("state")
+      df_5=request.form.get("round")
+      df_6=request.form.get("rank")
+      df_7=request.form.get("bond_year")
+      df_8=request.form.get("bond_penalty")
+      df_9=request.form.get("beds")
+      df_10=request.form.get("stipend")
+      df_11=request.form.get("reviews")
+      df_12=request.form.get("institute")
+      df_13=request.form.get("fees")
+      df_14=request.form.get("category_o")
+      df_15=request.form.get("course_o")
+      df_16=request.form.get("quota_o")
+      df_17=request.form.get("state_o")
+      df_18=request.form.get("round_o")
+      df_19=request.form.get("rank_o")
+      df_20=request.form.get("bond_year_o")
+      df_21=request.form.get("bond_penalty_o")
+      df_22=request.form.get("beds_o")
+      df_23=request.form.get("stipend_o")
+      df_24=request.form.get("reviews_o")
+      df_25=request.form.get("institute_o")
+      df_26=request.form.get("fees_o")
+      print(df_26)
+      data= mongo_edit(Category=df_1,Course=df_2,Quota=df_3,State=df_4,Round=int(df_5),Rank=int(df_6),Bond_years=int(df_7),Bond_penalty=int(df_8),Beds=int(df_9),Fee=int(df_13),Reviews=df_11,Institute=df_12,Stipend=int(df_10),Category_o=df_14,Course_o=df_15,Quota_o=df_16,State_o=df_17,Round_o=int(df_18),Rank_o=int(df_19),Bond_years_o=int(df_20),Bond_penalty_o=int(df_21),Beds_o=int(df_22),Fee_o=int(df_26),Reviews_o=df_24,Institute_o=df_25,Stipend_o=int(df_23))
+      if data:
+         return render_template("update_display.html",category=df_1,course=df_2,quota=df_3,state=df_4,round=df_5,rank=df_6,bond_year=df_7,bond_penalty=df_8,beds=df_9,fees=df_13,reviews=df_11,institute=df_12,stipend=df_10)
+      return render_template("welcome.html")
    return render_template("welcome.html")
 
 @app.route("/tokenupload", methods = ["GET","POST"])
@@ -101,7 +180,7 @@ def reviewupload():
    if request.method == "POST":
       review=request.form.get("reviews")
       upload_review=upload_token(review,"review")
-      flash("Token uploaded successfully") if upload_review else flash("Review not uploaded") 
+      flash("Review successfully") if upload_review else flash("Review not uploaded") 
       return render_template("agent_welcome.html")
    
    return render_template("welcome.html")  
@@ -381,4 +460,3 @@ def custom_ranking():
    
 if __name__=="__main__":
    app.run(host="0.0.0.0",port =8080)
-

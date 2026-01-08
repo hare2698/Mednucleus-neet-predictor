@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block tittle%} student registration {% endblock%}
+{% block content%}
+
+<div class="stu-reg-container">
+    <div class="centered-content">
+        <h1>Carefully edit the details</h1>
+        <form action="{{ url_for('data_prep') }}" method="post">
+            <button>Return back to search</button>
+        </form>
+        <form action="{{ url_for('update_edit') }}" method="post">
+            <input type="hidden" name=rank_o value="{{rank}}">
+            <input type="hidden" name=stipend_o value="{{stipend}}">
+            <input type="hidden" name=round_o value="{{round}}">
+            <input type="hidden" name=course_o value="{{course}}">
+            <input type="hidden" name=quota_o value="{{quota}}">
+            <input type="hidden" name=bond_year_o value="{{bond_year}}">
+            <input type="hidden" name=category_o value="{{category}}">
+            <input type="hidden" name=bond_penalty_o value="{{bond_penalty}}">
+            <input type="hidden" name=reviews_o value="{{reviews}}">
+            <input type="hidden" name=state_o value="{{state}}">
+            <input type="hidden" name=institute_o value="{{institute}}">
+            <input type="hidden" name=fees_o value="{{fees}}">
+            <input type="hidden" name=beds_o value="{{ beds }}">
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="rank">Rank</label>
+                    <input type="text" name="rank" value="{{ rank }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="round">Round</label>
+                    <input type="text" name="round" value="{{ round }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="category">Category</label>
+                    <input type="text" name="category" value="{{ category }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="state">state</label>
+                    <input type="text" name="state" value="{{ state }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="fees">Fees</label>
+                    <input type="text" name="fees" value="{{ fees }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="beds">Beds</label>
+                    <input type="text" name="beds" value="{{ beds }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="bond_year">Bond_year</label>
+                    <input type="text" name="bond_year" value="{{ bond_year }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="bond_penalty">Bond_penalty</label>
+                    <input type="text" name="bond_penalty" value="{{ bond_penalty }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="stipend">Stipend</label>
+                    <input type="text" name="stipend" value="{{ stipend }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="reviews">Reviews</label>
+                    <input type="text" name="reviews" value="{{ reviews }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="category">Category</label>
+                    <input type="text" name="category" value="{{ category }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="institute">Institute</label>
+                    <input type="text" name="institute" value="{{ institute }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="quota">Quota</label>
+                    <input type="text" name="quota" value="{{ quota }}" required><br><br>
+                </div>
+            </div>
+            <div class="stu-reg-container">
+                <div class="new-student">
+                    <label for="course">Course</label>
+                    <input type="text" name="course" value="{{ course }}" required><br><br>
+                </div>
+            </div>
+            <button>Edit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -365,3 +365,45 @@ def priority_value_set(value):
     if value=="Bond Years":
         return 4
     return 5
+
+def mongo_search(**kwargs):
+    query={}
+    if all(kwargs[k] == "NONE" for k in ["Course", "Category", "State", "Quota"]):
+        fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
+        fetch_data = list(fetch_data)
+        return fetch_data
+    for key,value in kwargs.items():
+        print(key,value)
+        if value != "NONE":
+            query[key] =value
+    print(query)
+    fetch_data = mongoconn().sample_raw_data.find(query,{'_id':0})
+    fetch_data = list(fetch_data)
+    return fetch_data
+
+def mongo_edit(**kwargs):
+    filter = {}
+    query={}
+    for key,value in kwargs.items():
+        if key.endswith("_o"):
+            if key == "Bond_years_o":
+                key = "Bond Years"
+            if key == "Bond_penalty_o":
+                key = "Bond Penalty"
+            if key == "Stipend_o":
+                key = "Stipend Year 1"
+            filter[key.split("_")[0]] = value
+        else:
+            if key == "Bond_years":
+                key = "Bond Years"
+            if key == "Bond_penalty":
+                key = "Bond Penalty"
+            if key == "Stipend":
+                key = "Stipend Year 1"
+            query[key] =value
+    print(filter)
+    print(query)
+    fetch_data = mongoconn().sample_raw_data.update_one(filter,{"$set":query})
+    print("Matched:", fetch_data.matched_count)
+    print("Modified:", fetch_data.modified_count) 
+    return fetch_data

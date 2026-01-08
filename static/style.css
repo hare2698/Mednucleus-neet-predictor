@@ -42,12 +42,15 @@ html,body {
 
 .table-container {
     margin-bottom: 20px; /* Space between tables */
+    width: 100%;
+    overflow-x: auto;
 }
 
 /* Table styles */
 table {
     border-collapse: collapse;
     width: 100%;
+    min-width: 1200px;
 }
 
 th, td {
@@ -225,6 +228,7 @@ button.neet-predictor:hover {
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    overflow-x: auto;
   }
   .student-operation {
     display: flex;
